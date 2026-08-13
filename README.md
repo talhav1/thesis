@@ -15,6 +15,12 @@ after results were seen.
 
 ---
 
+Working conventions — invariants, the provenance contract, statistical rules,
+and the gate ritual — are in [`CLAUDE.md`](CLAUDE.md). Claim status lives in
+[`docs/claims.md`](docs/claims.md), choices in
+[`docs/decisions.md`](docs/decisions.md), deviations in
+[`docs/discrepancies.md`](docs/discrepancies.md).
+
 ## What is here
 
 | Phase | Deliverable | Where |
@@ -53,37 +59,57 @@ docs/
 
 ```bash
 pip install -e ".[dev]"
-python -m pytest                      # required tests 1-10 plus numerics
+python -m pytest                       # required tests 1-10, numerics, provenance
 python -m pytest -m slow               # the slower high-accuracy checks
+python tools/manifest_lint.py --strict # the provenance contract
+```
 
-python experiments/phase1_baseline.py  250   # Rotem reproduction
-python experiments/phase1_horizon.py    120   # monotone-in-n check
-python experiments/phase1_utility_surface.py
-python experiments/phase2_sbc.py        1000  # SBC, both backends
-python experiments/phase2_coverage_map.py 200 # fixed-theta coverage
+Experiments run from a config, so a result is never reproducible only from a
+shell history:
 
-python experiments/phase3a_pilot.py       30    # where no-overlap paths come from
-python experiments/phase3a_nooverlap.py   1.0   # powered H1, stratified enrichment
-python experiments/phase3a_attribution.py 50    # particle-count / rejuvenation ablation
-python experiments/phase3_reference_audit.py 24 # reference adequacy
-python experiments/phase3b_screen.py      30    # failure atlas, screening tier
-python experiments/phase3b_pseudotruth.py 100   # policy-dependent pseudo-truth
-python experiments/phase3b_confirm.py     300   # confirmatory tier
+```bash
+python experiments/run.py configs/experiments/phase1_baseline.json
+python experiments/run.py configs/experiments/phase2_sbc.json
+python experiments/run.py configs/experiments/phase3b_confirm.json
 python experiments/build_phase3_report.py
 ```
 
+`--replicates`, `--seed-base`, `--crn-seed`, `--workers` and `--note` override
+the config for a pilot; `--dry-run` resolves the invocation without running it.
+Scripts also still take their flags directly
+(`python experiments/phase1_baseline.py --replicates 250`), and a bare
+positional count is accepted for backward compatibility.
+
+**Runs start from a clean tree.** A run from an uncommitted tree is refused,
+because a result produced from one cannot be tied to a state of the source —
+which has already cost this project the Phase 3A/3B interval-width comparison
+(`docs/discrepancies.md` D19). `--allow-dirty` waives the refusal for pilots
+and records `provenance.allow_dirty` in the manifest.
+
 `N_WORKERS` and `CHUNK` control parallelism. Every script writes raw
 per-replicate rows to `results/raw/`, summaries to `results/summaries/`, and a
-manifest to `results/manifests/` recording the config hash, git commit, seed
-range, completed replicates, Monte Carlo standard errors, tolerances, failure
-counts, degeneracy counts and the artefacts produced.
+manifest to `results/manifests/` recording the run id, config path and hash,
+git commit and dirty state, seed base and seeding rule, completed replicates,
+Monte Carlo standard errors, tolerances, failure counts, degeneracy counts and
+the role-tagged artefacts produced.
 
-## Two rules the code enforces
+> **Open gap (D21).** 28 of the 31 artefacts referenced by manifests are absent
+> from this repository, including every raw parquet and the summaries that are
+> the named evidence for C3, C5, C6 and C7. Until that is resolved, the results
+> here cannot be independently checked. See `docs/claims.md`.
+
+## Rules the code enforces
 
 **Nothing is discarded.** All-zero and all-one paths, runs with no overlapping
 pattern, collapsed particle ESS, non-finite MLEs and raised exceptions are
 recorded with flags and counted in the manifest. They are outcomes of the
 method, not noise to be cleaned away.
+
+**Every run is pinned and identified.** One `run_id` per run, used as the
+manifest filename stem so manifest, raw table and summaries join on one key;
+`seed_base` and `crn_seed` are authoritative and the seeding rule is recorded
+verbatim. There is no `seed_range` — the field existed in earlier manifests and
+was never used by the code. `tools/manifest_lint.py` enforces this.
 
 **Every optimisation is exactly equivalent.** The hot path uses a
 generation-keyed cache, an (L, N) memory layout, and an algebraic
