@@ -1,0 +1,11 @@
+{
+  "rule": "25th percentile of reference 95% interval width, correct probit, calibrated prior, entropy_vector policy",
+  "source_cell": "I|probit|entropy_vector|cal|s3",
+  "n_replicates": 30,
+  "thresholds": {
+    "q0.5|n50": 2.5238625928067258,
+    "q0.95|n50": 4.962188850452113,
+    "q0.99|n50": 6.505481304742142
+  },
+  "hash": "b73c1db6fb3a8d9f"
+}

@@ -1,0 +1,21 @@
+Phase 1 horizon: 3 cells x 100 replicates, n in (20, 30, 50)
+  [horizon] 5/15 chunks   118.9s (eta  237.8s)
+  [horizon] 10/15 chunks   160.5s (eta   80.3s)
+  [horizon] 15/15 chunks   218.4s (eta    0.0s)
+        policy target  mse_n20  mse_n30  mse_n50  monotone_decreasing
+dror_steinberg     mu 1.180450 0.797324 0.504463                 True
+dror_steinberg   q0.5 1.180450 0.797324 0.504463                 True
+dror_steinberg  q0.95 3.858576 2.618420 1.242024                 True
+dror_steinberg  q0.99 6.392540 4.356624 1.987041                 True
+dror_steinberg  sigma 0.894990 0.626973 0.281211                 True
+ entropy_q0.95     mu 1.791483 1.583179 1.306526                 True
+ entropy_q0.95   q0.5 1.791483 1.583179 1.306526                 True
+ entropy_q0.95  q0.95 2.736401 1.622910 1.209268                 True
+ entropy_q0.95  q0.99 5.190275 3.292649 2.440525                 True
+ entropy_q0.95  sigma 1.320647 1.041180 0.806406                 True
+entropy_vector     mu 0.852008 0.689373 0.396757                 True
+entropy_vector   q0.5 0.852008 0.689373 0.396757                 True
+entropy_vector  q0.95 4.139569 2.672565 1.274621                 True
+entropy_vector  q0.99 7.619942 4.732080 2.221140                 True
+entropy_vector  sigma 1.337970 0.787602 0.366715                 True
+  manifest -> /home/claude/thesis-reliability/results/manifests/phase1_horizon.json

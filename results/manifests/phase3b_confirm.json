@@ -1,0 +1,107 @@
+{
+  "experiment": "phase3b_confirm",
+  "config_hash": "9cffbc3fbaf063a9",
+  "config": {
+    "cells": [
+      [
+        "A",
+        "tail_1.0",
+        "entropy_vector"
+      ],
+      [
+        "B",
+        "tail_1.0",
+        "fixed_design"
+      ],
+      [
+        "C",
+        "probit",
+        "entropy_vector"
+      ]
+    ],
+    "selection": {
+      "dgp": "tail_1.0",
+      "policy": "entropy_vector",
+      "target": "q0.99",
+      "screened_false_certainty": 0.2666666666666666,
+      "screened_coverage": 0.4
+    },
+    "n_reps_max": 300,
+    "batch": 100,
+    "target_se": 0.008,
+    "cell_budget_s": 650.0,
+    "crn_seed": 414001,
+    "thresholds_hash": "b73c1db6fb3a8d9f",
+    "n_steps": 50
+  },
+  "git_commit": "9f1d16fb6e73afaee5a33847b95f6e122d5fa4a5-dirty",
+  "seed_base": 20260940,
+  "seed_range": [
+    20260940,
+    20261839
+  ],
+  "n_replicates_requested": 900,
+  "n_replicates_completed": 900,
+  "n_failures": 0,
+  "failures": [],
+  "backend": {
+    "python": "3.11.15",
+    "numpy": "2.4.4",
+    "platform": "Linux-6.18.5-fc-v20-x86_64-with-glibc2.39"
+  },
+  "tolerances": {
+    "target_false_certainty_se": 0.008,
+    "achieved": {
+      "A": 300.0,
+      "B": 300.0,
+      "C": 300.0
+    }
+  },
+  "monte_carlo_se": {
+    "A::q0.5::false_certainty": 0.004706155586970108,
+    "A::q0.95::false_certainty": 0.025152082937711873,
+    "A::q0.99::false_certainty": 0.025041771123531665,
+    "B::q0.5::false_certainty": 0.006633137535414968,
+    "B::q0.95::false_certainty": 0.02064997347897266,
+    "B::q0.99::false_certainty": 0.0176035451312839,
+    "C::q0.5::false_certainty": 0.004706155586970108,
+    "C::q0.95::false_certainty": 0.007403535467669016,
+    "C::q0.99::false_certainty": 0.006633137535414969
+  },
+  "degeneracy_counts": {
+    "stopping": [
+      {
+        "label": "A",
+        "dgp": "tail_1.0",
+        "pol": "entropy_vector",
+        "n_replicates": 300,
+        "stop_reason": "max_replicates",
+        "wall_seconds": 611.3881068229675
+      },
+      {
+        "label": "B",
+        "dgp": "tail_1.0",
+        "pol": "fixed_design",
+        "n_replicates": 300,
+        "stop_reason": "max_replicates",
+        "wall_seconds": 379.23657178878784
+      },
+      {
+        "label": "C",
+        "dgp": "probit",
+        "pol": "entropy_vector",
+        "n_replicates": 300,
+        "stop_reason": "target_se_reached",
+        "wall_seconds": 620.1245458126068
+      }
+    ],
+    "no_overlap": 10
+  },
+  "artifacts": [
+    "/home/claude/thesis-reliability/results/raw/phase3b_confirm_raw.parquet",
+    "/home/claude/thesis-reliability/results/summaries/phase3b_confirm_summary.csv"
+  ],
+  "wall_seconds": 1611.0846841335297,
+  "created_utc": "2026-08-13T16:14:10Z",
+  "notes": "Confirmatory tier: H2 and H3 on the pre-registered cells."
+}

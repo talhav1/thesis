@@ -1,0 +1,146 @@
+{
+  "experiment": "phase3a_nooverlap",
+  "config_hash": "fef62b8fe3768e8f",
+  "config": {
+    "strata": [
+      {
+        "mu": 18.0,
+        "sigma": 0.3,
+        "n": 340,
+        "mechanism": "steep_in_support"
+      },
+      {
+        "mu": 22.0,
+        "sigma": 0.3,
+        "n": 340,
+        "mechanism": "steep_in_support"
+      },
+      {
+        "mu": 26.0,
+        "sigma": 0.3,
+        "n": 340,
+        "mechanism": "steep_in_support"
+      },
+      {
+        "mu": 30.0,
+        "sigma": 0.3,
+        "n": 340,
+        "mechanism": "steep_in_support"
+      },
+      {
+        "mu": 34.0,
+        "sigma": 0.3,
+        "n": 340,
+        "mechanism": "steep_in_support"
+      },
+      {
+        "mu": 38.0,
+        "sigma": 0.3,
+        "n": 340,
+        "mechanism": "steep_in_support"
+      },
+      {
+        "mu": 42.0,
+        "sigma": 0.3,
+        "n": 340,
+        "mechanism": "steep_in_support"
+      },
+      {
+        "mu": 14.0,
+        "sigma": 0.3,
+        "n": 160,
+        "mechanism": "truth_at_or_outside_grid"
+      },
+      {
+        "mu": 14.0,
+        "sigma": 0.6,
+        "n": 160,
+        "mechanism": "truth_at_or_outside_grid"
+      },
+      {
+        "mu": 14.0,
+        "sigma": 1.2,
+        "n": 160,
+        "mechanism": "truth_at_or_outside_grid"
+      },
+      {
+        "mu": 46.0,
+        "sigma": 0.3,
+        "n": 160,
+        "mechanism": "truth_at_or_outside_grid"
+      },
+      {
+        "mu": 46.0,
+        "sigma": 0.6,
+        "n": 160,
+        "mechanism": "truth_at_or_outside_grid"
+      },
+      {
+        "mu": 46.0,
+        "sigma": 1.2,
+        "n": 160,
+        "mechanism": "truth_at_or_outside_grid"
+      }
+    ],
+    "n_steps": 30,
+    "policy": "entropy_vector",
+    "n_particles": 10000,
+    "targets": [
+      "q0.5",
+      "q0.95",
+      "q0.99"
+    ],
+    "level": 0.95,
+    "reference_fixed_n": 513,
+    "scale": 1.0
+  },
+  "git_commit": "06fd5ecf586defea1fe5a453f02a3b4af93df431-dirty",
+  "seed_base": 20260902,
+  "seed_range": [
+    20260902,
+    20264241
+  ],
+  "n_replicates_requested": 3340,
+  "n_replicates_completed": 3340,
+  "n_failures": 0,
+  "failures": [],
+  "backend": {
+    "python": "3.11.15",
+    "numpy": "2.4.4",
+    "platform": "Linux-6.18.5-fc-v20-x86_64-with-glibc2.39"
+  },
+  "tolerances": {
+    "reference_mode": "validated fixed n=513"
+  },
+  "monte_carlo_se": {
+    "cov_diff::no_overlap::steep_in_support::q0.5": 0.007983899694571419,
+    "cov_diff::no_overlap::steep_in_support::q0.95": 0.013663188402062631,
+    "cov_diff::no_overlap::steep_in_support::q0.99": 0.012505677004588402,
+    "cov_diff::no_overlap::truth_at_or_outside_grid::q0.5": 0.0029508180004725695,
+    "cov_diff::no_overlap::truth_at_or_outside_grid::q0.95": 0.009316267069444195,
+    "cov_diff::no_overlap::truth_at_or_outside_grid::q0.99": 0.011138371393502735,
+    "cov_diff::overlap_control::steep_in_support::q0.5": 0.004116341367187845,
+    "cov_diff::overlap_control::steep_in_support::q0.95": 0.013966370035735844,
+    "cov_diff::overlap_control::steep_in_support::q0.99": 0.015234672393753017,
+    "cov_diff::overlap_control::truth_at_or_outside_grid::q0.5": 0.0,
+    "cov_diff::overlap_control::truth_at_or_outside_grid::q0.95": 0.0,
+    "cov_diff::overlap_control::truth_at_or_outside_grid::q0.99": 0.0
+  },
+  "degeneracy_counts": {
+    "n_generated": 3340,
+    "n_no_overlap": 2275,
+    "overall_event_rate": 0.6811377245508982,
+    "n_retained": 3304,
+    "n_cases": 2275,
+    "n_all_zero": 360,
+    "n_all_one": 370
+  },
+  "artifacts": [
+    "/home/claude/thesis-reliability/results/raw/phase3a_retained.parquet",
+    "/home/claude/thesis-reliability/results/summaries/phase3a_paired_summary.csv",
+    "/home/claude/thesis-reliability/results/summaries/phase3a_stratified.csv"
+  ],
+  "wall_seconds": 3462.171131849289,
+  "created_utc": "2026-08-13T14:14:39Z",
+  "notes": "H1: paired particle-vs-reference comparison on identical no-overlap histories, stratified enrichment."
+}

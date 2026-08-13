@@ -1,0 +1,278 @@
+/home/claude/thesis-reliability/experiments/phase1_baseline.py:99: RuntimeWarning: Mean of empty slice
+  bias = float(np.nanmean(g[col]))
+
+==============================================================================
+PHASE 1 - reproduction of Rotem's published MSEs (n = 30, Bayes)
+==============================================================================
+cells compared: 160
+within 2 combined SE: 122/160 (76.2%)
+median |ratio - 1|: 0.170
+median MC SE / MSE: 0.090
+
+largest discrepancies (|z_combined|):
+        setting        policy target  mse_published  mse_reproduced   mse_se  z_combined
+probit_ind_well entropy_sigma     mu          2.061           0.013    0.001   -1033.522
+  beta_ind_well entropy_sigma  sigma          1.355           3.999    0.006     339.302
+  beta_ind_well entropy_sigma     mu          2.528           0.421    0.009    -157.398
+probit_ind_well entropy_sigma  q0.95          4.409           1.099    0.016    -145.977
+probit_ind_well entropy_sigma  q0.99          6.823           2.708    0.027    -109.026
+probit_ind_well entropy_sigma  sigma          0.911           1.208    0.003      69.352
+  beta_ind_well entropy_sigma  q0.05          4.863           7.208    0.039      42.731
+  beta_ind_well entropy_sigma  q0.01          6.821           9.159    0.046      36.143
+  beta_ind_well entropy_sigma  q0.95          6.997           5.683    0.036     -25.496
+  beta_ind_well entropy_sigma  q0.99         11.037          12.900    0.058      22.687
+probit_ind_poor entropy_sigma     mu          1.805          42.011    1.890      15.046
+probit_ind_poor entropy_sigma  q0.95          5.119          62.179    2.773      14.548
+
+==============================================================================
+PHASE 1 - agreement in method ordering
+==============================================================================
+        setting target  spearman  same_best  n_methods
+  beta_ind_poor     mu     0.657      False          6
+  beta_ind_poor  q0.01     0.657       True          6
+  beta_ind_poor  q0.05     0.371       True          6
+  beta_ind_poor  q0.95     0.771       True          6
+  beta_ind_poor  q0.99     0.714       True          6
+  beta_ind_poor  sigma     0.543      False          6
+  beta_ind_well     mu     0.086      False          6
+  beta_ind_well  q0.01     0.771      False          6
+  beta_ind_well  q0.05     0.771      False          6
+  beta_ind_well  q0.95     0.771       True          6
+  beta_ind_well  q0.99     0.771       True          6
+  beta_ind_well  sigma     0.714      False          6
+probit_dep_poor     mu     0.600      False          5
+probit_dep_poor  q0.95     0.900       True          5
+probit_dep_poor  q0.99     0.800      False          5
+probit_dep_poor  sigma     0.900       True          5
+probit_dep_well     mu     1.000       True          5
+probit_dep_well  q0.95     0.900       True          5
+probit_dep_well  q0.99     1.000       True          5
+probit_dep_well  sigma     0.700       True          5
+probit_ind_poor     mu     1.000       True          6
+probit_ind_poor  q0.95     0.886       True          6
+probit_ind_poor  q0.99     0.771       True          6
+probit_ind_poor  sigma     0.600       True          6
+probit_ind_well     mu     0.086      False          6
+probit_ind_well  q0.95     0.143      False          6
+probit_ind_well  q0.99     0.429      False          6
+probit_ind_well  sigma     0.943       True          6
+
+mean rank correlation: 0.688; same best method in 60.7% of cells
+
+==============================================================================
+PHASE 1 - paired entropy(mu,sigma) vs DS (common random numbers)
+==============================================================================
+        setting target  paired_mse_diff_entropy_minus_ds  paired_se  unpaired_se  n_pairs  se_reduction
+  beta_ind_poor     mu                           -0.1211     0.1261       0.1650      250        0.2357
+  beta_ind_poor  sigma                           -0.1338     0.1470       0.1572      250        0.0650
+  beta_ind_poor  q0.95                           -0.3167     0.5723       0.6816      250        0.1603
+  beta_ind_poor  q0.99                           -0.5807     0.9725       1.1186      250        0.1306
+  beta_ind_well     mu                            0.1288     0.1343       0.1717      250        0.2178
+  beta_ind_well  sigma                            0.0757     0.1536       0.1655      250        0.0717
+  beta_ind_well  q0.95                            0.7759     0.5637       0.6280      250        0.1024
+  beta_ind_well  q0.99                            1.1344     0.9958       1.0925      250        0.0885
+probit_dep_poor     mu                            0.2366     0.0898       0.1055      250        0.1492
+probit_dep_poor  sigma                            0.0656     0.0989       0.1044      250        0.0521
+probit_dep_poor  q0.95                            0.5221     0.3125       0.3344      250        0.0656
+probit_dep_poor  q0.99                            0.7375     0.5549       0.5997      250        0.0747
+probit_dep_well     mu                           -0.0366     0.0790       0.0924      250        0.1448
+probit_dep_well  sigma                           -0.0467     0.0800       0.0909      250        0.1202
+probit_dep_well  q0.95                           -0.0784     0.2975       0.3434      250        0.1338
+probit_dep_well  q0.99                           -0.1655     0.5151       0.5947      250        0.1339
+probit_ind_poor     mu                           -0.0344     0.0968       0.1143      250        0.1531
+probit_ind_poor  sigma                           -0.0632     0.0943       0.0966      250        0.0232
+probit_ind_poor  q0.95                            0.2672     0.3345       0.3545      250        0.0564
+probit_ind_poor  q0.99                            0.3007     0.5844       0.6069      250        0.0371
+probit_ind_well     mu                            0.0706     0.0863       0.1035      250        0.1663
+probit_ind_well  sigma                            0.0502     0.0798       0.0862      250        0.0739
+probit_ind_well  q0.95                            0.1347     0.2783       0.3279      250        0.1512
+probit_ind_well  q0.99                            0.2424     0.4779       0.5572      250        0.1423
+
+median SE reduction from pairing: 12.5%
+
+==============================================================================
+PHASE 1 - degeneracy counts (nothing dropped)
+==============================================================================
+{
+  "degenerate_all_equal": 0,
+  "degenerate_no_overlap": 2293,
+  "degenerate_low_ess": 119,
+  "degenerate_particle_invalid": 15165,
+  "all_zero": 0,
+  "all_one": 0,
+  "overlap": 14707,
+  "target_outside_grid": 3000,
+  "n_rows": 17000,
+  "mle_non_finite": 2293
+}
+failures: 0
+
+figures: ['/home/claude/thesis-reliability/results/figures/phase1_reproduction.png', '/home/claude/thesis-reliability/results/figures/phase1_rank_agreement.png', '/home/claude/thesis-reliability/results/figures/phase1_trajectories.png']
+
+==============================================================================
+PHASE 1 - quantile-indexed utility surface U_p(r; H_n)
+==============================================================================
+ n  target_p  argmax_r  argmax_x  utility
+ 5    0.5000    0.7000   30.3118   0.0733
+ 5    0.9000    0.8600   33.0032   0.0932
+ 5    0.9500    0.8600   33.0032   0.0913
+ 5    0.9900    0.9000   33.9720   0.0850
+15    0.5000    0.4200   28.5475   0.0379
+15    0.9000    0.9400   37.3025   0.0430
+15    0.9500    0.9400   37.3025   0.0419
+15    0.9900    0.9400   37.3025   0.0428
+30    0.5000    0.3800   29.0292   0.0313
+30    0.9000    0.9000   34.9037   0.0237
+30    0.9500    0.9400   35.9139   0.0217
+30    0.9900    0.9400   35.9139   0.0213
+
+quadrature density integral in [0.9905, 1.0084]
+figure: /home/claude/thesis-reliability/results/figures/phase1_utility_surface.png
+
+==============================================================================
+PHASE 2 - SBC uniformity (adaptive policy inside the simulator)
+==============================================================================
+        policy  backend target   n  ks_stat     ks_p  ks_band_95   chi2_p  rank_mean  rank_mean_se  coverage  coverage_se  passes_ks_05
+  uniform_grid      ref     mu 600   0.0218   0.9311      0.0554   0.8678     0.4984        0.0119    0.9483       0.0090          True
+  uniform_grid      ref  sigma 600   0.0372   0.3670      0.0554   0.0232     0.4902        0.0117    0.9683       0.0071          True
+  uniform_grid      ref   q0.5 600   0.0218   0.9311      0.0554   0.8678     0.4984        0.0119    0.9483       0.0090          True
+  uniform_grid      ref  q0.95 600   0.0467   0.1414      0.0554   0.2777     0.4860        0.0116    0.9567       0.0083          True
+  uniform_grid      ref  q0.99 600   0.0458   0.1569      0.0554   0.2066     0.4867        0.0116    0.9583       0.0082          True
+  uniform_grid particle     mu 600   0.0284   0.7080      0.0554   0.9020     0.4974        0.0118    0.9433       0.0094          True
+  uniform_grid particle  sigma 600   0.0521   0.0739      0.0554   0.1378     0.4785        0.0120    0.9383       0.0098          True
+  uniform_grid particle   q0.5 600   0.0284   0.7080      0.0554   0.9020     0.4974        0.0118    0.9433       0.0094          True
+  uniform_grid particle  q0.95 600   0.0605   0.0238      0.0554   0.5854     0.4773        0.0117    0.9500       0.0089         False
+  uniform_grid particle  q0.99 600   0.0515   0.0798      0.0554   0.4784     0.4776        0.0118    0.9500       0.0089          True
+entropy_vector      ref     mu 600   0.0394   0.3021      0.0554   0.5180     0.4809        0.0117    0.9450       0.0093          True
+entropy_vector      ref  sigma 600   0.0215   0.9389      0.0554   0.5358     0.4930        0.0117    0.9517       0.0088          True
+entropy_vector      ref   q0.5 600   0.0394   0.3021      0.0554   0.5180     0.4809        0.0117    0.9450       0.0093          True
+entropy_vector      ref  q0.95 600   0.0336   0.4976      0.0554   0.6439     0.4833        0.0118    0.9533       0.0086          True
+entropy_vector      ref  q0.99 600   0.0282   0.7141      0.0554   0.9496     0.4857        0.0118    0.9550       0.0085          True
+entropy_vector particle     mu 600   0.0477   0.1259      0.0554   0.6882     0.4790        0.0118    0.9450       0.0093          True
+entropy_vector particle  sigma 600   0.0384   0.3319      0.0554   0.4231     0.4876        0.0120    0.9300       0.0104          True
+entropy_vector particle   q0.5 600   0.0477   0.1259      0.0554   0.6882     0.4790        0.0118    0.9450       0.0093          True
+entropy_vector particle  q0.95 600   0.0455   0.1619      0.0554   0.8994     0.4815        0.0120    0.9450       0.0093          True
+entropy_vector particle  q0.99 600   0.0398   0.2890      0.0554   0.7679     0.4831        0.0120    0.9383       0.0098          True
+
+reference: min KS p = 0.1414; 10/10 pass at alpha=0.05
+particle : min KS p = 0.0238; 9/10 pass at alpha=0.05
+reference max KS D = 0.0467 (95% band 0.0554)
+particle  max KS D = 0.0605
+figure: /home/claude/thesis-reliability/results/figures/phase2_sbc.png
+
+==============================================================================
+PHASE 2 - coverage stratified by observable path status (SBC draws)
+==============================================================================
+  n  coverage       se  nominal        z        stratum      value target         policy  backend
+228    0.9430   0.0154   0.9500  -0.4570 overlap_status no_overlap  q0.95   uniform_grid      ref
+372    0.9651   0.0095   0.9500   1.5810 overlap_status    overlap  q0.95   uniform_grid      ref
+228    0.9430   0.0154   0.9500  -0.4570 overlap_status no_overlap  q0.99   uniform_grid      ref
+372    0.9677   0.0092   0.9500   1.9367 overlap_status    overlap  q0.99   uniform_grid      ref
+228    0.9342   0.0164   0.9500  -0.9617 overlap_status no_overlap  q0.95   uniform_grid particle
+372    0.9597   0.0102   0.9500   0.9488 overlap_status    overlap  q0.95   uniform_grid particle
+228    0.9254   0.0174   0.9500  -1.4119 overlap_status no_overlap  q0.99   uniform_grid particle
+372    0.9651   0.0095   0.9500   1.5810 overlap_status    overlap  q0.99   uniform_grid particle
+ 14    0.8571   0.0935   0.9500  -0.9929 overlap_status no_overlap  q0.95 entropy_vector      ref
+586    0.9556   0.0085   0.9500   0.6620 overlap_status    overlap  q0.95 entropy_vector      ref
+ 14    0.9286   0.0688   0.9500  -0.3113 overlap_status no_overlap  q0.99 entropy_vector      ref
+586    0.9556   0.0085   0.9500   0.6620 overlap_status    overlap  q0.99 entropy_vector      ref
+ 14    0.5714   0.1323   0.9500  -2.8623 overlap_status no_overlap  q0.95 entropy_vector particle
+586    0.9539   0.0087   0.9500   0.4532 overlap_status    overlap  q0.95 entropy_vector particle
+ 14    0.5714   0.1323   0.9500  -2.8623 overlap_status no_overlap  q0.99 entropy_vector particle
+586    0.9471   0.0092   0.9500  -0.3137 overlap_status    overlap  q0.99 entropy_vector particle
+
+==============================================================================
+PHASE 2 - fixed-theta coverage map
+==============================================================================
+ mu_true  sigma_true target  backend   n  coverage  coverage_se  z_vs_nominal  mean_width  median_width     bias     rmse  frac_no_overlap  frac_all_equal  mean_ess
+ 26.0000      1.5000   q0.5 particle 150    0.9600       0.0160        0.6250      2.0775        2.0497   0.0009   0.5121           0.0000          0.0000 5899.4810
+ 26.0000      1.5000   q0.5      ref 150    0.9600       0.0160        0.6250         NaN           NaN   0.0009   0.5121           0.0000          0.0000 5899.4810
+ 26.0000      1.5000  q0.95 particle 150    0.9200       0.0222       -1.3543      4.3466        4.2831   0.0935   0.8953           0.0000          0.0000 5899.4810
+ 26.0000      1.5000  q0.95      ref 150    0.9333       0.0204       -0.8183         NaN           NaN   0.0935   0.8953           0.0000          0.0000 5899.4810
+ 26.0000      1.5000  q0.99 particle 150    0.9267       0.0213       -1.0963      5.7741        5.7396   0.1257   1.1547           0.0000          0.0000 5899.4810
+ 26.0000      1.5000  q0.99      ref 150    0.9400       0.0194       -0.5157         NaN           NaN   0.1257   1.1547           0.0000          0.0000 5899.4810
+ 26.0000      3.0000   q0.5 particle 150    0.9733       0.0132        1.7738      3.6747        3.5453   0.0041   0.7836           0.0000          0.0000 6854.0095
+ 26.0000      3.0000   q0.5      ref 150    0.9800       0.0114        2.6245         NaN           NaN   0.0041   0.7836           0.0000          0.0000 6854.0095
+ 26.0000      3.0000  q0.95 particle 150    0.9800       0.0114        2.6245      8.2288        7.5231  -0.0665   1.6239           0.0000          0.0000 6854.0095
+ 26.0000      3.0000  q0.95      ref 150    0.9800       0.0114        2.6245         NaN           NaN  -0.0665   1.6239           0.0000          0.0000 6854.0095
+ 26.0000      3.0000  q0.99 particle 150    0.9800       0.0114        2.6245     11.0635       10.1088  -0.1011   2.1924           0.0000          0.0000 6854.0095
+ 26.0000      3.0000  q0.99      ref 150    0.9667       0.0147        1.1371         NaN           NaN  -0.1011   2.1924           0.0000          0.0000 6854.0095
+ 26.0000      6.0000   q0.5 particle 150    0.9533       0.0172        0.1936      6.2820        6.4352   0.1742   1.4949           0.0000          0.0000 7403.5686
+ 26.0000      6.0000   q0.5      ref 150    0.9533       0.0172        0.1936         NaN           NaN   0.1742   1.4949           0.0000          0.0000 7403.5686
+ 26.0000      6.0000  q0.95 particle 150    0.9600       0.0160        0.6250     14.5307       13.8442  -0.7356   2.8925           0.0000          0.0000 7403.5686
+ 26.0000      6.0000  q0.95      ref 150    0.9533       0.0172        0.1936         NaN           NaN  -0.7356   2.8925           0.0000          0.0000 7403.5686
+ 26.0000      6.0000  q0.99 particle 150    0.9733       0.0132        1.7738     19.5265       18.4992  -1.1197   3.9044           0.0000          0.0000 7403.5686
+ 26.0000      6.0000  q0.99      ref 150    0.9667       0.0147        1.1371         NaN           NaN  -1.1197   3.9044           0.0000          0.0000 7403.5686
+ 30.0000      1.5000   q0.5 particle 150    0.9667       0.0147        1.1371      2.0992        2.0899  -0.0202   0.4337           0.0067          0.0000 6453.6826
+ 30.0000      1.5000   q0.5      ref 150    0.9667       0.0147        1.1371         NaN           NaN  -0.0202   0.4337           0.0067          0.0000 6453.6826
+ 30.0000      1.5000  q0.95 particle 150    0.9667       0.0147        1.1371      4.5224        4.3448   0.1033   0.8590           0.0067          0.0000 6453.6826
+ 30.0000      1.5000  q0.95      ref 150    0.9667       0.0147        1.1371         NaN           NaN   0.1033   0.8590           0.0067          0.0000 6453.6826
+ 30.0000      1.5000  q0.99 particle 150    0.9733       0.0132        1.7738      6.2169        5.7816   0.1499   1.1338           0.0067          0.0000 6453.6826
+ 30.0000      1.5000  q0.99      ref 150    0.9733       0.0132        1.7738         NaN           NaN   0.1499   1.1338           0.0067          0.0000 6453.6826
+ 30.0000      3.0000   q0.5 particle 150    0.9533       0.0172        0.1936      3.7366        3.7271  -0.0670   0.9067           0.0000          0.0000 7209.4721
+ 30.0000      3.0000   q0.5      ref 150    0.9533       0.0172        0.1936         NaN           NaN  -0.0670   0.9067           0.0000          0.0000 7209.4721
+ 30.0000      3.0000  q0.95 particle 150    0.9600       0.0160        0.6250      8.1258        8.1759  -0.0635   1.4655           0.0000          0.0000 7209.4721
+ 30.0000      3.0000  q0.95      ref 150    0.9600       0.0160        0.6250         NaN           NaN  -0.0635   1.4655           0.0000          0.0000 7209.4721
+ 30.0000      3.0000  q0.99 particle 150    0.9600       0.0160        0.6250     10.8359       10.8360  -0.0675   1.9568           0.0000          0.0000 7209.4721
+ 30.0000      3.0000  q0.99      ref 150    0.9600       0.0160        0.6250         NaN           NaN  -0.0675   1.9568           0.0000          0.0000 7209.4721
+ 30.0000      6.0000   q0.5 particle 150    0.9333       0.0204       -0.8183      6.3721        6.3800  -0.0037   1.4025           0.0000          0.0000 6991.7810
+ 30.0000      6.0000   q0.5      ref 150    0.9333       0.0204       -0.8183         NaN           NaN  -0.0037   1.4025           0.0000          0.0000 6991.7810
+ 30.0000      6.0000  q0.95 particle 150    0.9133       0.0230       -1.5962     14.7779       14.1369  -0.7159   3.3402           0.0000          0.0000 6991.7810
+ 30.0000      6.0000  q0.95      ref 150    0.9133       0.0230       -1.5962         NaN           NaN  -0.7159   3.3402           0.0000          0.0000 6991.7810
+ 30.0000      6.0000  q0.99 particle 150    0.9200       0.0222       -1.3543     19.7712       18.6207  -1.0240   4.5845           0.0000          0.0000 6991.7810
+ 30.0000      6.0000  q0.99      ref 150    0.9200       0.0222       -1.3543         NaN           NaN  -1.0240   4.5845           0.0000          0.0000 6991.7810
+ 34.0000      1.5000   q0.5 particle 150    0.9600       0.0160        0.6250      2.1349        2.0777  -0.1152   0.4949           0.0000          0.0000 6027.8529
+ 34.0000      1.5000   q0.5      ref 150    0.9600       0.0160        0.6250         NaN           NaN  -0.1152   0.4949           0.0000          0.0000 6027.8529
+ 34.0000      1.5000  q0.95 particle 150    0.9600       0.0160        0.6250      4.5278        4.3902   0.0497   0.8137           0.0000          0.0000 6027.8529
+ 34.0000      1.5000  q0.95      ref 150    0.9600       0.0160        0.6250         NaN           NaN   0.0497   0.8137           0.0000          0.0000 6027.8529
+ 34.0000      1.5000  q0.99 particle 150    0.9600       0.0160        0.6250      6.0193        5.8483   0.1145   1.0766           0.0000          0.0000 6027.8529
+ 34.0000      1.5000  q0.99      ref 150    0.9667       0.0147        1.1371         NaN           NaN   0.1145   1.0766           0.0000          0.0000 6027.8529
+ 34.0000      3.0000   q0.5 particle 150    0.9600       0.0160        0.6250      3.7275        3.7543  -0.1125   0.7597           0.0000          0.0000 6885.0465
+ 34.0000      3.0000   q0.5      ref 150    0.9533       0.0172        0.1936         NaN           NaN  -0.1125   0.7597           0.0000          0.0000 6885.0465
+ 34.0000      3.0000  q0.95 particle 150    0.9733       0.0132        1.7738      8.2577        8.1489  -0.1327   1.4766           0.0000          0.0000 6885.0465
+ 34.0000      3.0000  q0.95      ref 150    0.9733       0.0132        1.7738         NaN           NaN  -0.1327   1.4766           0.0000          0.0000 6885.0465
+ 34.0000      3.0000  q0.99 particle 150    0.9800       0.0114        2.6245     11.0370       10.8428  -0.1474   1.9657           0.0000          0.0000 6885.0465
+ 34.0000      3.0000  q0.99      ref 150    0.9800       0.0114        2.6245         NaN           NaN  -0.1474   1.9657           0.0000          0.0000 6885.0465
+ 34.0000      6.0000   q0.5 particle 150    0.9200       0.0222       -1.3543      6.3290        6.4024  -0.2499   1.5064           0.0000          0.0000 7659.5108
+ 34.0000      6.0000   q0.5      ref 150    0.9200       0.0222       -1.3543         NaN           NaN  -0.2499   1.5064           0.0000          0.0000 7659.5108
+ 34.0000      6.0000  q0.95 particle 150    0.9467       0.0183       -0.1817     14.7766       14.2598  -1.0249   3.2567           0.0000          0.0000 7659.5108
+ 34.0000      6.0000  q0.95      ref 150    0.9467       0.0183       -0.1817         NaN           NaN  -1.0249   3.2567           0.0000          0.0000 7659.5108
+ 34.0000      6.0000  q0.99 particle 150    0.9467       0.0183       -0.1817     19.8816       19.1354  -1.3554   4.4238           0.0000          0.0000 7659.5108
+ 34.0000      6.0000  q0.99      ref 150    0.9467       0.0183       -0.1817         NaN           NaN  -1.3554   4.4238           0.0000          0.0000 7659.5108
+figures: ['/home/claude/thesis-reliability/results/figures/phase2_coverage_map.png', '/home/claude/thesis-reliability/results/figures/phase2_coverage_map_ref.png']
+
+==============================================================================
+PHASE 2 - false-certainty rate (narrow AND wrong)
+==============================================================================
+ mu_true  sigma_true target  narrowness_threshold  false_certainty_rate  false_certainty_se   n
+ 26.0000      1.5000  q0.95                4.8544                0.0133              0.0094 150
+ 26.0000      3.0000  q0.95                4.8544                0.0067              0.0066 150
+ 26.0000      6.0000  q0.95                4.8544                0.0133              0.0094 150
+ 30.0000      1.5000  q0.95                4.8544                0.0133              0.0094 150
+ 30.0000      3.0000  q0.95                4.8544                0.0267              0.0132 150
+ 30.0000      6.0000  q0.95                4.8544                0.0067              0.0066 150
+ 34.0000      1.5000  q0.95                4.8544                0.0200              0.0114 150
+ 34.0000      3.0000  q0.95                4.8544                0.0133              0.0094 150
+ 34.0000      6.0000  q0.95                4.8544                0.0000              0.0000 150
+ 26.0000      1.5000  q0.99                6.4360                0.0200              0.0114 150
+ 26.0000      3.0000  q0.99                6.4360                0.0133              0.0094 150
+ 26.0000      6.0000  q0.99                6.4360                0.0133              0.0094 150
+ 30.0000      1.5000  q0.99                6.4360                0.0067              0.0066 150
+ 30.0000      3.0000  q0.99                6.4360                0.0267              0.0132 150
+ 30.0000      6.0000  q0.99                6.4360                0.0067              0.0066 150
+ 34.0000      1.5000  q0.99                6.4360                0.0133              0.0094 150
+ 34.0000      3.0000  q0.99                6.4360                0.0200              0.0114 150
+ 34.0000      6.0000  q0.99                6.4360                0.0000              0.0000 150
+
+==============================================================================
+PHASE 2 - particle vs reference posterior on identical histories
+==============================================================================
+target  mean_shift_mean  mean_shift_sd  mean_shift_p95_abs   ref_sd  shift_in_ref_sd_units  sd_ratio_mean  sd_ratio_p05  sd_ratio_p95
+    mu          -0.0001         0.0190              0.0304   1.0235                 0.0105         0.9972        0.9847        1.0128
+ sigma          -0.0007         0.0381              0.0518   1.3473                 0.0123         0.9978        0.9786        1.0175
+ q0.95          -0.0013         0.0590              0.0891   2.4466                 0.0117         0.9977        0.9804        1.0175
+ q0.99          -0.0017         0.0841              0.1252   3.3019                 0.0119         0.9977        0.9796        1.0175
+
+==============================================================================
+done
+==============================================================================

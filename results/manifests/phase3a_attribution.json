@@ -1,0 +1,119 @@
+{
+  "experiment": "phase3a_attribution",
+  "config_hash": "328927f1b7efca0c",
+  "config": {
+    "cells": [
+      [
+        30.0,
+        0.3
+      ],
+      [
+        22.0,
+        0.3
+      ],
+      [
+        38.0,
+        0.3
+      ],
+      [
+        30.0,
+        3.0
+      ]
+    ],
+    "n_histories": 50,
+    "arms": [
+      {
+        "label": "N=10k rejuv",
+        "n_particles": 10000,
+        "rejuvenate": true,
+        "kl_threshold": 0.1
+      },
+      {
+        "label": "N=40k rejuv",
+        "n_particles": 40000,
+        "rejuvenate": true,
+        "kl_threshold": 0.1
+      },
+      {
+        "label": "N=160k rejuv",
+        "n_particles": 160000,
+        "rejuvenate": true,
+        "kl_threshold": 0.1
+      },
+      {
+        "label": "N=10k no-rejuv",
+        "n_particles": 10000,
+        "rejuvenate": false,
+        "kl_threshold": null
+      },
+      {
+        "label": "N=10k rejuv KL=0.02",
+        "n_particles": 10000,
+        "rejuvenate": true,
+        "kl_threshold": 0.02
+      }
+    ],
+    "n_steps": 30,
+    "reference_fixed_n": 513
+  },
+  "git_commit": "2d1c7a2720315e07afbc16eafc26b76d73432fb1-dirty",
+  "seed_base": 20260903,
+  "seed_range": [
+    20260903,
+    20261102
+  ],
+  "n_replicates_requested": 200,
+  "n_replicates_completed": 200,
+  "n_failures": 0,
+  "failures": [],
+  "backend": {
+    "python": "3.11.15",
+    "numpy": "2.4.4",
+    "platform": "Linux-6.18.5-fc-v20-x86_64-with-glibc2.39"
+  },
+  "tolerances": {
+    "reference_fixed_n": 513
+  },
+  "monte_carlo_se": {
+    "cov_diff::N=10k no-rejuv::sigma0.3::q0.5": 0.013378001241813023,
+    "cov_diff::N=10k no-rejuv::sigma0.3::q0.95": 0.024154610122223037,
+    "cov_diff::N=10k no-rejuv::sigma0.3::q0.99": 0.025200168080591882,
+    "cov_diff::N=10k no-rejuv::sigma3.0::q0.5": 0.0,
+    "cov_diff::N=10k no-rejuv::sigma3.0::q0.95": 0.0,
+    "cov_diff::N=10k no-rejuv::sigma3.0::q0.99": 0.0,
+    "cov_diff::N=10k rejuv::sigma0.3::q0.5": 0.014867046874683928,
+    "cov_diff::N=10k rejuv::sigma0.3::q0.95": 0.038942011229877296,
+    "cov_diff::N=10k rejuv::sigma0.3::q0.99": 0.04087046889188094,
+    "cov_diff::N=10k rejuv::sigma3.0::q0.5": 0.0,
+    "cov_diff::N=10k rejuv::sigma3.0::q0.95": 0.0,
+    "cov_diff::N=10k rejuv::sigma3.0::q0.99": 0.0,
+    "cov_diff::N=10k rejuv KL=0.02::sigma0.3::q0.5": 0.013198422611556987,
+    "cov_diff::N=10k rejuv KL=0.02::sigma0.3::q0.95": 0.01969945698536561,
+    "cov_diff::N=10k rejuv KL=0.02::sigma0.3::q0.99": 0.02361131947094098,
+    "cov_diff::N=10k rejuv KL=0.02::sigma3.0::q0.5": 0.0,
+    "cov_diff::N=10k rejuv KL=0.02::sigma3.0::q0.95": 0.0,
+    "cov_diff::N=10k rejuv KL=0.02::sigma3.0::q0.99": 0.0,
+    "cov_diff::N=160k rejuv::sigma0.3::q0.5": 0.006666666666666665,
+    "cov_diff::N=160k rejuv::sigma0.3::q0.95": 0.030033538300020392,
+    "cov_diff::N=160k rejuv::sigma0.3::q0.99": 0.035314713763569344,
+    "cov_diff::N=160k rejuv::sigma3.0::q0.5": 0.0,
+    "cov_diff::N=160k rejuv::sigma3.0::q0.95": 0.0,
+    "cov_diff::N=160k rejuv::sigma3.0::q0.99": 0.0,
+    "cov_diff::N=40k rejuv::sigma0.3::q0.5": 0.014705663024201161,
+    "cov_diff::N=40k rejuv::sigma0.3::q0.95": 0.03651075250486204,
+    "cov_diff::N=40k rejuv::sigma0.3::q0.99": 0.038421501561652305,
+    "cov_diff::N=40k rejuv::sigma3.0::q0.5": 0.0,
+    "cov_diff::N=40k rejuv::sigma3.0::q0.95": 0.0,
+    "cov_diff::N=40k rejuv::sigma3.0::q0.99": 0.0
+  },
+  "degeneracy_counts": {
+    "min_ess": 1.015133441821797,
+    "max_weight_max": 0.9925160702556338
+  },
+  "artifacts": [
+    "/home/claude/thesis-reliability/results/summaries/phase3a_attribution.csv"
+  ],
+  "wall_seconds": 545.222366809845,
+  "created_utc": "2026-08-13T13:14:25Z",
+  "notes": "Attribution of the Phase 3A gap: particle-count scaling and rejuvenation ablation on identical histories."
+}

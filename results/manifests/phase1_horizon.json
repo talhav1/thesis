@@ -1,0 +1,146 @@
+{
+  "experiment": "phase1_horizon",
+  "config_hash": "fcc744e2177e6586",
+  "config": {
+    "policies": [
+      "entropy_vector",
+      "entropy_q0.95",
+      "dror_steinberg"
+    ],
+    "n_steps": 50,
+    "slices": [
+      20,
+      30,
+      50
+    ],
+    "setting": "probit_ind_well",
+    "crn_seed": 990001,
+    "example_config": {
+      "policy": "entropy_vector",
+      "prior": {
+        "mu0": 30.0,
+        "sigma_mu": 6.0,
+        "log_alpha0": -2.5257286443082556,
+        "tau": 0.75,
+        "tau_is_variance": true,
+        "dependent": false,
+        "name": "well_independent"
+      },
+      "curve": {
+        "family": "probit",
+        "mu": 30.0,
+        "sigma": 3.0
+      },
+      "calibration": "well",
+      "n_steps": 50,
+      "slices": [
+        20,
+        30,
+        50
+      ],
+      "n_particles": 10000,
+      "targets": [
+        "mu",
+        "sigma",
+        "q0.5",
+        "q0.95",
+        "q0.99"
+      ],
+      "credible_level": 0.95,
+      "rejuvenate": true,
+      "policy_kwargs": {},
+      "grid_points": 200,
+      "grid_half_width": 14.0,
+      "reference_at_slices": [],
+      "reference_tol": 0.001,
+      "reference_n_max": 1025,
+      "reference_widths": false,
+      "bruceton_step": 2.0
+    }
+  },
+  "git_commit": "f6de1ab9c9fbe743d8d248d3108294d096e26afe-dirty",
+  "seed_base": 20260816,
+  "seed_range": [
+    20260816,
+    20261115
+  ],
+  "n_replicates_requested": 300,
+  "n_replicates_completed": 900,
+  "n_failures": 0,
+  "failures": [],
+  "backend": {
+    "python": "3.11.15",
+    "numpy": "2.4.4",
+    "platform": "Linux-6.18.5-fc-v20-x86_64-with-glibc2.39"
+  },
+  "tolerances": {
+    "prob_floor": 1e-12
+  },
+  "monte_carlo_se": {
+    "mse::dror_steinberg::n20::mu": 0.1884219545496624,
+    "mse::dror_steinberg::n30::mu": 0.1162233189414563,
+    "mse::dror_steinberg::n50::mu": 0.07486012876638451,
+    "mse::dror_steinberg::n20::q0.5": 0.1884219545496624,
+    "mse::dror_steinberg::n30::q0.5": 0.1162233189414563,
+    "mse::dror_steinberg::n50::q0.5": 0.07486012876638451,
+    "mse::dror_steinberg::n20::q0.95": 0.6480206596487761,
+    "mse::dror_steinberg::n30::q0.95": 0.43602605063112776,
+    "mse::dror_steinberg::n50::q0.95": 0.19800541896112075,
+    "mse::dror_steinberg::n20::q0.99": 1.0379197617736233,
+    "mse::dror_steinberg::n30::q0.99": 0.7058775566365123,
+    "mse::dror_steinberg::n50::q0.99": 0.3173254155282669,
+    "mse::dror_steinberg::n20::sigma": 0.12766095682590983,
+    "mse::dror_steinberg::n30::sigma": 0.08234926722837863,
+    "mse::dror_steinberg::n50::sigma": 0.04157985313609313,
+    "mse::entropy_q0.95::n20::mu": 0.284715881623797,
+    "mse::entropy_q0.95::n30::mu": 0.2071736106039157,
+    "mse::entropy_q0.95::n50::mu": 0.17036560160124395,
+    "mse::entropy_q0.95::n20::q0.5": 0.284715881623797,
+    "mse::entropy_q0.95::n30::q0.5": 0.2071736106039157,
+    "mse::entropy_q0.95::n50::q0.5": 0.17036560160124395,
+    "mse::entropy_q0.95::n20::q0.95": 0.44429730509653415,
+    "mse::entropy_q0.95::n30::q0.95": 0.25325495452580116,
+    "mse::entropy_q0.95::n50::q0.95": 0.17123157261485222,
+    "mse::entropy_q0.95::n20::q0.99": 0.9022650314717848,
+    "mse::entropy_q0.95::n30::q0.99": 0.558159949163778,
+    "mse::entropy_q0.95::n50::q0.99": 0.3580601142806467,
+    "mse::entropy_q0.95::n20::sigma": 0.20838312913075124,
+    "mse::entropy_q0.95::n30::sigma": 0.16223884410870296,
+    "mse::entropy_q0.95::n50::sigma": 0.11135613105874653,
+    "mse::entropy_vector::n20::mu": 0.11886106196095272,
+    "mse::entropy_vector::n30::mu": 0.11021221585131055,
+    "mse::entropy_vector::n50::mu": 0.056924238056282675,
+    "mse::entropy_vector::n20::q0.5": 0.11886106196095272,
+    "mse::entropy_vector::n30::q0.5": 0.11021221585131055,
+    "mse::entropy_vector::n50::q0.5": 0.056924238056282675,
+    "mse::entropy_vector::n20::q0.95": 0.6130376424368786,
+    "mse::entropy_vector::n30::q0.95": 0.3545196166755761,
+    "mse::entropy_vector::n50::q0.95": 0.1796916711380545,
+    "mse::entropy_vector::n20::q0.99": 1.132800897464977,
+    "mse::entropy_vector::n30::q0.99": 0.6353250178208467,
+    "mse::entropy_vector::n50::q0.99": 0.30795769405343637,
+    "mse::entropy_vector::n20::sigma": 0.20830972422130684,
+    "mse::entropy_vector::n30::sigma": 0.10857663858178028,
+    "mse::entropy_vector::n50::sigma": 0.050226426858811915
+  },
+  "degeneracy_counts": {
+    "degenerate_all_equal": 0,
+    "degenerate_no_overlap": 4,
+    "degenerate_low_ess": 8,
+    "degenerate_particle_invalid": 900,
+    "all_zero": 0,
+    "all_one": 0,
+    "overlap": 896,
+    "target_outside_grid": 0,
+    "n_rows": 900,
+    "mle_non_finite": 4
+  },
+  "artifacts": [
+    "/home/claude/thesis-reliability/results/raw/phase1_horizon_raw.parquet",
+    "/home/claude/thesis-reliability/results/summaries/phase1_horizon_mse.csv",
+    "/home/claude/thesis-reliability/results/summaries/phase1_horizon_monotonicity.csv"
+  ],
+  "wall_seconds": 218.3760368824005,
+  "created_utc": "2026-08-13T10:32:37Z",
+  "notes": "Horizon arm: checks the monotone-in-n claim on one setting."
+}

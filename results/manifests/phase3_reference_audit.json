@@ -1,0 +1,51 @@
+{
+  "experiment": "phase3_reference_audit",
+  "config_hash": "70fbc585eba3e1f4",
+  "config": {
+    "n_sample": 24,
+    "production_n": 513,
+    "audit_n": 2049,
+    "targets": [
+      "q0.5",
+      "q0.95",
+      "q0.99"
+    ],
+    "source": "phase3a no-overlap histories",
+    "tol_sd_units": 0.001,
+    "tol_rank": 0.005
+  },
+  "git_commit": "06fd5ecf586defea1fe5a453f02a3b4af93df431-dirty",
+  "seed_base": 20260930,
+  "seed_range": [
+    20260930,
+    20260953
+  ],
+  "n_replicates_requested": 24,
+  "n_replicates_completed": 24,
+  "n_failures": 0,
+  "failures": [],
+  "backend": {
+    "python": "3.11.15",
+    "numpy": "2.4.4",
+    "platform": "Linux-6.18.5-fc-v20-x86_64-with-glibc2.39"
+  },
+  "tolerances": {
+    "rank": 0.005,
+    "sd_units": 0.001
+  },
+  "monte_carlo_se": {
+    "note": "deterministic comparison; no Monte Carlo error"
+  },
+  "degeneracy_counts": {
+    "audit_passed": true,
+    "max_rank_diff": 0.004349311538945355,
+    "coverage_disagreements": 0
+  },
+  "artifacts": [
+    "/home/claude/thesis-reliability/results/summaries/phase3_reference_audit.csv",
+    "/home/claude/thesis-reliability/results/summaries/phase3_reference_audit_summary.csv"
+  ],
+  "wall_seconds": 290.1042685508728,
+  "created_utc": "2026-08-13T14:40:46Z",
+  "notes": "Adequacy of the production fixed-resolution reference, audited on the hardest histories in the study."
+}

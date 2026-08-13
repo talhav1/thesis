@@ -1,0 +1,50 @@
+Phase 3B pseudo-truth: 88 cells, 100 bootstrap draws each
+  [pseudo] 10/88   28.5s (eta  222.1s)
+  [pseudo] 20/88   51.8s (eta  176.1s)
+  [pseudo] 30/88   80.2s (eta  155.1s)
+  [pseudo] 40/88  106.9s (eta  128.3s)
+  [pseudo] 50/88  141.9s (eta  107.8s)
+  [pseudo] 60/88  180.9s (eta   84.4s)
+  [pseudo] 70/88  242.6s (eta   62.4s)
+  [pseudo] 80/88  292.0s (eta   29.2s)
+  [pseudo] 88/88  313.4s (eta    0.0s)
+
+=== H4: spread of pseudo-true quantiles across policies (Block I, s3) ===
+         dgp target  physical  pseudo_min  pseudo_max   spread  spread_se  policy_at_min policy_at_max  max_abs_pseudo_minus_physical
+    tail_1.0  q0.99    42.859      37.125      39.592    2.467      0.079   fixed_design  uniform_grid                          5.734
+   robit_1.0  q0.99    42.550      37.648      39.960    2.312      0.050   fixed_design  uniform_grid                          4.902
+    tail_1.0  q0.95    37.935      35.045      36.925    1.880      0.058   fixed_design  uniform_grid                          2.890
+   robit_1.0  q0.95    36.505      35.408      37.053    1.645      0.038   fixed_design  uniform_grid                          1.096
+   robit_0.5  q0.99    39.738      37.307      38.699    1.392      0.043   fixed_design  uniform_grid                          2.431
+ cloglog_1.0  q0.99    34.935      36.048      37.245    1.197      0.082  entropy_q0.95  uniform_grid                          2.310
+    tail_0.5  q0.99    39.919      37.076      38.266    1.191      0.102   fixed_design entropy_q0.95                          2.843
+   robit_0.5  q0.95    35.577      35.167      36.156    0.989      0.032   fixed_design  uniform_grid                          0.579
+    tail_0.5  q0.95    36.435      35.008      35.908    0.900      0.029   fixed_design  uniform_grid                          1.427
+ cloglog_1.0  q0.95    33.815      34.121      34.936    0.815      0.063  entropy_q0.95  uniform_grid                          1.122
+logistic_1.0  q0.99    38.639      37.305      38.101    0.795      0.021   fixed_design  uniform_grid                          1.333
+ cloglog_0.5  q0.99    36.197      36.489      37.195    0.706      0.041  entropy_q0.95  uniform_grid                          0.998
+logistic_1.0  q0.95    35.535      35.166      35.730    0.565      0.016   fixed_design  uniform_grid                          0.370
+    tail_1.0   q0.5    30.000      29.937      30.487    0.551      0.044  entropy_q0.95  uniform_grid                          0.487
+ cloglog_0.5  q0.95    34.335      34.506      34.993    0.487      0.030  entropy_q0.95  uniform_grid                          0.658
+logistic_0.5  q0.99    37.816      37.141      37.577    0.437      0.013   fixed_design  uniform_grid                          0.675
+    beta_cdf  q0.99    38.928      38.591      38.961    0.370      0.018   uniform_grid  fixed_design                          0.337
+ cloglog_1.0   q0.5    30.000      29.364      29.699    0.336      0.023   uniform_grid  fixed_design                          0.636
+logistic_0.5  q0.95    35.212      35.049      35.358    0.309      0.010   fixed_design  uniform_grid                          0.163
+   robit_1.0   q0.5    30.000      29.774      30.037    0.264      0.034  entropy_q0.95  uniform_grid                          0.226
+    tail_0.5   q0.5    30.000      29.997      30.250    0.253      0.024  entropy_q0.95  uniform_grid                          0.250
+    beta_cdf  q0.95    36.274      35.947      36.197    0.250      0.014   uniform_grid entropy_q0.95                          0.327
+ cloglog_0.5   q0.5    30.000      29.679      29.849    0.170      0.012   uniform_grid  fixed_design                          0.321
+    beta_cdf   q0.5    29.356      29.416      29.567    0.151      0.007   fixed_design  uniform_grid                          0.211
+   robit_0.5   q0.5    30.000      29.890      30.017    0.127      0.021  entropy_q0.95  uniform_grid                          0.110
+ mixture_1.0  q0.99    36.678      36.772      36.884    0.113      0.003   uniform_grid  fixed_design                          0.206
+logistic_1.0   q0.5    30.000      29.926      30.009    0.083      0.013  entropy_q0.95  uniform_grid                          0.074
+ mixture_1.0  q0.95    34.801      34.788      34.868    0.080      0.002   uniform_grid  fixed_design                          0.066
+ mixture_0.5  q0.99    36.830      36.877      36.932    0.055      0.001   uniform_grid  fixed_design                          0.101
+logistic_0.5   q0.5    30.000      29.960      30.003    0.043      0.007  entropy_q0.95  uniform_grid                          0.040
+ mixture_0.5  q0.95    34.867      34.862      34.901    0.039      0.001   uniform_grid  fixed_design                          0.034
+ mixture_1.0   q0.5    30.000      29.999      30.013    0.014      0.002   uniform_grid entropy_q0.95                          0.013
+ mixture_0.5   q0.5    30.000      29.999      30.006    0.007      0.001 entropy_vector entropy_q0.95                          0.006
+      probit  q0.99    36.979      36.979      36.979    0.000      0.000   fixed_design entropy_q0.95                          0.000
+      probit  q0.95    34.935      34.935      34.935    0.000      0.000   fixed_design entropy_q0.95                          0.000
+      probit   q0.5    30.000      30.000      30.000    0.000      0.000  entropy_q0.95  fixed_design                          0.000
+  manifest -> /home/claude/thesis-reliability/results/manifests/phase3b_pseudotruth.json

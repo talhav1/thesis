@@ -1,0 +1,23 @@
+Phase 3A pilot: 54 (mu,sigma) cells x 30 reps, n=30
+  [pilot] 6/54  115.1s (eta  920.8s)
+  [pilot] 12/54  236.6s (eta  828.2s)
+  [pilot] 18/54  345.6s (eta  691.1s)
+  [pilot] 24/54  445.2s (eta  556.5s)
+  [pilot] 30/54  578.9s (eta  463.2s)
+  [pilot] 36/54  688.1s (eta  344.1s)
+  [pilot] 42/54  809.8s (eta  231.4s)
+  [pilot] 48/54  930.3s (eta  116.3s)
+  [pilot] 54/54 1047.1s (eta    0.0s)
+
+no-overlap rate by (mu, sigma):
+mu_true     14.0  18.0  22.0  26.0  30.0  34.0  38.0  42.0  46.0
+sigma_true                                                      
+0.3         1.00  0.53  0.50  0.70  0.43  0.67  0.40  0.40  1.00
+0.6         1.00  0.20  0.07  0.07  0.00  0.07  0.07  0.10  1.00
+1.2         1.00  0.00  0.00  0.00  0.00  0.00  0.00  0.00  0.97
+3.0         0.23  0.00  0.00  0.00  0.00  0.00  0.00  0.00  0.17
+6.0         0.00  0.00  0.00  0.00  0.00  0.00  0.00  0.00  0.03
+12.0        0.00  0.00  0.00  0.00  0.00  0.00  0.00  0.00  0.00
+
+overall rate 0.1963 over 1620 histories; cells with rate >= 0.15: 16/54
+  manifest -> /home/claude/thesis-reliability/results/manifests/phase3a_pilot.json

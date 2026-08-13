@@ -1,0 +1,49 @@
+Phase 3A: generating 3340 histories over 13 strata, n=30
+  [gen] 1/13 strata  356.0s (eta 4271.8s)
+  [gen] 2/13 strata  393.0s (eta 2161.3s)
+  [gen] 3/13 strata  716.7s (eta 2389.0s)
+  [gen] 4/13 strata  738.1s (eta 1660.8s)
+  [gen] 5/13 strata 1032.4s (eta 1651.8s)
+  [gen] 6/13 strata 1099.7s (eta 1283.0s)
+  [gen] 7/13 strata 1306.7s (eta 1120.0s)
+  [gen] 8/13 strata 1472.2s (eta  920.1s)
+  [gen] 9/13 strata 1475.0s (eta  655.5s)
+  [gen] 10/13 strata 1640.5s (eta  492.1s)
+  [gen] 11/13 strata 1667.0s (eta  303.1s)
+  [gen] 12/13 strata 1854.3s (eta  154.5s)
+  [gen] 13/13 strata 1889.9s (eta    0.0s)
+
+generated 3340, no-overlap 2275 (0.681)
+retained 3304 histories (2275 cases, 1029 controls)
+  [ref] 5/83 chunks   87.0s (eta 1357.3s)
+  [ref] 10/83 chunks  147.3s (eta 1075.3s)
+  [ref] 15/83 chunks  247.6s (eta 1122.4s)
+  [ref] 20/83 chunks  333.5s (eta 1050.5s)
+  [ref] 25/83 chunks  444.6s (eta 1031.5s)
+  [ref] 30/83 chunks  547.3s (eta  967.0s)
+  [ref] 35/83 chunks  682.4s (eta  935.8s)
+  [ref] 40/83 chunks  769.1s (eta  826.7s)
+  [ref] 45/83 chunks  875.0s (eta  738.9s)
+  [ref] 50/83 chunks  955.9s (eta  630.9s)
+  [ref] 55/83 chunks 1069.7s (eta  544.6s)
+  [ref] 60/83 chunks 1145.2s (eta  439.0s)
+  [ref] 65/83 chunks 1257.8s (eta  348.3s)
+  [ref] 70/83 chunks 1397.0s (eta  259.4s)
+  [ref] 75/83 chunks 1462.1s (eta  156.0s)
+  [ref] 80/83 chunks 1538.2s (eta   57.7s)
+  [ref] 83/83 chunks 1571.2s (eta    0.0s)
+
+            arm                mechanism target    n  cov_particle  cov_reference  cov_diff  cov_diff_se  mean_shift_in_ref_sd  sd_ratio_mean
+     no_overlap         steep_in_support   q0.5 1320        0.8864         0.9735   -0.0871       0.0080                0.1948         0.8433
+     no_overlap         steep_in_support  q0.95 1320        0.4182         0.9795   -0.5614       0.0137                0.6064         0.8423
+     no_overlap         steep_in_support  q0.99 1320        0.2811         0.9902   -0.7091       0.0125                0.6614         0.8420
+     no_overlap truth_at_or_outside_grid   q0.5  955        0.9916         1.0000   -0.0084       0.0030                0.0979         0.9187
+     no_overlap truth_at_or_outside_grid  q0.95  955        0.9047         0.9958   -0.0911       0.0093                0.1611         0.8962
+     no_overlap truth_at_or_outside_grid  q0.99  955        0.8618         0.9990   -0.1372       0.0111                0.1888         0.8973
+overlap_control         steep_in_support   q0.5 1024        0.9736         0.9893   -0.0156       0.0041                0.0924         0.9786
+overlap_control         steep_in_support  q0.95 1024        0.6113         0.8740   -0.2627       0.0140                0.1739         0.9661
+overlap_control         steep_in_support  q0.99 1024        0.4814         0.8457   -0.3643       0.0152                0.1835         0.9625
+overlap_control truth_at_or_outside_grid   q0.5    5        1.0000         1.0000    0.0000       0.0000                0.1381         0.9536
+overlap_control truth_at_or_outside_grid  q0.95    5        0.8000         0.8000    0.0000       0.0000                0.0823         0.9274
+overlap_control truth_at_or_outside_grid  q0.99    5        0.8000         0.8000    0.0000       0.0000                0.1474         0.9229
+  manifest -> /home/claude/thesis-reliability/results/manifests/phase3a_nooverlap.json

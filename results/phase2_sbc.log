@@ -1,0 +1,84 @@
+Phase 2 SBC: 600 draws x 2 policies, n=30
+  [sbc] 1/60 chunks   16.0s (eta  942.5s)
+  [sbc] 2/60 chunks   16.5s (eta  479.8s)
+  [sbc] 3/60 chunks   32.2s (eta  612.6s)
+  [sbc] 4/60 chunks   37.3s (eta  522.2s)
+  [sbc] 5/60 chunks   48.1s (eta  529.3s)
+  [sbc] 6/60 chunks   54.0s (eta  485.6s)
+  [sbc] 7/60 chunks   65.6s (eta  496.6s)
+  [sbc] 8/60 chunks   70.9s (eta  460.9s)
+  [sbc] 9/60 chunks   82.7s (eta  468.6s)
+  [sbc] 10/60 chunks   91.6s (eta  458.0s)
+  [sbc] 11/60 chunks   99.0s (eta  440.9s)
+  [sbc] 12/60 chunks  108.4s (eta  433.5s)
+  [sbc] 13/60 chunks  114.9s (eta  415.2s)
+  [sbc] 14/60 chunks  125.8s (eta  413.3s)
+  [sbc] 15/60 chunks  131.7s (eta  395.0s)
+  [sbc] 16/60 chunks  143.6s (eta  394.8s)
+  [sbc] 17/60 chunks  148.2s (eta  374.9s)
+  [sbc] 18/60 chunks  160.2s (eta  373.9s)
+  [sbc] 19/60 chunks  163.3s (eta  352.4s)
+  [sbc] 20/60 chunks  175.0s (eta  350.1s)
+  [sbc] 21/60 chunks  187.8s (eta  348.9s)
+  [sbc] 22/60 chunks  195.1s (eta  337.0s)
+  [sbc] 23/60 chunks  203.8s (eta  327.9s)
+  [sbc] 24/60 chunks  211.6s (eta  317.4s)
+  [sbc] 25/60 chunks  220.0s (eta  308.0s)
+  [sbc] 26/60 chunks  233.3s (eta  305.0s)
+  [sbc] 27/60 chunks  237.1s (eta  289.7s)
+  [sbc] 28/60 chunks  249.2s (eta  284.8s)
+  [sbc] 29/60 chunks  253.6s (eta  271.1s)
+  [sbc] 30/60 chunks  265.9s (eta  265.9s)
+  [sbc] 31/60 chunks  328.6s (eta  307.4s)
+  [sbc] 32/60 chunks  333.2s (eta  291.5s)
+  [sbc] 33/60 chunks  383.0s (eta  313.4s)
+  [sbc] 34/60 chunks  402.4s (eta  307.7s)
+  [sbc] 35/60 chunks  449.2s (eta  320.9s)
+  [sbc] 36/60 chunks  474.8s (eta  316.5s)
+  [sbc] 37/60 chunks  515.2s (eta  320.2s)
+  [sbc] 38/60 chunks  537.9s (eta  311.4s)
+  [sbc] 39/60 chunks  575.4s (eta  309.8s)
+  [sbc] 40/60 chunks  618.7s (eta  309.3s)
+  [sbc] 41/60 chunks  643.0s (eta  298.0s)
+  [sbc] 42/60 chunks  691.1s (eta  296.2s)
+  [sbc] 43/60 chunks  701.9s (eta  277.5s)
+  [sbc] 44/60 chunks  759.0s (eta  276.0s)
+  [sbc] 45/60 chunks  764.2s (eta  254.7s)
+  [sbc] 46/60 chunks  852.0s (eta  259.3s)
+  [sbc] 47/60 chunks  856.2s (eta  236.8s)
+  [sbc] 48/60 chunks  911.3s (eta  227.8s)
+  [sbc] 49/60 chunks  915.0s (eta  205.4s)
+  [sbc] 50/60 chunks  987.6s (eta  197.5s)
+  [sbc] 51/60 chunks  996.9s (eta  175.9s)
+  [sbc] 52/60 chunks 1057.8s (eta  162.7s)
+  [sbc] 53/60 chunks 1068.4s (eta  141.1s)
+  [sbc] 54/60 chunks 1115.7s (eta  124.0s)
+  [sbc] 55/60 chunks 1116.5s (eta  101.5s)
+  [sbc] 56/60 chunks 1187.2s (eta   84.8s)
+  [sbc] 57/60 chunks 1194.5s (eta   62.9s)
+  [sbc] 58/60 chunks 1250.5s (eta   43.1s)
+  [sbc] 59/60 chunks 1260.6s (eta   21.4s)
+  [sbc] 60/60 chunks 1329.0s (eta    0.0s)
+
+        policy  backend target   n  ks_stat     ks_p  ks_band_95   chi2_p  rank_mean  rank_mean_se  coverage  coverage_se  passes_ks_05
+  uniform_grid      ref     mu 600 0.021836 0.931123     0.05544 0.867823   0.498426      0.011852  0.948333     0.009037          True
+  uniform_grid      ref  sigma 600 0.037244 0.367008     0.05544 0.023203   0.490215      0.011721  0.968333     0.007149          True
+  uniform_grid      ref   q0.5 600 0.021836 0.931123     0.05544 0.867823   0.498426      0.011852  0.948333     0.009037          True
+  uniform_grid      ref  q0.95 600 0.046705 0.141385     0.05544 0.277671   0.486036      0.011593  0.956667     0.008312          True
+  uniform_grid      ref  q0.99 600 0.045770 0.156930     0.05544 0.206581   0.486710      0.011594  0.958333     0.008158          True
+  uniform_grid particle     mu 600 0.028384 0.708009     0.05544 0.902004   0.497383      0.011839  0.943333     0.009439          True
+  uniform_grid particle  sigma 600 0.052143 0.073894     0.05544 0.137792   0.478464      0.012033  0.938333     0.009820          True
+  uniform_grid particle   q0.5 600 0.028384 0.708009     0.05544 0.902004   0.497383      0.011839  0.943333     0.009439          True
+  uniform_grid particle  q0.95 600 0.060474 0.023810     0.05544 0.585351   0.477275      0.011744  0.950000     0.008898         False
+  uniform_grid particle  q0.99 600 0.051529 0.079800     0.05544 0.478399   0.477632      0.011779  0.950000     0.008898          True
+entropy_vector      ref     mu 600 0.039375 0.302114     0.05544 0.517989   0.480942      0.011713  0.945000     0.009307          True
+entropy_vector      ref  sigma 600 0.021486 0.938942     0.05544 0.535833   0.492989      0.011704  0.951667     0.008756          True
+entropy_vector      ref   q0.5 600 0.039375 0.302114     0.05544 0.517989   0.480942      0.011713  0.945000     0.009307          True
+entropy_vector      ref  q0.95 600 0.033574 0.497600     0.05544 0.643895   0.483338      0.011843  0.953333     0.008611          True
+entropy_vector      ref  q0.99 600 0.028235 0.714083     0.05544 0.949580   0.485696      0.011841  0.955000     0.008463          True
+entropy_vector particle     mu 600 0.047725 0.125874     0.05544 0.688151   0.478967      0.011786  0.945000     0.009307          True
+entropy_vector particle  sigma 600 0.038361 0.331913     0.05544 0.423134   0.487572      0.011981  0.930000     0.010416          True
+entropy_vector particle   q0.5 600 0.047725 0.125874     0.05544 0.688151   0.478967      0.011786  0.945000     0.009307          True
+entropy_vector particle  q0.95 600 0.045486 0.161914     0.05544 0.899375   0.481542      0.011968  0.945000     0.009307          True
+entropy_vector particle  q0.99 600 0.039844 0.288964     0.05544 0.767930   0.483094      0.012004  0.938333     0.009820          True
+  manifest -> /home/claude/thesis-reliability/results/manifests/phase2_sbc.json

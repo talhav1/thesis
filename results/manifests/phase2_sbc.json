@@ -1,0 +1,141 @@
+{
+  "experiment": "phase2_sbc",
+  "config_hash": "917fd566eb63323a",
+  "config": {
+    "policies": [
+      "uniform_grid",
+      "entropy_vector"
+    ],
+    "n_draws": 600,
+    "n_steps": 30,
+    "targets": [
+      "mu",
+      "sigma",
+      "q0.5",
+      "q0.95",
+      "q0.99"
+    ],
+    "n_particles": 10000,
+    "example_config": {
+      "policy": "uniform_grid",
+      "prior": {
+        "mu0": 30.0,
+        "sigma_mu": 6.0,
+        "log_alpha0": -2.5257286443082556,
+        "tau": 0.75,
+        "tau_is_variance": true,
+        "dependent": false,
+        "name": "well_independent"
+      },
+      "curve": {
+        "family": "probit",
+        "mu": 30.0,
+        "sigma": 3.0
+      },
+      "calibration": "well",
+      "n_steps": 30,
+      "slices": [
+        30
+      ],
+      "n_particles": 10000,
+      "targets": [
+        "mu",
+        "sigma",
+        "q0.5",
+        "q0.95",
+        "q0.99"
+      ],
+      "credible_level": 0.95,
+      "rejuvenate": true,
+      "policy_kwargs": {},
+      "grid_points": 200,
+      "grid_half_width": 14.0,
+      "reference_at_slices": [],
+      "reference_tol": 0.001,
+      "reference_n_max": 1025,
+      "bruceton_step": 2.0
+    }
+  },
+  "git_commit": "f6de1ab9c9fbe743d8d248d3108294d096e26afe-dirty",
+  "seed_base": 20260814,
+  "seed_range": [
+    20260814,
+    20262013
+  ],
+  "n_replicates_requested": 1200,
+  "n_replicates_completed": 1200,
+  "n_failures": 0,
+  "failures": [],
+  "backend": {
+    "python": "3.11.15",
+    "numpy": "2.4.4",
+    "platform": "Linux-6.18.5-fc-v20-x86_64-with-glibc2.39"
+  },
+  "tolerances": {
+    "reference_tol": 0.001,
+    "reference_n_max": 1025,
+    "ks_alpha": 0.05
+  },
+  "monte_carlo_se": {
+    "rank_mean::uniform_grid::ref::mu": 0.01185249481366833,
+    "rank_mean::uniform_grid::ref::sigma": 0.011721028514724346,
+    "rank_mean::uniform_grid::ref::q0.5": 0.01185249481366833,
+    "rank_mean::uniform_grid::ref::q0.95": 0.011592893468579953,
+    "rank_mean::uniform_grid::ref::q0.99": 0.011593977687770502,
+    "rank_mean::uniform_grid::particle::mu": 0.011839374670953556,
+    "rank_mean::uniform_grid::particle::sigma": 0.012033423879669122,
+    "rank_mean::uniform_grid::particle::q0.5": 0.011839374670953556,
+    "rank_mean::uniform_grid::particle::q0.95": 0.011744065964694683,
+    "rank_mean::uniform_grid::particle::q0.99": 0.011778555814665815,
+    "rank_mean::entropy_vector::ref::mu": 0.011713199403501656,
+    "rank_mean::entropy_vector::ref::sigma": 0.01170353659874159,
+    "rank_mean::entropy_vector::ref::q0.5": 0.011713199403501656,
+    "rank_mean::entropy_vector::ref::q0.95": 0.011843360566548167,
+    "rank_mean::entropy_vector::ref::q0.99": 0.011840628911145986,
+    "rank_mean::entropy_vector::particle::mu": 0.011786186399781731,
+    "rank_mean::entropy_vector::particle::sigma": 0.011981262730235462,
+    "rank_mean::entropy_vector::particle::q0.5": 0.011786186399781731,
+    "rank_mean::entropy_vector::particle::q0.95": 0.011968285242489189,
+    "rank_mean::entropy_vector::particle::q0.99": 0.01200423121229112,
+    "coverage::uniform_grid::ref::mu": 0.009036704987828086,
+    "coverage::uniform_grid::ref::sigma": 0.007148879736118199,
+    "coverage::uniform_grid::ref::q0.5": 0.009036704987828086,
+    "coverage::uniform_grid::ref::q0.95": 0.008312195413522988,
+    "coverage::uniform_grid::ref::q0.99": 0.008157875086438005,
+    "coverage::uniform_grid::particle::mu": 0.009438887253940082,
+    "coverage::uniform_grid::particle::sigma": 0.009820377529138826,
+    "coverage::uniform_grid::particle::q0.5": 0.009438887253940082,
+    "coverage::uniform_grid::particle::q0.95": 0.008897565210026097,
+    "coverage::uniform_grid::particle::q0.99": 0.008897565210026097,
+    "coverage::entropy_vector::ref::mu": 0.009307255234493146,
+    "coverage::entropy_vector::ref::sigma": 0.008755685983236098,
+    "coverage::entropy_vector::ref::q0.5": 0.009307255234493146,
+    "coverage::entropy_vector::ref::q0.95": 0.008610931897776692,
+    "coverage::entropy_vector::ref::q0.99": 0.008463155439905381,
+    "coverage::entropy_vector::particle::mu": 0.009307255234493146,
+    "coverage::entropy_vector::particle::sigma": 0.010416333327999827,
+    "coverage::entropy_vector::particle::q0.5": 0.009307255234493146,
+    "coverage::entropy_vector::particle::q0.95": 0.009307255234493146,
+    "coverage::entropy_vector::particle::q0.99": 0.009820377529138826
+  },
+  "degeneracy_counts": {
+    "degenerate_all_equal": 9,
+    "degenerate_no_overlap": 242,
+    "degenerate_low_ess": 45,
+    "degenerate_particle_invalid": 1199,
+    "all_zero": 6,
+    "all_one": 3,
+    "overlap": 958,
+    "n_rows": 1200,
+    "ref_not_converged": 91,
+    "ref_max_delta_worst": 0.00786530124771978
+  },
+  "artifacts": [
+    "/home/claude/thesis-reliability/results/raw/phase2_sbc_raw.parquet",
+    "/home/claude/thesis-reliability/results/summaries/phase2_sbc_uniformity.csv",
+    "/home/claude/thesis-reliability/results/summaries/phase2_coverage_stratified.csv"
+  ],
+  "wall_seconds": 1329.222695350647,
+  "created_utc": "2026-08-13T09:33:55Z",
+  "notes": "SBC with the adaptive policy inside the simulator; reference and particle backends on identical histories."
+}

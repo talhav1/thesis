@@ -1,0 +1,31 @@
+At Rotem's stated settings (c = 0.1 sd, R = 100):
+target  c_fraction   R  exact_max  exact_argmax_x  est_argmax_x  argmax_matches  exact_value_at_est_argmax  criterion_efficiency  mean_bias  max_abs_error  bias_over_exact_max  frac_negative  min_estimate  corr_with_exact  density_integral
+ sigma     0.10000 100    0.01705        44.00000      16.00000           False                    0.01705               1.00000   -0.00472        0.00547             -0.27702        0.36500      -0.00444          0.99644           1.00651
+    mu     0.10000 100    0.34196        29.92965      29.92965            True                    0.34196               1.00000   -0.00163        0.00733             -0.00477        0.00000       0.03824          0.99928           0.99190
+
+Bias vs bandwidth (R = 100):
+target             mu      sigma
+c_fraction                      
+0.02        -0.000124  -0.011570
+0.05        -0.000357  -0.006872
+0.10        -0.001629  -0.004724
+0.20        -0.004882   0.000386
+0.40        -0.016254   0.017520
+
+Criterion efficiency -- exact criterion value at the stimulus the estimate picks, relative to the exact optimum:
+R                      50       100      200      400
+target c_fraction                                    
+mu     0.02        1.00000  1.00000  1.00000  1.00000
+       0.05        0.99955  1.00000  1.00000  1.00000
+       0.10        0.99955  1.00000  1.00000  1.00000
+       0.20        0.99955  1.00000  1.00000  1.00000
+       0.40        0.99955  1.00000  1.00000  1.00000
+sigma  0.02        1.00000  1.00000  1.00000  1.00000
+       0.05        1.00000  1.00000  1.00000  1.00000
+       0.10        1.00000  1.00000  1.00000  1.00000
+       0.20        1.00000  1.00000  1.00000  0.98527
+       0.40        0.00006  0.00006  0.00006  0.00006
+
+exact max I(sigma;Y) = 0.01705 nats   exact max I(mu;Y) = 0.34196 nats   max I((mu,sigma);Y) = 0.39801 nats
+I(sigma;Y) is exactly 0 at x = mu0 = 30.0 (computed 1.08e-06) and rises monotonically to the grid edges -- so the sigma-targeted design is driven to whatever bounds the experimenter chose.
+  manifest -> /home/claude/thesis-reliability/results/manifests/phase1_quadrature_audit.json
