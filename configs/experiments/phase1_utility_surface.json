@@ -1,0 +1,14 @@
+{
+  "experiment": "phase1_utility_surface",
+  "seed_base": 20260813,
+  "note": "Quantile-indexed utility surface U_p(r; H_n).",
+  "_provenance": {
+    "reconstructed_from": "results/manifests/phase1_utility_surface.json",
+    "legacy_git_commit": "f6de1ab9c9fbe743d8d248d3108294d096e26afe-dirty",
+    "legacy_config_hash": "250f9ddf7be9ac9e",
+    "legacy_n_replicates_requested": 1,
+    "replicates_basis": "no replicate argument",
+    "caveat": "Reconstructed from a manifest recorded against a dirty tree. It states what the run reported, not a verified pin. The first re-run from a clean tree supersedes this block.",
+    "UNRESOLVED": "replicates deliberately omitted: the legacy manifest's count cannot be mapped to the script's per-cell argument. The script default applies until this is settled."
+  }
+}

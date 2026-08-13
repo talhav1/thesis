@@ -342,3 +342,74 @@ criterion; cells A and B stopped at the 300-replicate cap with false-certainty
 standard errors of 0.025 and 0.018. The effects reported are 4–9 standard errors, so
 the shortfall does not affect any conclusion, but the pre-registered precision was not
 met for two of three confirmatory cells and no claim should be quoted at 0.008.
+
+---
+
+### D19 — Provenance: every legacy manifest is unpinned
+
+All 13 manifests written before the provenance contract record a git commit ending in
+`-dirty`, so no result in the project is tied to a committed state of the source. This
+is not hypothetical: the bisection settings in `GridPosterior._invert_cdf` (`n_iter`
+20→14, `rtol` $10^{-4}$→$10^{-3}$ of a posterior SD, bracket 0.05→0.25 SD) changed in
+commit `9f1d16f`, which is the commit *containing* the Phase 3A outputs. Phase 3A and
+3B interval widths are therefore not comparable and cannot be made so retrospectively.
+Coverage, rank statistics and SBC are unaffected, because `covered()` is read off the
+rank statistic rather than off the inverted interval (DEC-3).
+
+**Fixed forward.** `src/provenance.require_clean_tree` refuses to start a run from a
+dirty tree; `--allow-dirty` records `provenance.allow_dirty: true` in the manifest.
+Legacy manifests are grandfathered by `tools/manifest_lint.py` rather than rewritten
+(DEC-10) — back-filling a clean commit would fabricate provenance the run never had.
+
+---
+
+### D20 — Provenance: no run identifier, and `seed_range` was fictional
+
+No legacy manifest carries a `run_id`; the identifying tuple was (manifest file, config
+hash, git commit, `seed_base`, `created_utc`). Every legacy manifest *does* carry a
+contiguous `seed_range`, which was never used: the code seeds with
+`default_rng([seed_base, replicate])`, plus CRN streams
+`default_rng([crn_seed, replicate, 0xC0FFEE])` and `[crn_seed, replicate, 0xB0BB1E]`.
+The `seed_base` was authoritative and the range decorative.
+
+**Fixed forward.** Manifests carry a `run_id` used as the filename stem, and
+`seed_rule` states the scheme verbatim; `tests/test_provenance.py` asserts that string
+still matches `src/simulator`. The `seed_range` field is removed and the linter rejects
+it.
+
+---
+
+### D21 — 28 of 31 manifest-referenced artifacts are absent from the repository
+
+Manifests reference 31 artifacts. Three are present. Every raw parquet is missing, as
+are 19 of 22 summary CSVs — including `phase2_sbc_uniformity.csv`,
+`phase3b_screen_summary.csv`, `phase3b_confirm_summary.csv` and
+`phase3a_stratified.csv`, which are the named evidence for C3, C5, C6 and C7.
+
+`MEETING_RESULTS.md` states its ground truth is `results/summaries/*.csv` and
+`results/raw/*.parquet`. From the repository as published, that ground truth cannot be
+consulted, so none of C2–C10 is independently checkable. Legacy manifests compound this
+by recording absolute paths from a machine that no longer exists
+(`/home/claude/thesis-reliability/...`), which would not resolve even if a file were
+recovered.
+
+This is the largest open gap in the project. Options and recommendation are in
+`docs/claims.md` §Reproducibility gap. New manifests record repo-relative paths, and
+the linter checks that each referenced artifact exists on disk.
+
+---
+
+### D22 — `n_replicates_requested` mixes per-cell and total counts across manifests
+
+`phase1_baseline` records 8,500 (250 replicates × 34 cells) while `phase3b_confirm`
+records 900 (300 × 3 slices) and `phase3_reference_audit` records 24 (the script
+argument directly). The field therefore cannot be fed back into a script's replicate
+argument without knowing which convention a given manifest used, and for
+`phase3a_attribution` (200) and `phase3b_pseudotruth` (88) the per-cell value is not
+recoverable from the manifest at all.
+
+**Fixed forward.** `replicates_unit` declares the convention, and the linter flags any
+manifest where `n_replicates_completed` exceeds `n_replicates_requested` while still
+claiming the unit is replicates — the signature of a row count. The reconstructed
+configs in `configs/experiments/` state their `replicates_basis`, and the two
+unrecoverable cases carry an explicit `UNRESOLVED` block instead of a guessed number.

@@ -1,0 +1,15 @@
+{
+  "experiment": "phase3b_screen",
+  "replicates": 30,
+  "seed_base": 20260910,
+  "crn_seed": 313001,
+  "note": "Exploratory screening tier of the Phase 3B failure atlas.",
+  "_provenance": {
+    "reconstructed_from": "results/manifests/phase3b_screen.json",
+    "legacy_git_commit": "9f1d16fb6e73afaee5a33847b95f6e122d5fa4a5-dirty",
+    "legacy_config_hash": "f74b7cab5bcaa45f",
+    "legacy_n_replicates_requested": 2320,
+    "replicates_basis": "screening tier, 30 replicates per cell; 6,960 legacy 'completed' = 2,320 x 3 slices (MEETING_RESULTS S3.4 item 8)",
+    "caveat": "Reconstructed from a manifest recorded against a dirty tree. It states what the run reported, not a verified pin. The first re-run from a clean tree supersedes this block."
+  }
+}

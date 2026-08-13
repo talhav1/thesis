@@ -31,14 +31,17 @@ os.environ.setdefault("OPENBLAS_NUM_THREADS", "1")
 import numpy as np  # noqa: E402
 import pandas as pd  # noqa: E402
 from _runner import RESULTS, save_csv, write_manifest  # noqa: E402
+from _cli import parse as _parse_cli  # noqa: E402
 
 from src.posterior_grid import build_reference_posterior  # noqa: E402
 from src.priors import rotem_prior  # noqa: E402
 from src.response_models import ProbitCurve  # noqa: E402
 
-SEED = 20260930
+RUN = _parse_cli("phase3_reference_audit", replicates=24, seed_base=20260930)
+
 TARGETS = ("q0.5", "q0.95", "q0.99")
-N_SAMPLE = int(sys.argv[1]) if len(sys.argv) > 1 else 24
+N_SAMPLE = RUN.replicates
+SEED = RUN.seed_base
 PRODUCTION_N = 513
 AUDIT_N = 2049
 TOL_SD = 1e-3

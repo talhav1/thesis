@@ -31,14 +31,17 @@ from _runner import (  # noqa: E402
     save_csv,
     write_manifest,
 )
+from _cli import parse as _parse_cli  # noqa: E402
 
 from src.priors import rotem_prior  # noqa: E402
 from src.response_models import BetaCDFCurve  # noqa: E402
 from src.simulator import ExperimentConfig  # noqa: E402
 
-N_REPLICATES = int(sys.argv[1]) if len(sys.argv) > 1 else 400
-SEED_BASE = 20260813
-CRN_SEED = 777001
+RUN = _parse_cli("phase1_baseline", replicates=400, seed_base=20260813, crn_seed=777001)
+
+N_REPLICATES = RUN.replicates
+SEED_BASE = RUN.seed_base
+CRN_SEED = RUN.crn_seed
 N_STEPS = 30
 SLICES = (20, 30)
 

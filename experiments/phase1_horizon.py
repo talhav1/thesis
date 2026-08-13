@@ -16,13 +16,16 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 import numpy as np  # noqa: E402
 import pandas as pd  # noqa: E402
 from _runner import degeneracy_counts, mse_with_se, run_jobs, save, save_csv, write_manifest  # noqa: E402
+from _cli import parse as _parse_cli  # noqa: E402
 
 from src.priors import rotem_prior  # noqa: E402
 from src.simulator import ExperimentConfig  # noqa: E402
 
-N_REPLICATES = int(sys.argv[1]) if len(sys.argv) > 1 else 120
-SEED_BASE = 20260816
-CRN_SEED = 990001
+RUN = _parse_cli("phase1_horizon", replicates=120, seed_base=20260816, crn_seed=990001)
+
+N_REPLICATES = RUN.replicates
+SEED_BASE = RUN.seed_base
+CRN_SEED = RUN.crn_seed
 POLICIES = ["entropy_vector", "entropy_q0.95", "dror_steinberg"]
 TARGETS = ("mu", "sigma", "q0.5", "q0.95", "q0.99")
 

@@ -37,15 +37,18 @@ import multiprocessing as mp  # noqa: E402
 import numpy as np  # noqa: E402
 import pandas as pd  # noqa: E402
 from _runner import N_WORKERS, RESULTS, save_csv, write_manifest  # noqa: E402
+from _cli import parse as _parse_cli  # noqa: E402
 from phase3b_screen import BLOCK_I_DGPS, BLOCK_II_DGPS  # noqa: E402
 
 from src.priors import rotem_stimulus_grid  # noqa: E402
 from src.pseudo_truth import design_distribution_summary, projection_with_bootstrap  # noqa: E402
 from src.simulator import build_curve  # noqa: E402
 
-SEED_BASE = 20260920
+RUN = _parse_cli("phase3b_pseudotruth", replicates=120, seed_base=20260920)
+
+SEED_BASE = RUN.seed_base
 TARGETS = ("q0.5", "q0.95", "q0.99")
-N_BOOT = int(sys.argv[1]) if len(sys.argv) > 1 else 120
+N_BOOT = RUN.replicates
 CURVES = dict(BLOCK_I_DGPS + BLOCK_II_DGPS)
 
 

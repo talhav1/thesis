@@ -38,14 +38,17 @@ from _runner import (  # noqa: E402
     save_csv,
     write_manifest,
 )
+from _cli import parse as _parse_cli  # noqa: E402
 
 from src.calibration import coverage_report, quantile_bin, stratified_coverage  # noqa: E402
 from src.priors import rotem_prior  # noqa: E402
 from src.simulator import ExperimentConfig  # noqa: E402
 
-N_REPLICATES = int(sys.argv[1]) if len(sys.argv) > 1 else 200
-SEED_BASE = 20260815
-CRN_SEED = 880001
+RUN = _parse_cli("phase2_coverage_map", replicates=200, seed_base=20260815, crn_seed=880001)
+
+N_REPLICATES = RUN.replicates
+SEED_BASE = RUN.seed_base
+CRN_SEED = RUN.crn_seed
 N_STEPS = 30
 TARGETS = ("mu", "sigma", "q0.5", "q0.95", "q0.99")
 MU_GRID = (26.0, 30.0, 34.0)

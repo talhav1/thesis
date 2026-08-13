@@ -1,0 +1,15 @@
+{
+  "experiment": "phase3b_confirm",
+  "replicates": 300,
+  "seed_base": 20260940,
+  "crn_seed": 414001,
+  "note": "Confirmatory tier. D18: the pre-registered SE of 0.008 needs ~1,900 replicates per cell; this records the 300 actually run.",
+  "_provenance": {
+    "reconstructed_from": "results/manifests/phase3b_confirm.json",
+    "legacy_git_commit": "9f1d16fb6e73afaee5a33847b95f6e122d5fa4a5-dirty",
+    "legacy_config_hash": "9cffbc3fbaf063a9",
+    "legacy_n_replicates_requested": 900,
+    "replicates_basis": "300 replicates per cell; 900 legacy = 300 x 3 slices",
+    "caveat": "Reconstructed from a manifest recorded against a dirty tree. It states what the run reported, not a verified pin. The first re-run from a clean tree supersedes this block."
+  }
+}
