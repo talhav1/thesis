@@ -29,6 +29,7 @@ import multiprocessing as mp  # noqa: E402
 import numpy as np  # noqa: E402
 import pandas as pd  # noqa: E402
 from _runner import N_WORKERS, save_csv, write_manifest  # noqa: E402
+from _cli import parse as _parse_cli  # noqa: E402
 
 from src.diagnostics import path_summary  # noqa: E402
 from src.policies import PolicyState, build_policy  # noqa: E402
@@ -37,18 +38,14 @@ from src.response_models import ProbitCurve  # noqa: E402
 from src.rotem_particles import ParticlePosterior  # noqa: E402
 from src.simulator import latent_uniforms  # noqa: E402
 
-SEED_BASE = 20260901
+RUN = _parse_cli("phase3a_pilot", replicates=30, seed_base=20260901)
+
+# `_parse_cli` is import-safe: when another script imports this module the
+# defaults below are returned and no argv is read.
+SEED_BASE = RUN.seed_base
+REPS_PER_CELL = RUN.replicates
 N_STEPS = 30
 N_PARTICLES = 10_000
-# Guarded so that importing this module from another script (which has its
-# own argv) cannot pick up an unrelated command-line argument.
-def _arg_int(default):
-    if len(sys.argv) > 1 and Path(sys.argv[0]).name == "phase3a_pilot.py":
-        return int(sys.argv[1])
-    return default
-
-
-REPS_PER_CELL = _arg_int(30)
 MU_GRID = (14.0, 18.0, 22.0, 26.0, 30.0, 34.0, 38.0, 42.0, 46.0)
 SIGMA_GRID = (0.3, 0.6, 1.2, 3.0, 6.0, 12.0)
 

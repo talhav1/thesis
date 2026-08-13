@@ -25,6 +25,7 @@ import pandas as pd  # noqa: E402
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
 from src.manifest import RunManifest, mc_se_mean, mc_se_proportion  # noqa: E402
+from src.provenance import active_spec, new_run_id  # noqa: E402
 from src.simulator import run_batch  # noqa: E402
 
 RESULTS = Path(__file__).resolve().parent.parent / "results"
@@ -91,14 +92,36 @@ def run_jobs(jobs, n_replicates, seed_base, crn_seed, label, progress_every=5):
     return all_rows, all_failures, all_traj, time.time() - t0
 
 
-def save(df: pd.DataFrame, name: str, subdir="raw") -> Path:
+def current_run_id(experiment: str = "run") -> str:
+    """The run identifier for this process, minted once and reused."""
+    rid = os.environ.get("RUN_ID", "").strip()
+    if not rid:
+        rid = new_run_id(experiment)
+        os.environ["RUN_ID"] = rid
+    return rid
+
+
+def _stamped(name: str) -> str:
+    """Append the short run token so artefacts from different runs never
+    silently overwrite each other; the full id lives in the manifest."""
+    rid = os.environ.get("RUN_ID", "").strip()
+    if not rid or os.environ.get("STAMP_ARTIFACTS", "1") != "1":
+        return name
+    return f"{name}__{rid.rsplit('_', 1)[-1]}"
+
+
+def save(df: pd.DataFrame, name: str, subdir="raw", stamp: bool = False) -> Path:
+    if stamp:
+        name = _stamped(name)
     path = RESULTS / subdir / f"{name}.parquet"
     path.parent.mkdir(parents=True, exist_ok=True)
     df.to_parquet(path, index=False)
     return path
 
 
-def save_csv(df: pd.DataFrame, name: str, subdir="summaries") -> Path:
+def save_csv(df: pd.DataFrame, name: str, subdir="summaries", stamp: bool = False) -> Path:
+    if stamp:
+        name = _stamped(name)
     path = RESULTS / subdir / f"{name}.csv"
     path.parent.mkdir(parents=True, exist_ok=True)
     df.to_csv(path, index=False)
@@ -130,8 +153,22 @@ def mse_with_se(errors) -> tuple[float, float]:
 
 
 def write_manifest(experiment, config, seed_base, requested, completed, failures,
-                   tolerances, mc_se, degeneracies, artifacts, wall, notes=""):
+                   tolerances, mc_se, degeneracies, artifacts, wall, notes="",
+                   *, run_id=None, crn_seed=None, allow_dirty=None,
+                   replicates_unit="replicates"):
+    """Publish a manifest.  `run_id` defaults to this process's identifier so
+    the manifest, the raw table and the summaries share one key."""
+    spec = active_spec()
+    run_id = run_id or spec["run_id"] or current_run_id(experiment)
+    crn_seed = crn_seed if crn_seed is not None else spec["crn_seed"]
+    allow_dirty = spec["allow_dirty"] if allow_dirty is None else allow_dirty
+    if not notes and spec["note"]:
+        notes = spec["note"]
     man = RunManifest(
+        run_id=run_id,
+        crn_seed=crn_seed,
+        allow_dirty=allow_dirty,
+        replicates_unit=replicates_unit,
         experiment=experiment,
         config=config,
         seed_base=seed_base,
@@ -147,5 +184,5 @@ def write_manifest(experiment, config, seed_base, requested, completed, failures
         notes=notes,
     )
     path = man.write(experiment)
-    print(f"  manifest -> {path}")
+    print(f"  manifest -> {path}  (run_id={run_id})")
     return path

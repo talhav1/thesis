@@ -1,0 +1,14 @@
+{
+  "experiment": "phase3a_pilot",
+  "replicates": 30,
+  "seed_base": 20260901,
+  "note": "Phase 3A pilot grid. Screening precision only.",
+  "_provenance": {
+    "reconstructed_from": "results/manifests/phase3a_pilot.json",
+    "legacy_git_commit": "2d1c7a2720315e07afbc16eafc26b76d73432fb1-dirty",
+    "legacy_config_hash": "d90420bb1f9ca654",
+    "legacy_n_replicates_requested": 1620,
+    "replicates_basis": "30 reps per cell x 54 (9 mu x 6 sigma) = 1,620",
+    "caveat": "Reconstructed from a manifest recorded against a dirty tree. It states what the run reported, not a verified pin. The first re-run from a clean tree supersedes this block."
+  }
+}

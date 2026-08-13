@@ -40,19 +40,22 @@ import multiprocessing as mp  # noqa: E402
 import numpy as np  # noqa: E402
 import pandas as pd  # noqa: E402
 from _runner import N_WORKERS, RESULTS, _single, save, save_csv, write_manifest  # noqa: E402
+from _cli import parse as _parse_cli  # noqa: E402
 
 from src.manifest import config_hash  # noqa: E402
 from src.priors import PriorSpec, rotem_prior  # noqa: E402
 from src.simulator import ExperimentConfig  # noqa: E402
 
-SEED_BASE = 20260910
-CRN_SEED = 313001
+RUN = _parse_cli("phase3b_screen", replicates=40, seed_base=20260910, crn_seed=313001)
+
+SEED_BASE = RUN.seed_base
+CRN_SEED = RUN.crn_seed
 TARGETS = ("q0.5", "q0.95", "q0.99")
 REF_FIXED_N = 513
 N_STEPS = 50
 SLICES = (20, 30, 50)
 REF_AT = (50,)
-REPS = int(sys.argv[1]) if len(sys.argv) > 1 else 40
+REPS = RUN.replicates
 REPS_SUB = max(20, int(REPS * 0.75))
 THRESHOLD_PATH = RESULTS.parent / "configs" / "phase3_thresholds.json"
 

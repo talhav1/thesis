@@ -1,0 +1,14 @@
+{
+  "experiment": "phase3b_pseudotruth",
+  "seed_base": 20260920,
+  "note": "Policy-dependent pseudo-true parameters with bootstrap.",
+  "_provenance": {
+    "reconstructed_from": "results/manifests/phase3b_pseudotruth.json",
+    "legacy_git_commit": "9f1d16fb6e73afaee5a33847b95f6e122d5fa4a5-dirty",
+    "legacy_config_hash": "44b2e36f834b55e8",
+    "legacy_n_replicates_requested": 88,
+    "replicates_basis": "manifest reports 88; script arg is N_BOOT (default 120). Unreconciled.",
+    "caveat": "Reconstructed from a manifest recorded against a dirty tree. It states what the run reported, not a verified pin. The first re-run from a clean tree supersedes this block.",
+    "UNRESOLVED": "replicates deliberately omitted: the legacy manifest's count cannot be mapped to the script's per-cell argument. The script default applies until this is settled."
+  }
+}

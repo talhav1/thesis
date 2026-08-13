@@ -1,0 +1,14 @@
+{
+  "experiment": "phase2_sbc",
+  "replicates": 600,
+  "seed_base": 20260814,
+  "note": "Phase 2 gate: prior-predictive SBC with the adaptive policy inside the simulator.",
+  "_provenance": {
+    "reconstructed_from": "results/manifests/phase2_sbc.json",
+    "legacy_git_commit": "f6de1ab9c9fbe743d8d248d3108294d096e26afe-dirty",
+    "legacy_config_hash": "917fd566eb63323a",
+    "legacy_n_replicates_requested": 1200,
+    "replicates_basis": "600 SBC draws per (policy, target); 1,200 legacy = 600 x 2 policies",
+    "caveat": "Reconstructed from a manifest recorded against a dirty tree. It states what the run reported, not a verified pin. The first re-run from a clean tree supersedes this block."
+  }
+}

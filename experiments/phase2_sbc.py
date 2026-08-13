@@ -36,6 +36,7 @@ import multiprocessing as mp  # noqa: E402
 import numpy as np  # noqa: E402
 import pandas as pd  # noqa: E402
 from _runner import N_WORKERS, degeneracy_counts, save, save_csv, write_manifest  # noqa: E402
+from _cli import parse as _parse_cli  # noqa: E402
 
 from src.calibration import (  # noqa: E402
     coverage_report,
@@ -47,8 +48,10 @@ from src.calibration import sbc_replicate  # noqa: E402
 from src.priors import rotem_prior  # noqa: E402
 from src.simulator import ExperimentConfig  # noqa: E402
 
-N_DRAWS = int(sys.argv[1]) if len(sys.argv) > 1 else 800
-SEED_BASE = 20260814
+RUN = _parse_cli("phase2_sbc", replicates=800, seed_base=20260814)
+
+N_DRAWS = RUN.replicates
+SEED_BASE = RUN.seed_base
 N_STEPS = 30
 TARGETS = ("mu", "sigma", "q0.5", "q0.95", "q0.99")
 POLICIES = ("uniform_grid", "entropy_vector")

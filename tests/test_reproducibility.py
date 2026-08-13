@@ -117,11 +117,16 @@ def test_manifest_captures_provenance(tmp_path, monkeypatch):
     )
     path = man.write("unit-test")
     payload = json.loads(path.read_text())
-    for key in ("config_hash", "git_commit", "seed_range", "n_replicates_completed",
-                "n_failures", "monte_carlo_se", "tolerances", "backend",
-                "degeneracy_counts", "created_utc"):
+    for key in ("config_hash", "git_commit", "run_id", "provenance", "seed_rule",
+                "n_replicates_completed", "n_failures", "monte_carlo_se",
+                "tolerances", "backend", "degeneracy_counts", "created_utc"):
         assert key in payload
-    assert payload["seed_range"] == [555, 562]
+    # `seed_range` was fictional in every legacy manifest (D20): the code seeds
+    # with default_rng([seed_base, replicate]), so what is recorded now is the
+    # authoritative seed_base plus the replicate index range.
+    assert "seed_range" not in payload
+    assert payload["seed_base"] == 555
+    assert payload["replicate_index_range"] == [0, 7]
     assert payload["config_hash"] == config_hash(cfg.as_dict())
 
 

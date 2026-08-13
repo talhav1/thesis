@@ -37,6 +37,7 @@ import multiprocessing as mp  # noqa: E402
 import numpy as np  # noqa: E402
 import pandas as pd  # noqa: E402
 from _runner import N_WORKERS, RESULTS, _single, save, save_csv, write_manifest  # noqa: E402
+from _cli import parse as _parse_cli  # noqa: E402
 from phase3b_screen import (  # noqa: E402
     BLOCK_I_DGPS,
     CURVE_SCALE,
@@ -46,10 +47,12 @@ from phase3b_screen import (  # noqa: E402
 
 from src.priors import rotem_prior  # noqa: E402
 
-SEED_BASE = 20260940
-CRN_SEED = 414001
+RUN = _parse_cli("phase3b_confirm", replicates=300, seed_base=20260940, crn_seed=414001)
+
+SEED_BASE = RUN.seed_base
+CRN_SEED = RUN.crn_seed
 TARGETS = ("q0.5", "q0.95", "q0.99")
-N_REPS = int(sys.argv[1]) if len(sys.argv) > 1 else 300
+N_REPS = RUN.replicates
 BATCH = 100
 TARGET_SE = 0.008
 CELL_BUDGET_S = float(os.environ.get("CELL_BUDGET_S", "1500"))

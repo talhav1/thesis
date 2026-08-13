@@ -15,37 +15,28 @@ from __future__ import annotations
 import hashlib
 import json
 import platform
-import subprocess
 import time
 from dataclasses import asdict, dataclass, field
 from pathlib import Path
 
 import numpy as np
 
+from src.provenance import SEED_RULE, git_state, new_run_id, provenance_block
+
 REPO_ROOT = Path(__file__).resolve().parent.parent
 MANIFEST_DIR = REPO_ROOT / "results" / "manifests"
 
+#: Bumped whenever the manifest payload changes shape.  Readers should branch
+#: on this rather than probing for fields.  Schema 1 = the legacy manifests in
+#: results/manifests written before run identifiers existed; they carry a
+#: fictional `seed_range` and no `run_id`, and are grandfathered by
+#: tools/manifest_lint.py rather than rewritten.
+SCHEMA_VERSION = 2
+
 
 def git_commit() -> str:
-    try:
-        out = subprocess.run(
-            ["git", "rev-parse", "HEAD"],
-            cwd=REPO_ROOT,
-            capture_output=True,
-            text=True,
-            timeout=10,
-        )
-        commit = out.stdout.strip() or "unknown"
-        dirty = subprocess.run(
-            ["git", "status", "--porcelain"],
-            cwd=REPO_ROOT,
-            capture_output=True,
-            text=True,
-            timeout=10,
-        ).stdout.strip()
-        return commit + ("-dirty" if dirty else "")
-    except Exception:
-        return "unknown"
+    """Commit label, with a `-dirty` suffix when the tree is not pinned."""
+    return git_state().label
 
 
 def config_hash(config: dict) -> str:
@@ -67,12 +58,50 @@ def _json_default(o):
     return str(o)
 
 
+def _normalise_artifacts(artifacts) -> list:
+    """Artifacts as {role, path} records.
+
+    Accepts a bare path (role inferred from `results/<subdir>/`), a
+    (role, path) pair, or an explicit mapping.  Roles make the raw/summary/
+    figure/manifest set joinable by `run_id` without guessing from filenames.
+    """
+    def _rel(path: str) -> str:
+        """Repo-relative. Legacy manifests recorded absolute paths from a
+        machine that no longer exists, which made them unresolvable."""
+        try:
+            return str(Path(path).resolve().relative_to(REPO_ROOT))
+        except Exception:  # noqa: BLE001
+            return str(path)
+
+    out = []
+    for a in artifacts:
+        if isinstance(a, dict):
+            out.append({"role": a.get("role", "unknown"), "path": _rel(a.get("path", ""))})
+            continue
+        if isinstance(a, (tuple, list)) and len(a) == 2:
+            out.append({"role": str(a[0]), "path": _rel(a[1])})
+            continue
+        path = str(a)
+        parts = Path(path).parts
+        role = "unknown"
+        for marker in ("raw", "summaries", "figures", "manifests", "tables"):
+            if marker in parts:
+                role = {"summaries": "summary", "figures": "figure",
+                        "manifests": "manifest", "tables": "table"}.get(marker, marker)
+                break
+        out.append({"role": role, "path": _rel(path)})
+    return out
+
+
 @dataclass
 class RunManifest:
     experiment: str
     config: dict
     seed_base: int
     n_replicates_requested: int
+    run_id: str | None = None
+    crn_seed: int | None = None
+    allow_dirty: bool = False
     n_replicates_completed: int = 0
     n_failures: int = 0
     failures: list = field(default_factory=list)
@@ -83,17 +112,29 @@ class RunManifest:
     artifacts: list = field(default_factory=list)
     wall_seconds: float = 0.0
     notes: str = ""
+    #: `n_replicates_completed` means replicates by default.  Two legacy
+    #: manifests (phase1_horizon, phase3b_screen) recorded output *rows*
+    #: instead; anything that counts rows must say so here.
+    replicates_unit: str = "replicates"
 
     def finalise(self) -> dict:
+        run_id = self.run_id or new_run_id(self.experiment)
+        prov = provenance_block(run_id, allow_dirty=self.allow_dirty)
         return {
+            "schema_version": SCHEMA_VERSION,
+            "run_id": run_id,
             "experiment": self.experiment,
             "config_hash": config_hash(self.config),
             "config": self.config,
-            "git_commit": git_commit(),
+            "provenance": prov,
+            "git_commit": prov["git_commit"],
             "seed_base": self.seed_base,
-            "seed_range": [self.seed_base, self.seed_base + self.n_replicates_requested - 1],
+            "crn_seed": self.crn_seed,
+            "seed_rule": SEED_RULE,
+            "replicate_index_range": [0, max(self.n_replicates_requested - 1, 0)],
             "n_replicates_requested": self.n_replicates_requested,
             "n_replicates_completed": self.n_replicates_completed,
+            "replicates_unit": self.replicates_unit,
             "n_failures": self.n_failures,
             "failures": self.failures[:50],
             "backend": {
@@ -105,7 +146,7 @@ class RunManifest:
             "tolerances": self.tolerances,
             "monte_carlo_se": self.monte_carlo_se,
             "degeneracy_counts": self.degeneracy_counts,
-            "artifacts": [str(a) for a in self.artifacts],
+            "artifacts": _normalise_artifacts(self.artifacts),
             "wall_seconds": self.wall_seconds,
             "created_utc": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
             "notes": self.notes,
@@ -114,7 +155,7 @@ class RunManifest:
     def write(self, name: str | None = None) -> Path:
         MANIFEST_DIR.mkdir(parents=True, exist_ok=True)
         payload = self.finalise()
-        stem = name or f"{self.experiment}_{payload['config_hash']}"
+        stem = name or payload["run_id"]
         path = MANIFEST_DIR / f"{stem}.json"
         path.write_text(json.dumps(payload, indent=2, default=_json_default))
         return path

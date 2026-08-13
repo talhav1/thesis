@@ -1,0 +1,15 @@
+{
+  "experiment": "phase1_horizon",
+  "replicates": 300,
+  "seed_base": 20260816,
+  "crn_seed": 990001,
+  "note": "Phase 1 n=50 arm on one setting; checks the monotone-in-n claim.",
+  "_provenance": {
+    "reconstructed_from": "results/manifests/phase1_horizon.json",
+    "legacy_git_commit": "f6de1ab9c9fbe743d8d248d3108294d096e26afe-dirty",
+    "legacy_config_hash": "fcc744e2177e6586",
+    "legacy_n_replicates_requested": 300,
+    "replicates_basis": "900 legacy 'completed' = 300 replicates x 3 slices (MEETING_RESULTS S3.4 item 8)",
+    "caveat": "Reconstructed from a manifest recorded against a dirty tree. It states what the run reported, not a verified pin. The first re-run from a clean tree supersedes this block."
+  }
+}

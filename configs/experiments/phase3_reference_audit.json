@@ -1,0 +1,14 @@
+{
+  "experiment": "phase3_reference_audit",
+  "replicates": 24,
+  "seed_base": 20260930,
+  "note": "Reference-posterior adequacy audit (C9); Phase 3 adequacy rests on this.",
+  "_provenance": {
+    "reconstructed_from": "results/manifests/phase3_reference_audit.json",
+    "legacy_git_commit": "06fd5ecf586defea1fe5a453f02a3b4af93df431-dirty",
+    "legacy_config_hash": "70fbc585eba3e1f4",
+    "legacy_n_replicates_requested": 24,
+    "replicates_basis": "24-history audit, N_SAMPLE directly",
+    "caveat": "Reconstructed from a manifest recorded against a dirty tree. It states what the run reported, not a verified pin. The first re-run from a clean tree supersedes this block."
+  }
+}

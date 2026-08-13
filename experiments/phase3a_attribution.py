@@ -35,6 +35,7 @@ import multiprocessing as mp  # noqa: E402
 import numpy as np  # noqa: E402
 import pandas as pd  # noqa: E402
 from _runner import N_WORKERS, save_csv, write_manifest  # noqa: E402
+from _cli import parse as _parse_cli  # noqa: E402
 from phase3a_pilot import generate_history  # noqa: E402
 
 from src.posterior_grid import build_reference_posterior  # noqa: E402
@@ -42,11 +43,13 @@ from src.priors import rotem_prior  # noqa: E402
 from src.response_models import ProbitCurve  # noqa: E402
 from src.rotem_particles import ParticlePosterior  # noqa: E402
 
-SEED_BASE = 20260903
+RUN = _parse_cli("phase3a_attribution", replicates=60, seed_base=20260903)
+
+SEED_BASE = RUN.seed_base
 N_STEPS = 30
 TARGETS = ("q0.5", "q0.95", "q0.99")
 LEVEL = 0.95
-N_HISTORIES = int(sys.argv[1]) if len(sys.argv) > 1 else 60
+N_HISTORIES = RUN.replicates
 CELLS = ((30.0, 0.3), (22.0, 0.3), (38.0, 0.3), (30.0, 3.0))
 ARMS = (
     ("N=10k rejuv", 10_000, True, 0.1),
