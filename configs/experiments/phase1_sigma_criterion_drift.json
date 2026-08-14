@@ -1,0 +1,7 @@
+{
+  "experiment": "phase1_sigma_criterion_drift",
+  "replicates": 30,
+  "seed_base": 20260814,
+  "note": "Extends the D14 quadrature audit past step 0 using the reference grid posterior, which stays exact after the closed form dies. Settles whether entropy_sigma's edge-pinning is the criterion (D13's reading) or our section 5.3 estimator collapsing under 37-47% negative estimates.",
+  "precision_tier": "screening"
+}

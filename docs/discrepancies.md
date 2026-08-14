@@ -585,3 +585,85 @@ Both entries have been restored to this file byte-identical to their pre-deletio
 with superseded markers appended to D21 and D23 rather than edits to their bodies. No
 `results/` artifact, config or manifest was involved in either the deletion or the
 restoration.
+
+---
+
+### D26 — D13's exactness audit was step-0 only; extended past the prior, the estimator holds and the trap is measured
+
+**The gap.** D13 states that the `entropy_sigma` implementation "has been implemented and
+independently verified against an exact reference," citing correlation 0.996 and criterion
+efficiency 1.000. That verification comes from `experiments/phase1_quadrature_audit.py`,
+whose closed form requires $\mu \sim N(\mu_0, s_\mu^2)$ **independent of** $\sigma$. The
+first observation destroys that independence. So the audit establishes the estimator at
+step 0 and says nothing about the remaining twenty-nine steps of a thirty-step run.
+
+That gap was load-bearing. D14 measures the $\sigma$ criterion at $-27.7\%$ bias with
+**36.5% of estimates negative** at Rotem's own settings ($c=0.1$, $R=100$). A criterion
+that small relative to its own noise could be producing an essentially arbitrary argmax
+once the posterior moves, in which case the edge-pinning D13 attributes to the mathematics
+would be partly *this implementation's* estimator failing — and D13's central inference
+would not follow.
+
+**How it was closed.** `experiments/phase1_sigma_criterion_drift.py` replaces the closed
+form with the reference grid posterior, which stays exact after data arrive. On a product
+grid over $(\mu, \eta=\log\sigma)$,
+$P(Y=1\mid\sigma_j,x) = \sum_i p(\mu_i\mid\sigma_j)\,\Phi((x-\mu_i)/\sigma_j)$
+is a weighted sum over cells, so $I(\sigma;Y\mid x)$ is quadrature-exact with no density
+estimation anywhere. At step 0 it reproduces the closed form to $3.9\times10^{-5}$
+relative; that agreement is what licenses using it at steps 5, 10, 20 and 30.
+
+**Result: the estimator is exonerated.** Criterion efficiency — the exact criterion value
+at the stimulus the section 5.3 estimator selected, over the exact maximum — across 30
+replicates, `probit_ind_well`, $\mu=30$, $\sigma=3$:
+
+| step | `entropy_sigma` | `entropy_vector` |
+|---|---|---|
+| 0 | 1.0000 | 1.0000 |
+| 5 | 0.9969 ± 0.0009 | 0.9931 ± 0.0011 |
+| 10 | 0.9970 ± 0.0000 | 0.9920 ± 0.0012 |
+| 20 | 0.9987 ± 0.0006 | 0.9840 ± 0.0018 |
+| 30 | 0.9904 ± 0.0034 | 0.9780 ± 0.0018 |
+
+Worst single audited state of 300: **0.905**. The estimator never collapses, so D13's
+attribution stands and needs no retraction — the edge-pinning is the criterion, not a bug
+here. What changes is the strength of the claim: "verified exact" can now be said of the
+whole trajectory rather than of the prior alone.
+
+**A corollary for D14.** 37–47% of `entropy_sigma`'s estimates are negative at *every*
+audited step, yet efficiency stays $\ge 0.99$. The kernel bias is near-constant in $x$, so
+it shifts the criterion without moving its argmax. D14's recommendation to clip at zero
+remains right as hygiene, but the negativity was never what drove the design.
+
+**What is new: the trap is now measured, not conjectured.** The exact $\sigma$-optimum is
+at a grid edge at every step under `entropy_sigma` (edge rate 1.00 throughout, edge band
+5% of the candidate range). Under `entropy_vector` it leaves the edge immediately and sits
+interior, at $x \approx 27.5 \to 33.7$, i.e. about $\mu + 1.2\sigma$ — the textbook place
+to probe a scale. The difference is $\mu$:
+
+| at step 30 | `entropy_sigma` | `entropy_vector` |
+|---|---|---|
+| posterior sd$(\mu)$ | 4.75 | 0.94 |
+| available $\sigma$-information, $\max_x I(\sigma;Y\mid x)$ | 0.0037 | **0.0239** |
+
+There is **6.5× more information about $\sigma$ available** under the design that never
+targets $\sigma$. The $\sigma$-optimal probe is interior only once $\mu$ is pinned; with
+$\mu$ vague the optimum is the edge, and the edge teaches neither $\mu$ nor $\sigma$.
+`entropy_sigma` is therefore in a self-reinforcing trap: greedy one-step
+$\sigma$-information keeps $\mu$ vague, and vague $\mu$ keeps the criterion pointing at the
+edge.
+
+This is the quantitative mechanism behind an observation that had been recorded but not
+explained — that this implementation's `entropy_sigma` is the **worst** design in the study
+at estimating $\sigma$, its own target (rank 5th or 6th of 5–6 in all six settings of
+`results/summaries/phase1_vs_published.csv`, 0/6 cells reproducing), while every other
+policy reproduces on the $\sigma$ target 6/6. A greedy criterion maximising a *share* of a
+collapsing total is not the same thing as a design that estimates its target well.
+
+**Scope and tier.** *Screening*: 30 replicates, one cell (`probit_ind_well`, $\mu=30$,
+$\sigma=3$), audit steps $\{0,5,10,20,30\}$. It establishes the estimator is sound along
+these trajectories; it does not sweep $\sigma_0$ or the misspecified curves. Nothing here
+bears on the attribution question in D13, which still needs Rotem's code.
+
+Artifacts: `results/summaries/phase1_sigma_criterion_drift.csv`,
+`phase1_sigma_criterion_drift_raw.csv`,
+`results/manifests/phase1_sigma_criterion_drift.json`.
