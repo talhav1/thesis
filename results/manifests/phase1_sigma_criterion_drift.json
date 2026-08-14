@@ -1,0 +1,89 @@
+{
+  "schema_version": 2,
+  "run_id": "phase1_sigma_criterion_drift_20260814T192332Z_4c1f23",
+  "experiment": "phase1_sigma_criterion_drift",
+  "config_hash": "a69bbea1521123d8",
+  "config": {
+    "audit_steps": [
+      0,
+      5,
+      10,
+      20,
+      30
+    ],
+    "n_steps": 30,
+    "policies": [
+      "entropy_sigma",
+      "entropy_vector"
+    ],
+    "mu_true": 30.0,
+    "sigma_true": 3.0,
+    "n_particles": 40000,
+    "grid_points": 80,
+    "grid_half_width": 14.0,
+    "reference_n": 513,
+    "R": 100,
+    "c_fraction": 0.1
+  },
+  "provenance": {
+    "run_id": "phase1_sigma_criterion_drift_20260814T192332Z_4c1f23",
+    "git": {
+      "commit": "4af4ade61cbe4507bb5f2dd8bd09facf50fce908",
+      "branch": "main",
+      "dirty": true,
+      "dirty_files": [
+        "results/summaries/phase1_sigma_criterion_drift.csv",
+        "results/summaries/phase1_sigma_criterion_drift_raw.csv"
+      ],
+      "tag": null,
+      "dirty_file_count": 2
+    },
+    "git_commit": "4af4ade61cbe4507bb5f2dd8bd09facf50fce908-dirty",
+    "allow_dirty": false,
+    "pinned": false,
+    "seed_rule": "numpy.random.default_rng([seed_base, replicate]) for the inference stream; default_rng([crn_seed, replicate, 0xC0FFEE]) for latent uniforms; default_rng([crn_seed, replicate, 0xB0BB1E]) for the Bruceton start. Replicates are indexed 0..n_replicates_requested-1. seed_base and crn_seed are authoritative; there is no contiguous seed range.",
+    "invoked_by": "experiments/run.py",
+    "config_path": "configs\\experiments\\phase1_sigma_criterion_drift.json"
+  },
+  "git_commit": "4af4ade61cbe4507bb5f2dd8bd09facf50fce908-dirty",
+  "seed_base": 20260814,
+  "crn_seed": null,
+  "seed_rule": "numpy.random.default_rng([seed_base, replicate]) for the inference stream; default_rng([crn_seed, replicate, 0xC0FFEE]) for latent uniforms; default_rng([crn_seed, replicate, 0xB0BB1E]) for the Bruceton start. Replicates are indexed 0..n_replicates_requested-1. seed_base and crn_seed are authoritative; there is no contiguous seed range.",
+  "replicate_index_range": [
+    0,
+    29
+  ],
+  "n_replicates_requested": 30,
+  "n_replicates_completed": 30,
+  "replicates_unit": "replicates",
+  "n_failures": 0,
+  "failures": [],
+  "backend": {
+    "python": "3.12.10",
+    "numpy": "2.5.2",
+    "platform": "Windows-11-10.0.26200-SP0"
+  },
+  "tolerances": {
+    "reference_vs_closed_form_rel": 3.9e-05,
+    "edge_band": 0.05
+  },
+  "monte_carlo_se": {
+    "efficiency_se": 0.003427176663091183
+  },
+  "degeneracy_counts": {
+    "n_rows": 300
+  },
+  "artifacts": [
+    {
+      "role": "raw",
+      "path": "results\\summaries\\phase1_sigma_criterion_drift_raw.csv"
+    },
+    {
+      "role": "summary",
+      "path": "results\\summaries\\phase1_sigma_criterion_drift.csv"
+    }
+  ],
+  "wall_seconds": 302.5094096660614,
+  "created_utc": "2026-08-14T19:28:36Z",
+  "notes": "Extends the step-0 quadrature audit past the prior using the reference grid posterior; closes the D13 gap on whether edge-pinning is the criterion or the estimator."
+}
