@@ -14,7 +14,13 @@ Checks, in the order a reader would care about them:
 4. **`replicates_unit` declared** whenever `n_replicates_completed` exceeds
    `n_replicates_requested`, which is the signature of a row count masquerading
    as a replicate count (`phase1_horizon`, `phase3b_screen`).
-5. **artifacts are role-tagged** and the referenced files exist.
+5. **artifacts are role-tagged** and the referenced files exist. Legacy manifests
+   record absolute paths from a machine that no longer exists
+   (`/home/claude/thesis-reliability/...`); existence is checked by falling back to
+   the same path resolved relative to the repo root (matched on a recognised
+   top-level directory such as `results/` or `configs/`) before it is reported
+   missing. The path recorded in the manifest is never rewritten -- only how the
+   linter *checks* it changes.
 6. **Monte Carlo standard errors recorded** for at least one reported quantity.
 
 The 13 manifests written before this contract existed are listed in `LEGACY`.
@@ -27,6 +33,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import re
 import sys
 from pathlib import Path
 
@@ -39,6 +46,45 @@ LEGACY = {
     "phase3_reference_audit", "phase3a_attribution", "phase3a_nooverlap",
     "phase3a_pilot", "phase3b_confirm", "phase3b_pseudotruth", "phase3b_screen",
 }
+
+# Top-level directories that mark the start of a repo-relative path inside an
+# absolute path recorded from a machine that no longer exists.
+_REPO_MARKERS = ("results", "configs", "src", "experiments", "docs")
+
+
+def _is_foreign_absolute(rel: str) -> bool:
+    """True for a path absolute on *some* OS, which may not be this one.
+
+    Every legacy manifest records a POSIX path (`/home/claude/...`) minted on
+    a Linux sandbox. `Path(rel).is_absolute()` is False for that string on
+    Windows, so it can't be used to detect "this came from another machine."
+    """
+    return rel.startswith(("/", "\\")) or bool(re.match(r"^[A-Za-z]:[\\/]", rel))
+
+
+def _resolve_artifact(rel: str) -> Path:
+    """Resolve a manifest-recorded artifact path against this checkout.
+
+    Repo-relative paths resolve directly. Foreign-absolute paths (every
+    legacy manifest records `/home/claude/thesis-reliability/...`, a machine
+    that no longer exists) are tried as-is first, then -- if that doesn't
+    exist -- re-rooted at the first segment that matches a known top-level
+    repo directory, split on `/` since that's what every manifest uses
+    regardless of host OS. This only changes how existence is *checked*; the
+    path stored in the manifest is untouched.
+    """
+    if not _is_foreign_absolute(rel):
+        return REPO_ROOT / rel
+    p = Path(rel)
+    if p.exists():
+        return p
+    parts = rel.replace("\\", "/").strip("/").split("/")
+    for marker in _REPO_MARKERS:
+        if marker in parts:
+            candidate = REPO_ROOT.joinpath(*parts[parts.index(marker):])
+            if candidate.exists():
+                return candidate
+    return p
 
 
 def lint_one(path: Path) -> list[str]:
@@ -90,9 +136,7 @@ def lint_one(path: Path) -> list[str]:
             rel = a
         else:
             rel = a.get("path", "")
-        p = Path(rel)
-        p = p if p.is_absolute() else REPO_ROOT / rel
-        if rel and not p.exists():
+        if rel and not _resolve_artifact(rel).exists():
             problems.append(f"artifact missing on disk: {rel}")
 
     if not d.get("monte_carlo_se"):

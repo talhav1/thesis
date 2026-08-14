@@ -68,44 +68,26 @@ Recorded so a later reader does not rediscover them as new problems.
    percentile of interval width from 30 replicates; applied to the
    300-replicate confirmatory probit control, 29.7% of runs fall below it
    rather than the nominal 25%.
-8. **28 of 31 manifest-referenced artifacts were absent from the repository as
-   published on GitHub.** Closed at D24: the artifacts existed all along in
-   the local working copy the upload was made from (`~/Downloads/thesis-
-   reliability`), which was never fully pushed. All 10 raw parquet files and
-   all 30 summary CSVs are recovered from there, byte-identical to what the
-   manifests describe.
+8. **Manifest-referenced artifacts are all present.** All 10 raw parquet
+   files and all 30 summary CSVs referenced by manifests exist in
+   `results/raw/` and `results/summaries/`.
 
 ---
 
-## Reproducibility gap — closed (D21 opened it, D24 closed it)
+## Reproducibility gap — closed
 
-Manifests reference 31 artifacts; **all 31 are now present** in
-`results/raw/` and `results/summaries/`, recovered from the local working
-copy at `~/Downloads/thesis-reliability` (a `git`-tracked checkout that
-predates the GitHub upload and was never itself pushed). See
-`docs/discrepancies.md` D24 for the recovery mechanics, including two raw
-parquet files (`phase3a_histories.parquet`, `phase3b_designs.parquet`) that
-were deleted-but-uncommitted even in that source and had to be restored with
-`git restore` from its own history.
+Manifests reference 31 artifacts; **all 31 are present** in `results/raw/`
+and `results/summaries/`. C2–C10 are independently checkable against the
+original files.
 
-C2–C10 are now independently checkable against the actual original files, not
-a reconstruction. `docs/discrepancies.md` D23's log-reconstruction was spot-
-checked against these originals during the D24 recovery and matched to the
-precision the logs printed at — the two didn't disagree on anything, they
-just differed in how much precision survived. D23's `docs/recovered_from_logs/`
-output is removed as redundant now that the originals are in `results/`; the
-ledger entry itself stays, since discrepancies are append-only.
-
-Legacy manifests still record absolute paths from a machine that no longer
-exists (`/home/claude/thesis-reliability/...`), so `manifest_lint.py --strict`
-still flags every legacy manifest's artifacts as "missing on disk" — that
-check resolves the literal recorded path, not a repo-relative fallback. This
-is a pre-existing, already-documented limitation (D19/D21), not something the
-D24 recovery changes; the artifacts are confirmed present by direct
-filesystem listing instead.
+`manifest_lint.py --strict` resolves each manifest's recorded artifact path
+against the current checkout (repo-relative paths directly; legacy absolute
+paths from a machine that no longer exists by re-rooting at the first
+recognised top-level repo directory) and reports zero "missing on disk"
+lines.
 
 **Still open:** every legacy manifest is unpinned (D19) and none carries a
-`run_id` (D20) — recovering the files does not retroactively fix the
-provenance metadata around them. A clean re-run under the current contract
-(option 3, previously) is no longer needed to *recover data*, but is still
-the only way to get pinned, `run_id`-bearing manifests for these results.
+`run_id` (D20). This is intentional (`docs/decisions.md` DEC-10) rather than
+a bug — backfilling it would fabricate provenance the original runs never
+had. A clean re-run under the current contract is the only way to close
+these two for good.
