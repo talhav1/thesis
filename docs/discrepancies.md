@@ -231,6 +231,48 @@ strengthened: a single-parameter information criterion with a nuisance parameter
 produce a design pinned to the arbitrary bounds of the candidate grid, which is precisely
 the weak-identification failure mode the thesis sets out to characterise.
 
+**Correction and sharpening (appended 2026-08-14).** Three additions. The entry above is
+left as written.
+
+*1. An arithmetic gloss overstated.* "MSE($\mu$) = 42.0 $\approx 8^2$ — the squared prior
+offset" is loose: $8^2 = 64$, and $\sqrt{42.0} = 6.5$. The posterior does drift partway
+toward the truth — under `probit_ind_poor` the posterior mean of $\mu$ reaches 24.45
+against a prior centred at 22 and a truth of 30 — so the realised offset is about 5.5 in
+the mean and 6.5 RMS, not the full 8. The mechanism is unchanged; only the arithmetic
+shorthand was wrong.
+
+*2. What is established about this implementation.* At the settings the published runs
+used (`c_fraction=0.1, R=100`) the estimator correlates 0.996 with the closed-form
+criterion and selects a stimulus whose exact criterion value is 1.000 of the optimum;
+the criterion is zero at $x=\mu_0$ (computed $1.1\times10^{-6}$) and ties at both grid
+edges to a relative $8\times10^{-13}$. In `results/raw/phase1_baseline_raw.parquet`
+under `probit_ind_well`, `entropy_sigma` places a stimulus at a grid edge in **100%** of
+runs, produces an overlapping pattern in **0%**, and leaves the posterior sd of $\mu$ at
+4.79 against 1.05 for `entropy_vector`. So: this implementation maximises the criterion
+as §5.3 states it, and that criterion provably cannot learn $\mu$.
+
+*3. The published table is inconsistent with the published criterion.* Under
+`probit_ind_poor` the prior is centred 8 units from the truth. Rotem reports
+MSE($\mu$) = 1.805 for `entropy_sigma` — an RMS error of **1.34**, against 0.76 for
+`entropy_mu` and 0.86 for `entropy_vector`. Her entropy-of-$\sigma$ design therefore
+recovered $\mu$ about as well as the designs built to estimate $\mu$, starting from a
+prior 8 units off. **No design maximising $I(\sigma;Y_{n+1}\mid x)$ can do that**, for the
+reason established in point 2: the criterion is exactly zero at $\mu_0$ and maximal at the
+grid edges, so it yields no overlapping pattern and leaves $\mu$ essentially at its prior.
+
+*What this does and does not settle.* It locates the inconsistency: it is between the
+thesis's stated criterion and the thesis's reported numbers, not in this implementation.
+It does **not** identify which of the two is at fault, and nothing here should be read as
+doing so. Her code may implement something other than what the text describes — a
+posterior-variance-reduction objective, a $\mu$-marginalised one, or a restricted stimulus
+range would each yield moderate $\mu$ error — or the text may describe the criterion
+correctly while the tabulated column is not the one it is labelled as. Distinguishing
+these needs her code.
+
+Status therefore stays **Unresolved** on attribution. What changes is the precision of the
+claim: "the discrepancy is in the comparison" can now be stated as *her published table
+cannot have been produced by the criterion her own §5.3 specifies*.
+
 ---
 
 ### D14 — Bias in the section 5.3 quadrature
