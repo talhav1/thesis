@@ -150,9 +150,26 @@ results/       raw/ (parquet), summaries/ (csv), figures/, manifests/.
 docs/          discrepancies.md, claims.md, decisions.md, gates.md — all
                append-only ledgers.
 manuscript/    advisor-facing write-ups. Generated from results/, never typed.
+notebooks/     narrative walkthroughs. Read from results/, never write to it,
+               and are not a results/ writer. Commit with outputs cleared.
 tools/         manifest_lint.py and other repo hygiene.
 tests/         104+ tests. `pytest` excludes slow by default.
 ```
+
+A notebook is a **presentation** of results, never a source of them. It loads
+`results/summaries/*.csv` and reports what is there; it does not recompute a
+published number, and a figure it draws does not supersede the one in
+`results/figures/`. The same rule as `manuscript/`: if a notebook and a results
+file disagree, the results file wins and the disagreement gets an entry.
+
+Live computation is allowed only where it is fast and self-verifying — the
+Phase 0 invariants are the case that qualifies, because the check *is* the
+result. Anything with a replicate count belongs in `experiments/`, behind a
+config and a manifest.
+
+Clear outputs before committing. A stored output is an unpinned result with no
+manifest: it records a number without recording the code, seed or commit that
+produced it, which is the failure mode §3 exists to prevent.
 
 ### The three ledgers, and what belongs in which
 
