@@ -93,10 +93,19 @@ git commit and dirty state, seed base and seeding rule, completed replicates,
 Monte Carlo standard errors, tolerances, failure counts, degeneracy counts and
 the role-tagged artefacts produced.
 
-> **Open gap (D21).** 28 of the 31 artefacts referenced by manifests are absent
-> from this repository, including every raw parquet and the summaries that are
-> the named evidence for C3, C5, C6 and C7. Until that is resolved, the results
-> here cannot be independently checked. See `docs/claims.md`.
+All 31 artefacts referenced by manifests are present — 10 raw parquet files in
+`results/raw/`, 30 summary CSVs in `results/summaries/` — so C2–C10 are
+independently checkable against the files the summaries were written from. They
+were absent from the first upload of this repository and recovered from the
+working copy it was made from; `docs/discrepancies.md` D21, D23–D25 record that
+episode, and `docs/claims.md` states the current position.
+
+> **Open gap (D19, D20).** Every one of the 13 manifests predates the provenance
+> contract: each records a dirty tree with no waiver and carries no `run_id`, so
+> no existing result is pinned to a state of the source. This is grandfathered
+> deliberately (`docs/decisions.md` DEC-10) rather than back-filled, because
+> back-filling would fabricate provenance the runs never had. A clean re-run
+> under the contract is the only thing that closes it.
 
 ## Rules the code enforces
 
