@@ -413,3 +413,38 @@ manifest where `n_replicates_completed` exceeds `n_replicates_requested` while s
 claiming the unit is replicates — the signature of a row count. The reconstructed
 configs in `configs/experiments/` state their `replicates_basis`, and the two
 unrecoverable cases carry an explicit `UNRESOLVED` block instead of a guessed number.
+
+---
+
+### D23 — D21's gap is partially closed: the missing summaries were printed to committed logs
+
+D21 established that 19 of 22 manifest-referenced summary CSVs and all raw parquet are
+absent. What D21 did not check is whether the *content* of those CSVs survives anywhere
+else. It does, partially: `experiments/_runner.py`-era pipelines printed their final
+pivot table to stdout, and 15 of the 17 `results/*.log` files (committed since
+`4747866`) were never truncated, so the printed table is intact, git-blameable text.
+
+`tools/reconstruct_from_logs.py` re-parses those tables into
+`docs/recovered_from_logs/*.csv`. This is **not** a `results/` writer and mints no
+`run_id` — see that directory's `README.md` for the full inventory and the ledger this
+closes claim-by-claim. In short:
+
+- **C3, C4, C5, C8, C9** — fully recoverable. `phase3b_confirm.log` in particular
+  carries the entire confirmatory table and paired H2 test behind C5, the project's
+  strongest result.
+- **C6, C7, C10** — partially recoverable. `phase3b_screen.log` prints only "Block I,
+  n=50, reference posterior"; no Block II table appears in the log despite a Block II
+  figure existing in the repo (`results/figures/phase3b_atlas_blockII_ref_n50.png`), so
+  whatever these claims draw from Block II remains unverifiable.
+- **`phase1_table1_and_3_reproduction.csv`, `phase2_false_certainty.csv`,
+  `phase2_coverage_map_stratified.csv`, `phase2_coverage_stratified.csv`, and the full
+  per-policy `phase3b_pseudo_truth.csv`** — never printed to any log. Not recoverable
+  from this source, or apparently from any source now in the repository.
+- **Raw parquet and any statistic not in a printed table** (e.g. per-replicate
+  residuals, MC SEs beyond the printed columns) — gone regardless; a printed pivot
+  table is a lossy projection of the raw data, not a substitute for it.
+
+Recovered values were spot-checked by hand against the source `.log` text during
+construction and matched exactly (see `docs/recovered_from_logs/README.md`).
+`docs/claims.md` evidence column is updated to distinguish claims backed by original
+(never-existed-in-repo) summary CSVs from claims now backed by this recovery.

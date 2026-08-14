@@ -1,0 +1,13 @@
+arm,mechanism,target,n,cov_particle,cov_reference,cov_diff,cov_diff_se,mean_shift_in_ref_sd,sd_ratio_mean
+no_overlap,steep_in_support,q0.5,1320,0.8864,0.9735,-0.0871,0.008,0.1948,0.8433
+no_overlap,steep_in_support,q0.95,1320,0.4182,0.9795,-0.5614,0.0137,0.6064,0.8423
+no_overlap,steep_in_support,q0.99,1320,0.2811,0.9902,-0.7091,0.0125,0.6614,0.842
+no_overlap,truth_at_or_outside_grid,q0.5,955,0.9916,1.0,-0.0084,0.003,0.0979,0.9187
+no_overlap,truth_at_or_outside_grid,q0.95,955,0.9047,0.9958,-0.0911,0.0093,0.1611,0.8962
+no_overlap,truth_at_or_outside_grid,q0.99,955,0.8618,0.999,-0.1372,0.0111,0.1888,0.8973
+overlap_control,steep_in_support,q0.5,1024,0.9736,0.9893,-0.0156,0.0041,0.0924,0.9786
+overlap_control,steep_in_support,q0.95,1024,0.6113,0.874,-0.2627,0.014,0.1739,0.9661
+overlap_control,steep_in_support,q0.99,1024,0.4814,0.8457,-0.3643,0.0152,0.1835,0.9625
+overlap_control,truth_at_or_outside_grid,q0.5,5,1.0,1.0,0.0,0.0,0.1381,0.9536
+overlap_control,truth_at_or_outside_grid,q0.95,5,0.8,0.8,0.0,0.0,0.0823,0.9274
+overlap_control,truth_at_or_outside_grid,q0.99,5,0.8,0.8,0.0,0.0,0.1474,0.9229
