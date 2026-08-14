@@ -1,4 +1,0 @@
-label,dgp,pol,n_replicates,stop_reason,wall_seconds
-A,tail_1.0,entropy_vector,300,max_replicates,611.388107
-B,tail_1.0,fixed_design,300,max_replicates,379.236572
-C,probit,entropy_vector,300,target_se_reached,620.124546
