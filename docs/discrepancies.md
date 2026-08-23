@@ -701,3 +701,49 @@ Artifacts: `results/raw/phase4_undetectability_raw.parquet`,
 `results/summaries/phase4_undetectability_summary.csv`,
 `phase4_undetectability_calibration.csv`,
 `results/manifests/phase4_undetectability.json`.
+
+---
+
+### D28 | Provenance | A run unpinned itself by writing its own outputs
+
+Found while pinning Phase 4A. The first clean-tree run of
+`phase4_undetectability` started from a clean tree at commit `8df711f`, tag
+`phase4a-screening` -- the CLI banner says so -- and still produced a manifest
+recording `git_commit: 8df711f...-dirty`, `pinned: false`, and no tag at all.
+
+**Mechanism.** `results/` is tracked in this repository.
+`provenance.provenance_block` queried git *at manifest-writing time*, which is
+after the experiment has written its raw table and summaries into the working
+tree. The run therefore dirtied the tree with its own outputs and then recorded
+itself as unpinned. The condition was unsatisfiable: no run that writes to
+`results/` could ever record a clean commit, because writing the outputs is
+what makes the tree dirty.
+
+**Why this matters beyond Phase 4A.** DEC-10 grandfathered the 13 legacy
+manifests on the reading that their `-dirty` commits recorded real operator
+sloppiness, and declined to backfill them because doing so would fabricate
+provenance the runs never had. That reading is now doubtful. This mechanism
+would stamp `-dirty` on a manifest from a perfectly clean launch, so an unknown
+share of the legacy `-dirty` labels may be artefacts of the recorder rather
+than evidence about the tree. **This does not license backfilling them.** The
+labels remain uninformative either way: a manifest that says `-dirty` no longer
+distinguishes a genuinely uncommitted tree from a clean one, so the legacy runs
+are still unpinned in the only sense that counts. DEC-10 stands, on a corrected
+rationale. In particular the Phase 3A/3B width non-comparison (D-series) is
+**not** rehabilitated -- `_invert_cdf` demonstrably changed inside the commit
+holding the Phase 3A outputs, which is a fact about the commit, not about the
+manifest's dirty flag.
+
+**Fix.** `require_clean_tree` freezes the launch-time state via
+`publish_git_state`, and `provenance_block` reads that back instead of
+re-querying, falling back to a live query only when no gate ran. A run's
+provenance is the state of the code that produced the result; artefacts the run
+subsequently writes are outputs, not inputs, and must not retroactively unpin
+it. Held by
+`tests/test_provenance.py::test_a_run_is_not_unpinned_by_its_own_outputs`.
+
+**Consequence for Phase 4A.** The first clean-tree run reproduced the dirty
+pilot exactly -- 0.000e+00 maximum absolute difference across all 44 numeric
+columns of all 3,200 rows -- so nothing statistical is at stake. It is
+superseded solely to obtain a manifest that records the pin, from the commit
+that carries this fix.

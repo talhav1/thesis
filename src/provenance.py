@@ -25,6 +25,7 @@ discipline:
 
 from __future__ import annotations
 
+import json
 import os
 import subprocess
 import time
@@ -110,6 +111,7 @@ def require_clean_tree(allow_dirty: bool = False, *, context: str = "run") -> Gi
     """
     state = git_state()
     if not state.dirty:
+        publish_git_state(state)
         return state
     listing = "\n".join(f"    {p}" for p in state.dirty_files[:20])
     more = "" if len(state.dirty_files) <= 20 else \
@@ -125,6 +127,7 @@ def require_clean_tree(allow_dirty: bool = False, *, context: str = "run") -> Gi
     if not allow_dirty:
         raise DirtyTreeError(message)
     print("WARNING: " + message.replace("Refusing to start", "Starting"), flush=True)
+    publish_git_state(state)
     return state
 
 
@@ -174,9 +177,52 @@ def active_spec() -> dict:
     }
 
 
+#: Environment key carrying the launch-time git state, JSON-encoded.
+GIT_STATE_ENV = "RUN_GIT_STATE"
+
+
+def publish_git_state(state: GitState) -> None:
+    """Freeze the launch-time git state for `provenance_block` to read back.
+
+    Published as JSON in the environment rather than in a module global so that
+    it survives the `spawn` start method, where each worker re-imports the
+    module into a fresh interpreter.
+    """
+    os.environ[GIT_STATE_ENV] = json.dumps(state.as_dict())
+
+
+def published_git_state() -> GitState | None:
+    """The frozen launch-time state, or None if nothing was published."""
+    raw = os.environ.get(GIT_STATE_ENV, "").strip()
+    if not raw:
+        return None
+    try:
+        d = json.loads(raw)
+        return GitState(commit=d["commit"], branch=d["branch"], dirty=d["dirty"],
+                        dirty_files=d.get("dirty_files", []), tag=d.get("tag"))
+    except Exception:  # noqa: BLE001 - a corrupt hand-off must not fake provenance
+        return None
+
+
 def provenance_block(run_id: str, allow_dirty: bool = False) -> dict:
-    """The provenance payload embedded in every manifest."""
-    state = git_state()
+    """The provenance payload embedded in every manifest.
+
+    The state is the one captured by `require_clean_tree` at launch, **not** a
+    fresh query. Querying git here instead is self-defeating: `results/` is
+    tracked, so by the time a run reaches this function it has written its own
+    outputs into the working tree and dirtied it. Every manifest then recorded
+    `-dirty` and `pinned: false`, and dropped the tag, no matter how clean the
+    tree was when the run started -- which is precisely the failure this module
+    was written to prevent, and the likely reason every legacy manifest carries
+    a `-dirty` commit. A run's provenance is the state of the code that
+    produced the result; the artefacts it goes on to write are outputs, not
+    inputs, and must not retroactively unpin it.
+
+    A live query remains the fallback for a caller that never passed through
+    `require_clean_tree`, where nothing was frozen and the honest answer is
+    whatever git says now.
+    """
+    state = published_git_state() or git_state()
     return {
         "run_id": run_id,
         "git": state.as_dict(),

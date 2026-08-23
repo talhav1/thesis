@@ -282,3 +282,65 @@ def test_published_spec_reaches_the_manifest_without_call_site_changes(monkeypat
     spec = prov.active_spec()
     assert spec == {"run_id": "run-xyz", "seed_base": 11, "crn_seed": 777001,
                     "allow_dirty": True, "note": "pilot"}
+
+
+def test_a_run_is_not_unpinned_by_its_own_outputs(monkeypatch, tmp_path):
+    """A run must stay pinned after writing into tracked `results/`.
+
+    `results/` is tracked, so by the time an experiment writes its manifest it
+    has already dirtied the working tree with its own outputs.  When
+    `provenance_block` queried git at that moment, every manifest recorded
+    `-dirty`, `pinned: false` and no tag, however clean the tree was at launch
+    -- the exact failure `src/provenance` exists to prevent, and the likely
+    reason every legacy manifest carries a dirty commit.
+
+    Provenance is the state of the code that produced the result.  Artefacts
+    the run then writes are outputs, not inputs.
+    """
+    from src.provenance import (
+        GitState,
+        provenance_block,
+        publish_git_state,
+    )
+
+    clean = GitState(commit="a" * 40, branch="main", dirty=False,
+                     dirty_files=[], tag="phase9-gate")
+    publish_git_state(clean)
+
+    # ...now the run writes its outputs and git would report a dirty tree.
+    dirty = GitState(commit="a" * 40, branch="main", dirty=True,
+                     dirty_files=["results/raw/x.parquet"], tag=None)
+    monkeypatch.setattr("src.provenance.git_state", lambda: dirty)
+
+    block = provenance_block("run-1")
+    assert block["pinned"] is True
+    assert block["git_commit"] == "a" * 40          # no -dirty suffix
+    assert block["git"]["tag"] == "phase9-gate"
+
+
+def test_provenance_falls_back_to_a_live_query_when_nothing_was_published(monkeypatch):
+    """No frozen state means no clean-tree gate ran, so report what git says."""
+    from src.provenance import GIT_STATE_ENV, GitState, provenance_block
+
+    monkeypatch.delenv(GIT_STATE_ENV, raising=False)
+    dirty = GitState(commit="b" * 40, branch="main", dirty=True,
+                     dirty_files=["src/x.py"], tag=None)
+    monkeypatch.setattr("src.provenance.git_state", lambda: dirty)
+    assert provenance_block("run-2")["pinned"] is False
+
+
+def test_clean_tree_check_freezes_the_state(monkeypatch):
+    from src.provenance import (
+        GIT_STATE_ENV,
+        GitState,
+        published_git_state,
+        require_clean_tree,
+    )
+
+    monkeypatch.delenv(GIT_STATE_ENV, raising=False)
+    clean = GitState(commit="c" * 40, branch="topic", dirty=False, dirty_files=[],
+                     tag="t1")
+    monkeypatch.setattr("src.provenance.git_state", lambda: clean)
+    require_clean_tree(False)
+    frozen = published_git_state()
+    assert frozen is not None and frozen.commit == "c" * 40 and frozen.tag == "t1"
