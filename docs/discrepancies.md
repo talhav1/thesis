@@ -667,3 +667,37 @@ bears on the attribution question in D13, which still needs Rotem's code.
 Artifacts: `results/summaries/phase1_sigma_criterion_drift.csv`,
 `phase1_sigma_criterion_drift_raw.csv`,
 `results/manifests/phase1_sigma_criterion_drift.json`.
+
+---
+
+### D27 | Plan | Phase 4 opened with an empirical experiment, not with theory
+
+The plan assigns theory to Phase 4 and the online reliability map to Phase 5.
+`experiments/phase4_undetectability.py` is empirical, and is labelled **Phase
+4A** to mark it as an addition rather than a substitution.
+
+**Why.** The Phase 3 gate recommended proceeding to safeguards (Phase 6) and
+rested that recommendation on the failure being attributable to misspecification
+plus adaptivity. It did not establish that the failure is *invisible* to the
+analyst, which is the premise that makes a safeguard necessary rather than
+optional: if a standard model check catches the tail perturbation, the remedy is
+a diagnostic and Phase 6 is a write-up task. The experiment costs no new
+simulator and settles the premise before the theory is written around it.
+
+**What it changes.** Nothing in Phases 0-3. It adds
+`results/summaries/phase4_undetectability_summary.csv` and the note
+`manuscript/phase4_undetectability_note.md`. The Phase 4 theory task -- the
+concentration argument for coverage under a policy-dependent KL projection --
+is untouched and still owed.
+
+**Tier and pin.** *Screening*: 200 replicates per cell, coverage SE ~0.035,
+power SE ~0.015. The first run of this experiment was a dirty-tree pilot and
+was **unpinned** under DEC-9; it is superseded by the clean-tree run made from
+this commit, whose tag and commit the manifest records. The manuscript note
+regenerates its own pin status from the manifest, so it cannot disagree with
+the run that produced it.
+
+Artifacts: `results/raw/phase4_undetectability_raw.parquet`,
+`results/summaries/phase4_undetectability_summary.csv`,
+`phase4_undetectability_calibration.csv`,
+`results/manifests/phase4_undetectability.json`.

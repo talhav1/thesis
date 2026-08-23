@@ -1,0 +1,7 @@
+{
+  "experiment": "phase4_undetectability",
+  "replicates": 200,
+  "seed_base": 20260940,
+  "crn_seed": 414001,
+  "note": "Phase 4A screening tier. Detectability of the Phase 3 tail failure from the data the design collects. Seeds match phase3b_confirm so the histories in the shared cells are the same histories, not merely comparable ones."
+}

@@ -117,3 +117,50 @@ run was never pinned would fabricate provenance the run never had.
 reports their gaps without failing. They are superseded when the experiment is
 next re-run under the contract.
 **Status.** Active.
+
+---
+
+### DEC-11 | Phase 4A | Detection tests are calibrated on a null cell, not on an asymptotic reference
+
+**Rationale.** The oracle likelihood ratio has its shape parameter bounded
+below at zero, so its asymptotic null is a 50:50 chi-squared mixture, and
+n = 50 under a data-dependent sequential design is not an asymptotic regime in
+any case. The correct-probit cell run under the *same policy* is an exact null
+sample from the same design distribution.
+**Consequences.** Critical values are the 1-alpha empirical quantile of the null
+cell, per policy, and the realised level is reported alongside every one of them
+(`results/summaries/phase4_undetectability_calibration.csv`). Detection rates
+are readable as power rather than as miscalibration, at the cost of Monte Carlo
+error in the critical value itself, which a confirmatory tier must re-estimate.
+**Status.** Active.
+
+---
+
+### DEC-12 | Phase 4A | Predictive p-values use the mid-p convention
+
+**Rationale.** The predictive discrepancies are functions of integer counts, and
+in the upper stimuli of an adaptive design -- where the fitted probability is
+near one and every replicate reproduces the observed successes exactly -- ties
+are the typical case, not the exception. Counting them whole drove the
+tail-directed p-value to exactly zero and rejected the *correct* model on 58-75%
+of null replicates.
+**Consequences.** Ties count half. The null level returns to nominal, which is
+what a detection rate computed from the p-value requires.
+`tests/test_model_check.py::test_ppc_p_values_are_not_degenerate_under_ties`
+holds it there. Any later diagnostic that forms a predictive p-value on
+saturated bins inherits the same hazard.
+**Status.** Active.
+
+---
+
+### DEC-13 | Phase 4A | The oracle alternative is frozen at one shift for every cell
+
+**Rationale.** Scoring each DGP against an alternative frozen at *its own* truth
+would need a separate null per shift, and would leave the correct-probit cell --
+which has no true shift -- without one at all.
+**Consequences.** `log_bf_oracle` is the tail-perturbed family at shift95 = 1.0
+throughout, so one column means the same thing in every cell and the null cell
+calibrates it directly. For `tail_0.5` and `robit_1.0` it is therefore an
+approximately-directed rather than an exact oracle; the exactly-directed test is
+the free-shift likelihood ratio, which is reported for every cell.
+**Status.** Active.
