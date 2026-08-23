@@ -1,0 +1,126 @@
+{
+  "schema_version": 2,
+  "run_id": "phase4_undetectability_20260823T065938Z_5c4a33",
+  "experiment": "phase4_undetectability",
+  "config_hash": "519cb8430bae2d10",
+  "config": {
+    "dgps": [
+      "probit",
+      "tail_1.0",
+      "tail_0.5",
+      "robit_1.0"
+    ],
+    "policies": [
+      "entropy_vector",
+      "entropy_q0.95",
+      "fixed_design",
+      "uniform_grid"
+    ],
+    "n_steps": 50,
+    "target": "q0.99",
+    "alpha": 0.05,
+    "ppc_draws": 200,
+    "reference_fixed_n": 513,
+    "crn_seed": 414001,
+    "calibration": "null cell = probit DGP, same policy",
+    "prior": "rotem well/independent",
+    "grid_points": 200
+  },
+  "provenance": {
+    "run_id": "phase4_undetectability_20260823T065938Z_5c4a33",
+    "git": {
+      "commit": "89ea4d718931f78a80556da9c4d8cb955df292ad",
+      "branch": "phase4a-undetectability",
+      "dirty": false,
+      "dirty_files": [],
+      "tag": "phase4a-screening",
+      "dirty_file_count": 0
+    },
+    "git_commit": "89ea4d718931f78a80556da9c4d8cb955df292ad",
+    "allow_dirty": false,
+    "pinned": true,
+    "seed_rule": "numpy.random.default_rng([seed_base, replicate]) for the inference stream; default_rng([crn_seed, replicate, 0xC0FFEE]) for latent uniforms; default_rng([crn_seed, replicate, 0xB0BB1E]) for the Bruceton start. Replicates are indexed 0..n_replicates_requested-1. seed_base and crn_seed are authoritative; there is no contiguous seed range.",
+    "invoked_by": "experiments/run.py",
+    "config_path": "configs\\experiments\\phase4_undetectability.json"
+  },
+  "git_commit": "89ea4d718931f78a80556da9c4d8cb955df292ad",
+  "seed_base": 20260940,
+  "crn_seed": 414001,
+  "seed_rule": "numpy.random.default_rng([seed_base, replicate]) for the inference stream; default_rng([crn_seed, replicate, 0xC0FFEE]) for latent uniforms; default_rng([crn_seed, replicate, 0xB0BB1E]) for the Bruceton start. Replicates are indexed 0..n_replicates_requested-1. seed_base and crn_seed are authoritative; there is no contiguous seed range.",
+  "replicate_index_range": [
+    0,
+    3199
+  ],
+  "n_replicates_requested": 3200,
+  "n_replicates_completed": 3200,
+  "replicates_unit": "replicates",
+  "n_failures": 0,
+  "failures": [],
+  "backend": {
+    "python": "3.12.10",
+    "numpy": "2.5.2",
+    "platform": "Windows-11-10.0.26200-SP0"
+  },
+  "tolerances": {
+    "reference_fixed_n": 513,
+    "evidence_grid_n": 385,
+    "evidence_max_boundary_mass": 1.3913216014102966e-05,
+    "ref_max_boundary_mass": 4.615789847048052e-10
+  },
+  "monte_carlo_se": {
+    "probit::entropy_q0.95::coverage": 0.012092607484694706,
+    "robit_1.0::entropy_q0.95::coverage": 0.03504304603451139,
+    "tail_0.5::entropy_q0.95::coverage": 0.028617649261360224,
+    "tail_1.0::entropy_q0.95::coverage": 0.03518793763172075,
+    "probit::entropy_vector::coverage": 0.012092607484694706,
+    "robit_1.0::entropy_vector::coverage": 0.034865138597849225,
+    "tail_0.5::entropy_vector::coverage": 0.028873315391699354,
+    "tail_1.0::entropy_vector::coverage": 0.03504304603451139,
+    "probit::fixed_design::coverage": 0.015449707678033374,
+    "robit_1.0::fixed_design::coverage": 0.03005647949775547,
+    "tail_0.5::fixed_design::coverage": 0.025312121949531207,
+    "tail_1.0::fixed_design::coverage": 0.034127679271557736,
+    "probit::uniform_grid::coverage": 0.018671317319682114,
+    "robit_1.0::uniform_grid::coverage": 0.028085923439997253,
+    "tail_0.5::uniform_grid::coverage": 0.024597258498217655,
+    "tail_1.0::uniform_grid::coverage": 0.03232801420614268,
+    "probit::entropy_q0.95::power_lr_oracle": 0.015449707678033373,
+    "robit_1.0::entropy_q0.95::power_lr_oracle": 0.016161092305986408,
+    "tail_0.5::entropy_q0.95::power_lr_oracle": 0.018671317319682114,
+    "tail_1.0::entropy_q0.95::power_lr_oracle": 0.021730995856253866,
+    "probit::entropy_vector::power_lr_oracle": 0.015449707678033373,
+    "robit_1.0::entropy_vector::power_lr_oracle": 0.016161092305986408,
+    "tail_0.5::entropy_vector::power_lr_oracle": 0.014695399751940971,
+    "tail_1.0::entropy_vector::power_lr_oracle": 0.013891177924157585,
+    "probit::fixed_design::power_lr_oracle": 0.015449707678033373,
+    "robit_1.0::fixed_design::power_lr_oracle": 0.013891177924157585,
+    "tail_0.5::fixed_design::power_lr_oracle": 0.014695399751940973,
+    "tail_1.0::fixed_design::power_lr_oracle": 0.015449707678033373,
+    "probit::uniform_grid::power_lr_oracle": 0.015449707678033373,
+    "robit_1.0::uniform_grid::power_lr_oracle": 0.02598801424545766,
+    "tail_0.5::uniform_grid::power_lr_oracle": 0.02261486592496228,
+    "tail_1.0::uniform_grid::power_lr_oracle": 0.029832025555495197
+  },
+  "degeneracy_counts": {
+    "all_zero": 0,
+    "all_one": 0,
+    "n_rows": 3200
+  },
+  "artifacts": [
+    {
+      "role": "raw",
+      "path": "results\\raw\\phase4_undetectability_raw.parquet"
+    },
+    {
+      "role": "summary",
+      "path": "results\\summaries\\phase4_undetectability_summary.csv"
+    },
+    {
+      "role": "summary",
+      "path": "results\\summaries\\phase4_undetectability_calibration.csv"
+    }
+  ],
+  "wall_seconds": 9821.290482282639,
+  "created_utc": "2026-08-23T09:43:20Z",
+  "notes": "Phase 4A: detectability of the Phase 3 tail failure from the data the design collects. Screening tier."
+}

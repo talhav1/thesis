@@ -747,3 +747,35 @@ pilot exactly -- 0.000e+00 maximum absolute difference across all 44 numeric
 columns of all 3,200 rows -- so nothing statistical is at stake. It is
 superseded solely to obtain a manifest that records the pin, from the commit
 that carries this fix.
+
+---
+
+### D28a | Addendum to D28 | The defect is present in a pre-existing manifest
+
+Appended rather than folded into D28, which is already committed.
+
+`results/manifests/phase1_sigma_criterion_drift.json` (run
+`phase1_sigma_criterion_drift_20260814T192332Z_4c1f23`, D26) records
+`allow_dirty: false`, `pinned: false`, commit `4af4ade...-dirty`, no tag --
+and its two dirty paths are
+
+    results/summaries/phase1_sigma_criterion_drift.csv
+    results/summaries/phase1_sigma_criterion_drift_raw.csv
+
+which are that run's **own outputs**. `allow_dirty: false` means no waiver was
+requested, so the run passed `require_clean_tree` at launch; it could not have
+started otherwise. The tree was clean when it began and the manifest says
+otherwise because the run wrote two CSVs in between. This is D28 with the
+evidence naming itself.
+
+It is also the one manifest outside the legacy set that
+`tools/manifest_lint.py --strict` still reports, and unlike the legacy thirteen
+it is **recoverable**: `phase1_sigma_criterion_drift` is a 30-replicate
+screening run, so re-running it from a clean tagged tree under the fix would
+pin it and clear the last non-legacy problem.
+
+    python experiments/run.py configs/experiments/phase1_sigma_criterion_drift.json
+
+Not done here: it is a Phase 1 artefact and re-running it is a separate
+decision from the Phase 4A pin. Recorded so the flag is not mistaken for
+operator error the next time the linter is read.

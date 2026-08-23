@@ -96,18 +96,24 @@ def main():
     worst_cov = mis.sort_values("coverage").iloc[0]
     corr_kl = float(np.corrcoef(mis.design_kl_nats, mis.power_bf_oracle)[0, 1])
     tol = man["tolerances"]
-    dirty = bool(man.get("provenance", {}).get("allow_dirty", man.get("allow_dirty")))
+    prov = man.get("provenance", {})
+    git = prov.get("git", {})
+    # `pinned` is the direct fact and is what the status line must key on:
+    # `allow_dirty` only says whether a waiver was *requested*, which is false
+    # both for a pinned run and for one that was never gated at all.
+    pinned = bool(prov.get("pinned"))
+    tag = git.get("tag")
 
     body = f"""# Phase 4A -- is the Phase 3 failure detectable from the data?
 
 **Status: screening tier, {n_rep} replicates per cell, coverage SE ~0.035, power
-SE ~0.015.** {"**Unpinned: run from a dirty tree (`allow_dirty` recorded in the manifest). No number here is citable until it is reproduced from a clean, tagged tree.**" if dirty else ""}
+SE ~0.015.** {"**Pinned**: clean tree, tag `" + tag + "`." if pinned and tag else ("**Pinned**: clean tree, untagged." if pinned else "**Unpinned**: run from a dirty tree. No number here is citable until it is reproduced from a clean, tagged tree (DEC-9).")}
 Generated from `results/summaries/phase4_undetectability_summary.csv` by
 `experiments/build_phase4_report.py`. Do not edit by hand.
 
 Run `{man["run_id"]}`, commit `{man.get("git_commit", "?")}`,
-{man["n_replicates_completed"]} replicates completed, {man["n_failures"]} failures,
-{json.dumps(man["degeneracy_counts"])}.
+{man["n_replicates_completed"]} {man.get("replicates_unit", "replicates")} completed,
+{man["n_failures"]} failures, {json.dumps(man["degeneracy_counts"])}.
 
 ---
 
