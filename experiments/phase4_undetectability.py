@@ -248,6 +248,35 @@ def _reject(df: pd.DataFrame, name: str, crit: float) -> np.ndarray:
     return (v > crit) if side == "hi" else (v <= crit)
 
 
+def signal_split(g: pd.DataFrame) -> dict:
+    """Coverage among runs that collected no signal, versus runs that did.
+
+    `realized_flips` counts the responses that would have come out differently
+    had the truth been the matched probit, so `realized_flips == 0` marks a run
+    whose data are bit-identical to what the correct model would have produced.
+    Splitting a cell on it separates the runs where inference had *something*
+    to go on from the runs where it had nothing, and the coverage gap across
+    that split is the mechanism stated as directly as a simulation can state
+    it.
+
+    This is a **mechanism decomposition, not a diagnostic**: the split variable
+    is a counterfactual that requires knowing the true curve, so it is not
+    computable in a real experiment. Its value to Phase 5 is as the target a
+    computable proxy would have to approximate.
+    """
+    out = {}
+    for label, sub in (("blind", g[g.realized_flips == 0]),
+                       ("informed", g[g.realized_flips > 0])):
+        n = len(sub)
+        cov = sub[f"{TARGET}_ref_covered"].astype(float)
+        out[f"n_{label}"] = int(n)
+        out[f"coverage_{label}"] = float(cov.mean()) if n else np.nan
+        out[f"coverage_{label}_se"] = (
+            float(cov.std(ddof=1) / np.sqrt(n)) if n > 1 else np.nan)
+        out[f"bias_{label}"] = float(sub[f"{TARGET}_err"].mean()) if n else np.nan
+    return out
+
+
 def summarise(df: pd.DataFrame, alpha: float = ALPHA) -> tuple[pd.DataFrame, pd.DataFrame]:
     rows, crit_rows = [], []
     for pol, g_pol in df.groupby("pol"):
@@ -279,6 +308,7 @@ def summarise(df: pd.DataFrame, alpha: float = ALPHA) -> tuple[pd.DataFrame, pd.
                 "log_bf_oracle_median": float(g.log_bf_oracle.median()),
                 "log_bf_guessable_median": float(g.log_bf_best_guessable.median()),
                 "evidence_max_boundary_mass": float(g.evidence_max_boundary_mass.max()),
+                **signal_split(g),
             }
             for name, c in crit.items():
                 r = _reject(g, name, c).astype(float)

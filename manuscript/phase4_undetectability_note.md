@@ -2,8 +2,15 @@
 
 **Status: screening tier, 200 replicates per cell, coverage SE ~0.035, power
 SE ~0.015.** **Pinned**: clean tree, tag `phase4a-screening`.
-Generated from `results/summaries/phase4_undetectability_summary.csv` by
+Generated from `results/summaries/phase4_undetectability_summary.csv` and
+`results/raw/phase4_undetectability_raw.parquet` by
 `experiments/build_phase4_report.py`. Do not edit by hand.
+
+Section 3 is derived from the raw table rather than the summary, because the
+summary CSV of this pinned run predates the `signal_split` columns that the
+experiment now writes. Both come from the same run and the same function, so
+the next clean re-run will carry those columns in the summary as well; nothing
+here was recomputed outside the runner.
 
 Run `phase4_undetectability_20260823T065938Z_5c4a33`, commit `89ea4d718931f78a80556da9c4d8cb955df292ad`,
 3200 replicates completed,
@@ -65,7 +72,43 @@ The independent check on this is that q_0.99 coverage here,
 0.425 ± 0.035, reproduces the Phase 3B
 confirmatory 0.433 ± 0.029 through an entirely separate code path.
 
-## 3. Detection rates, all cells
+## 3. Where the failure lives
+
+Splitting each cell by whether the run collected any discriminating signal at
+all -- `realized_flips = 0` means the 50 responses are bit-identical to what
+the correct probit would have produced from the same latent draws:
+
+| design | blind runs | coverage | bias | informed runs | coverage | bias |
+|---|---|---|---|---|---|---|
+| adaptive MI (mu, sigma) | 131 | **0.206 ± 0.035** | -6.11 | 69 | **0.841 ± 0.044** | -2.18 |
+| adaptive MI q_0.95 | 57 | **0.123 ± 0.044** | -6.25 | 143 | **0.734 ± 0.037** | -2.47 |
+| non-adaptive fixed | 175 | **0.606 ± 0.037** | -4.58 | 25 | **0.840 ± 0.075** | -1.91 |
+| broad exploratory | 108 | **0.472 ± 0.048** | -5.63 | 92 | **0.978 ± 0.015** | -1.17 |
+
+**When the design collects even one bit about the misspecification, coverage is
+close to nominal. When it collects none, coverage collapses.** Exploratory runs
+that land on signal reach 0.978; the same design's blind runs sit at
+0.472. Under adaptive MI the gap is 0.206 against
+0.841, and the bias roughly triples across it
+(-6.11 versus -2.18).
+
+This reframes the mechanism. Broad exploration is not weak; it is
+**unreliably aimed**. It reaches near-nominal coverage on the runs where it
+happens to land where the curves differ, and only
+0.46 of its runs do. That is why it improves coverage
+substantially without restoring it, which is the standing negative result C10,
+and it says what a Phase 6 safeguard has to achieve: not more exploration but
+exploration that reliably lands where the model's implications are least
+constrained by what has been collected.
+
+Two cautions. The split variable is a **counterfactual** -- computing it needs
+the true curve -- so this is a mechanism decomposition and not a diagnostic.
+Its use to Phase 5 is as the target a computable proxy would have to
+approximate. And the conditioning is post hoc: these are not randomised arms,
+so the contrast identifies where the failure concentrates, not the effect of an
+intervention that forces a design to collect signal.
+
+## 4. Detection rates, all cells
 
 Rejection rate at level 0.05, critical values from the correct-probit cell
 under the same policy.
@@ -115,7 +158,7 @@ that power it is 0.15.
 The cell that fails worst (tail_1.0 under adaptive MI (mu, sigma),
 coverage 0.425) is the one least likely to be caught.
 
-## 4. Null calibration
+## 5. Null calibration
 
 Every test is at its nominal level on the correct-probit cell, which is what
 makes the power columns above readable as power rather than as miscalibration.
@@ -143,7 +186,7 @@ makes the power columns above readable as power rather than as miscalibration.
 | broad exploratory | bf_oracle | 0.856 | 0.050 ± 0.015 |
 | broad exploratory | bf_guessable | 0.916 | 0.050 ± 0.015 |
 
-## 5. What would change these conclusions
+## 6. What would change these conclusions
 
 - **Screening precision.** Power SE ~0.015 per cell; the critical values carry
   their own Monte Carlo error at 200 null replicates. A confirmatory tier
@@ -170,7 +213,7 @@ makes the power columns above readable as power rather than as miscalibration.
   grid refinement and box enlargement
   (`tests/test_model_check.py::test_bayes_factors_are_converged_and_box_invariant`).
 
-## 6. Consequence for the plan
+## 7. Consequence for the plan
 
 A safeguard is not optional and cannot be a diagnostic. The failure is not
 merely unnoticed by the checks an analyst runs -- it is absent from the data

@@ -15,10 +15,17 @@ import json
 import sys
 from pathlib import Path
 
+sys.path.insert(0, str(Path(__file__).resolve().parent))
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
 import numpy as np  # noqa: E402
 import pandas as pd  # noqa: E402
+
+# One implementation of the split, shared with the experiment that will write
+# it into future summary CSVs.  The note derives it from the raw table instead
+# of the summary, so it renders correctly against a pinned run made before the
+# column existed -- and cannot disagree with the experiment's own version.
+from phase4_undetectability import signal_split  # noqa: E402
 
 ROOT = Path(__file__).resolve().parent.parent
 SUM = ROOT / "results" / "summaries"
@@ -75,6 +82,19 @@ def table_powers(summ: pd.DataFrame) -> str:
     return "\n".join(out)
 
 
+def table_signal_split(raw: pd.DataFrame, dgp: str = "tail_1.0") -> str:
+    out = ["| design | blind runs | coverage | bias | informed runs | coverage | bias |",
+           "|---|---|---|---|---|---|---|"]
+    for pol in ORDER:
+        s = signal_split(raw[(raw.dgp == dgp) & (raw.pol == pol)])
+        out.append(f"| {POL_LABEL[pol]} | {s['n_blind']} | "
+                   f"**{pm(s['coverage_blind'], s['coverage_blind_se'])}** | "
+                   f"{f(s['bias_blind'], 2)} | {s['n_informed']} | "
+                   f"**{pm(s['coverage_informed'], s['coverage_informed_se'])}** | "
+                   f"{f(s['bias_informed'], 2)} |")
+    return "\n".join(out)
+
+
 def table_calibration(crit: pd.DataFrame) -> str:
     out = ["| design | test | critical value | realised level |", "|---|---|---|---|"]
     for r in crit.sort_values("pol").itertuples():
@@ -103,13 +123,21 @@ def main():
     # both for a pinned run and for one that was never gated at all.
     pinned = bool(prov.get("pinned"))
     tag = git.get("tag")
+    primary_blind = signal_split(g)
 
     body = f"""# Phase 4A -- is the Phase 3 failure detectable from the data?
 
 **Status: screening tier, {n_rep} replicates per cell, coverage SE ~0.035, power
 SE ~0.015.** {"**Pinned**: clean tree, tag `" + tag + "`." if pinned and tag else ("**Pinned**: clean tree, untagged." if pinned else "**Unpinned**: run from a dirty tree. No number here is citable until it is reproduced from a clean, tagged tree (DEC-9).")}
-Generated from `results/summaries/phase4_undetectability_summary.csv` by
+Generated from `results/summaries/phase4_undetectability_summary.csv` and
+`results/raw/phase4_undetectability_raw.parquet` by
 `experiments/build_phase4_report.py`. Do not edit by hand.
+
+Section 3 is derived from the raw table rather than the summary, because the
+summary CSV of this pinned run predates the `signal_split` columns that the
+experiment now writes. Both come from the same run and the same function, so
+the next clean re-run will carry those columns in the summary as well; nothing
+here was recomputed outside the runner.
 
 Run `{man["run_id"]}`, commit `{man.get("git_commit", "?")}`,
 {man["n_replicates_completed"]} {man.get("replicates_unit", "replicates")} completed,
@@ -166,7 +194,38 @@ The independent check on this is that q_0.99 coverage here,
 {pm(primary.coverage, primary.coverage_se)}, reproduces the Phase 3B
 confirmatory 0.433 ± 0.029 through an entirely separate code path.
 
-## 3. Detection rates, all cells
+## 3. Where the failure lives
+
+Splitting each cell by whether the run collected any discriminating signal at
+all -- `realized_flips = 0` means the 50 responses are bit-identical to what
+the correct probit would have produced from the same latent draws:
+
+{table_signal_split(raw)}
+
+**When the design collects even one bit about the misspecification, coverage is
+close to nominal. When it collects none, coverage collapses.** Exploratory runs
+that land on signal reach {f(float(signal_split(raw[(raw.dgp=="tail_1.0") & (raw.pol=="uniform_grid")])["coverage_informed"]))}; the same design's blind runs sit at
+{f(float(signal_split(raw[(raw.dgp=="tail_1.0") & (raw.pol=="uniform_grid")])["coverage_blind"]))}. Under adaptive MI the gap is {f(primary_blind["coverage_blind"])} against
+{f(primary_blind["coverage_informed"])}, and the bias roughly triples across it
+({f(primary_blind["bias_blind"], 2)} versus {f(primary_blind["bias_informed"], 2)}).
+
+This reframes the mechanism. Broad exploration is not weak; it is
+**unreliably aimed**. It reaches near-nominal coverage on the runs where it
+happens to land where the curves differ, and only
+{f(float(signal_split(raw[(raw.dgp=="tail_1.0") & (raw.pol=="uniform_grid")])["n_informed"]) / max(len(raw[(raw.dgp=="tail_1.0") & (raw.pol=="uniform_grid")]), 1), 2)} of its runs do. That is why it improves coverage
+substantially without restoring it, which is the standing negative result C10,
+and it says what a Phase 6 safeguard has to achieve: not more exploration but
+exploration that reliably lands where the model's implications are least
+constrained by what has been collected.
+
+Two cautions. The split variable is a **counterfactual** -- computing it needs
+the true curve -- so this is a mechanism decomposition and not a diagnostic.
+Its use to Phase 5 is as the target a computable proxy would have to
+approximate. And the conditioning is post hoc: these are not randomised arms,
+so the contrast identifies where the failure concentrates, not the effect of an
+intervention that forces a design to collect signal.
+
+## 4. Detection rates, all cells
 
 Rejection rate at level 0.05, critical values from the correct-probit cell
 under the same policy.
@@ -199,14 +258,14 @@ that power it is {f(float(np.corrcoef(mis.coverage, mis.power_bf_oracle)[0, 1]),
 The cell that fails worst ({worst_cov.dgp} under {POL_LABEL[worst_cov.pol]},
 coverage {f(worst_cov.coverage)}) is the one least likely to be caught.
 
-## 4. Null calibration
+## 5. Null calibration
 
 Every test is at its nominal level on the correct-probit cell, which is what
 makes the power columns above readable as power rather than as miscalibration.
 
 {table_calibration(crit)}
 
-## 5. What would change these conclusions
+## 6. What would change these conclusions
 
 - **Screening precision.** Power SE ~0.015 per cell; the critical values carry
   their own Monte Carlo error at {n_rep} null replicates. A confirmatory tier
@@ -233,7 +292,7 @@ makes the power columns above readable as power rather than as miscalibration.
   grid refinement and box enlargement
   (`tests/test_model_check.py::test_bayes_factors_are_converged_and_box_invariant`).
 
-## 6. Consequence for the plan
+## 7. Consequence for the plan
 
 A safeguard is not optional and cannot be a diagnostic. The failure is not
 merely unnoticed by the checks an analyst runs -- it is absent from the data

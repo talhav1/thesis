@@ -340,3 +340,52 @@ def test_ppc_p_values_are_not_degenerate_under_ties(prior):
         assert 0.0 <= out["ppp_tail"] <= 1.0
         zeros += out["ppp_tail"] == 0.0
     assert zeros <= 2
+
+
+def test_signal_split_partitions_a_cell_on_collected_signal():
+    """`signal_split` feeds a manuscript table, so its arithmetic is pinned here.
+
+    The split is on `realized_flips == 0` -- runs whose responses are
+    bit-identical to what the matched probit would have produced -- and the two
+    parts must partition the cell exactly, with coverage read off the same
+    column the rest of the experiment uses.
+    """
+    import sys
+    from pathlib import Path
+
+    sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "experiments"))
+    from phase4_undetectability import TARGET, signal_split
+
+    import pandas as pd
+
+    g = pd.DataFrame({
+        "realized_flips": [0, 0, 0, 1, 2],
+        f"{TARGET}_ref_covered": [False, False, True, True, True],
+        f"{TARGET}_err": [-6.0, -6.0, -3.0, -2.0, -1.0],
+    })
+    s = signal_split(g)
+    assert s["n_blind"] + s["n_informed"] == len(g)
+    assert (s["n_blind"], s["n_informed"]) == (3, 2)
+    assert s["coverage_blind"] == pytest.approx(1 / 3)
+    assert s["coverage_informed"] == pytest.approx(1.0)
+    assert s["bias_blind"] == pytest.approx(-5.0)
+    assert s["bias_informed"] == pytest.approx(-1.5)
+
+
+def test_signal_split_survives_an_empty_side():
+    """A cell where every run is blind must not raise or fabricate a number."""
+    import sys
+    from pathlib import Path
+
+    sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "experiments"))
+    from phase4_undetectability import TARGET, signal_split
+
+    import pandas as pd
+
+    g = pd.DataFrame({"realized_flips": [0, 0],
+                      f"{TARGET}_ref_covered": [False, True],
+                      f"{TARGET}_err": [-5.0, -3.0]})
+    s = signal_split(g)
+    assert s["n_informed"] == 0
+    assert np.isnan(s["coverage_informed"]) and np.isnan(s["bias_informed"])
+    assert s["coverage_blind"] == pytest.approx(0.5)
