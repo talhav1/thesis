@@ -1,0 +1,403 @@
+{
+  "schema_version": 2,
+  "run_id": "phase6_robit_pilot_20260827T154952Z_cbaa79",
+  "experiment": "phase6_robit_pilot",
+  "config_hash": "3b986e2d7ebec58c",
+  "config": {
+    "dgps": [
+      "probit",
+      "robit_1.0",
+      "tail_1.0"
+    ],
+    "cells": [
+      [
+        "probit",
+        "mi2",
+        "",
+        50
+      ],
+      [
+        "probit",
+        "mi3",
+        "reference_uniform",
+        50
+      ],
+      [
+        "probit",
+        "mi3",
+        "near_probit",
+        50
+      ],
+      [
+        "probit",
+        "mi3",
+        "heavy_tail",
+        50
+      ],
+      [
+        "robit_1.0",
+        "mi2",
+        "",
+        50
+      ],
+      [
+        "robit_1.0",
+        "mi3",
+        "reference_uniform",
+        50
+      ],
+      [
+        "robit_1.0",
+        "mi3",
+        "near_probit",
+        50
+      ],
+      [
+        "robit_1.0",
+        "mi3",
+        "heavy_tail",
+        50
+      ],
+      [
+        "tail_1.0",
+        "mi2",
+        "",
+        50
+      ],
+      [
+        "tail_1.0",
+        "mi3",
+        "reference_uniform",
+        50
+      ],
+      [
+        "tail_1.0",
+        "mi3",
+        "near_probit",
+        50
+      ],
+      [
+        "tail_1.0",
+        "mi3",
+        "heavy_tail",
+        50
+      ],
+      [
+        "probit",
+        "mi2",
+        "",
+        100
+      ],
+      [
+        "probit",
+        "mi2",
+        "",
+        200
+      ],
+      [
+        "tail_1.0",
+        "mi2",
+        "",
+        100
+      ],
+      [
+        "tail_1.0",
+        "mi2",
+        "",
+        200
+      ]
+    ],
+    "targets": [
+      "q0.5",
+      "q0.95",
+      "q0.99"
+    ],
+    "horizons": [
+      50,
+      100,
+      200
+    ],
+    "horizon_dgps": [
+      "probit",
+      "tail_1.0"
+    ],
+    "horizon_design": "mi2",
+    "r_prior_panel": [
+      "reference_uniform",
+      "near_probit",
+      "heavy_tail"
+    ],
+    "r_prior_describe": {
+      "reference_uniform": {
+        "r_prior": "reference_uniform",
+        "a": 1.0,
+        "b": 1.0,
+        "r_max": 0.5,
+        "degenerate": false,
+        "prior_mean_r": 0.25
+      },
+      "near_probit": {
+        "r_prior": "near_probit",
+        "a": 1.0,
+        "b": 9.0,
+        "r_max": 0.5,
+        "degenerate": false,
+        "prior_mean_r": 0.05
+      },
+      "heavy_tail": {
+        "r_prior": "heavy_tail",
+        "a": 3.0,
+        "b": 1.0,
+        "r_max": 0.5,
+        "degenerate": false,
+        "prior_mean_r": 0.375
+      }
+    },
+    "n_particles": {
+      "mi2": 10000,
+      "mi3": 40000
+    },
+    "ess_floor": 100.0,
+    "credible_level": 0.95,
+    "dangerous_delta_frac": 0.5,
+    "prior": "rotem well/independent",
+    "grid_points": 200,
+    "crn_seed": 616001,
+    "rejuvenate_mi2": true,
+    "rejuvenate_mi3": false,
+    "tier": "pilot"
+  },
+  "provenance": {
+    "run_id": "phase6_robit_pilot_20260827T154952Z_cbaa79",
+    "git": {
+      "commit": "81d399e1da9d9f4bb5c86a6d87edd9f13560d9b5",
+      "branch": "main",
+      "dirty": true,
+      "dirty_files": [
+        "docs/decisions.md",
+        "notebooks/how_it_works_phases_0_3.ipynb",
+        "notebooks/phases_0_3_walkthrough.ipynb",
+        "configs/experiments/phase6_robit_pilot.json",
+        "experiments/phase6_robit_pilot.py",
+        "manuscript/phase6_protocol.md",
+        "notebooks/misspecification_atlas.ipynb",
+        "src/posterior_grid_robit.py",
+        "src/robit.py",
+        "src/robit_design.py",
+        "tests/test_robit_grid.py",
+        "tests/test_robit_nesting.py"
+      ],
+      "tag": null,
+      "dirty_file_count": 12
+    },
+    "git_commit": "81d399e1da9d9f4bb5c86a6d87edd9f13560d9b5-dirty",
+    "allow_dirty": true,
+    "pinned": false,
+    "seed_rule": "numpy.random.default_rng([seed_base, replicate]) for the inference stream; default_rng([crn_seed, replicate, 0xC0FFEE]) for latent uniforms; default_rng([crn_seed, replicate, 0xB0BB1E]) for the Bruceton start. Replicates are indexed 0..n_replicates_requested-1. seed_base and crn_seed are authoritative; there is no contiguous seed range.",
+    "invoked_by": "experiments/run.py",
+    "config_path": "configs\\experiments\\phase6_robit_pilot.json"
+  },
+  "git_commit": "81d399e1da9d9f4bb5c86a6d87edd9f13560d9b5-dirty",
+  "seed_base": 20260960,
+  "crn_seed": 616001,
+  "seed_rule": "numpy.random.default_rng([seed_base, replicate]) for the inference stream; default_rng([crn_seed, replicate, 0xC0FFEE]) for latent uniforms; default_rng([crn_seed, replicate, 0xB0BB1E]) for the Bruceton start. Replicates are indexed 0..n_replicates_requested-1. seed_base and crn_seed are authoritative; there is no contiguous seed range.",
+  "replicate_index_range": [
+    0,
+    95
+  ],
+  "n_replicates_requested": 96,
+  "n_replicates_completed": 96,
+  "replicates_unit": "replicates",
+  "n_failures": 0,
+  "failures": [],
+  "backend": {
+    "python": "3.12.10",
+    "numpy": "2.5.2",
+    "platform": "Windows-11-10.0.26200-SP0"
+  },
+  "tolerances": {
+    "reference_fixed_n": 513,
+    "robit_fixed_n": 257,
+    "robit_n_r": 33,
+    "robit_resolution_ladder": [
+      5,
+      9,
+      17,
+      33,
+      65
+    ],
+    "robit_resolution_tol_sd": 0.001,
+    "robit_max_delta_sd_at_production_n_r": 0.0019591132805556713,
+    "robit_richardson_err_sd_at_production_n_r": 0.0006530377601852238,
+    "max_boundary_mass": 5.874398368927734e-14,
+    "min_ess": 16.679647771410032,
+    "ess_floor": 100.0,
+    "n_runs_below_ess_floor": 2
+  },
+  "monte_carlo_se": {
+    "probit|mi2||n50|probit||q0.5::coverage": 0.0,
+    "probit|mi2||n50|probit||q0.95::coverage": 0.0,
+    "probit|mi2||n50|probit||q0.99::coverage": 0.0,
+    "probit|mi2||n50|robit|heavy_tail|q0.5::coverage": 0.0,
+    "probit|mi2||n50|robit|heavy_tail|q0.95::coverage": 0.0,
+    "probit|mi2||n50|robit|heavy_tail|q0.99::coverage": 0.19245008972987526,
+    "probit|mi2||n50|robit|near_probit|q0.5::coverage": 0.0,
+    "probit|mi2||n50|robit|near_probit|q0.95::coverage": 0.0,
+    "probit|mi2||n50|robit|near_probit|q0.99::coverage": 0.0,
+    "probit|mi2||n50|robit|reference_uniform|q0.5::coverage": 0.0,
+    "probit|mi2||n50|robit|reference_uniform|q0.95::coverage": 0.0,
+    "probit|mi2||n50|robit|reference_uniform|q0.99::coverage": 0.15214515486254612,
+    "probit|mi2||n100|probit||q0.5::coverage": 0.0,
+    "probit|mi2||n100|probit||q0.95::coverage": 0.15214515486254612,
+    "probit|mi2||n100|probit||q0.99::coverage": 0.15214515486254612,
+    "probit|mi2||n100|robit|heavy_tail|q0.5::coverage": 0.0,
+    "probit|mi2||n100|robit|heavy_tail|q0.95::coverage": 0.15214515486254612,
+    "probit|mi2||n100|robit|heavy_tail|q0.99::coverage": 0.0,
+    "probit|mi2||n100|robit|near_probit|q0.5::coverage": 0.0,
+    "probit|mi2||n100|robit|near_probit|q0.95::coverage": 0.15214515486254612,
+    "probit|mi2||n100|robit|near_probit|q0.99::coverage": 0.15214515486254612,
+    "probit|mi2||n100|robit|reference_uniform|q0.5::coverage": 0.0,
+    "probit|mi2||n100|robit|reference_uniform|q0.95::coverage": 0.15214515486254612,
+    "probit|mi2||n100|robit|reference_uniform|q0.99::coverage": 0.19245008972987526,
+    "probit|mi2||n200|probit||q0.5::coverage": 0.15214515486254612,
+    "probit|mi2||n200|probit||q0.95::coverage": 0.15214515486254612,
+    "probit|mi2||n200|probit||q0.99::coverage": 0.15214515486254612,
+    "probit|mi2||n200|robit|heavy_tail|q0.5::coverage": 0.15214515486254612,
+    "probit|mi2||n200|robit|heavy_tail|q0.95::coverage": 0.15214515486254612,
+    "probit|mi2||n200|robit|heavy_tail|q0.99::coverage": 0.0,
+    "probit|mi2||n200|robit|near_probit|q0.5::coverage": 0.15214515486254612,
+    "probit|mi2||n200|robit|near_probit|q0.95::coverage": 0.15214515486254612,
+    "probit|mi2||n200|robit|near_probit|q0.99::coverage": 0.15214515486254612,
+    "probit|mi2||n200|robit|reference_uniform|q0.5::coverage": 0.15214515486254612,
+    "probit|mi2||n200|robit|reference_uniform|q0.95::coverage": 0.15214515486254612,
+    "probit|mi2||n200|robit|reference_uniform|q0.99::coverage": 0.19245008972987526,
+    "probit|mi3|heavy_tail|n50|probit||q0.5::coverage": 0.15214515486254612,
+    "probit|mi3|heavy_tail|n50|probit||q0.95::coverage": 0.0,
+    "probit|mi3|heavy_tail|n50|probit||q0.99::coverage": 0.0,
+    "probit|mi3|heavy_tail|n50|robit|heavy_tail|q0.5::coverage": 0.15214515486254612,
+    "probit|mi3|heavy_tail|n50|robit|heavy_tail|q0.95::coverage": 0.15214515486254612,
+    "probit|mi3|heavy_tail|n50|robit|heavy_tail|q0.99::coverage": 0.19245008972987526,
+    "probit|mi3|near_probit|n50|probit||q0.5::coverage": 0.0,
+    "probit|mi3|near_probit|n50|probit||q0.95::coverage": 0.0,
+    "probit|mi3|near_probit|n50|probit||q0.99::coverage": 0.0,
+    "probit|mi3|near_probit|n50|robit|near_probit|q0.5::coverage": 0.0,
+    "probit|mi3|near_probit|n50|robit|near_probit|q0.95::coverage": 0.0,
+    "probit|mi3|near_probit|n50|robit|near_probit|q0.99::coverage": 0.0,
+    "probit|mi3|reference_uniform|n50|probit||q0.5::coverage": 0.0,
+    "probit|mi3|reference_uniform|n50|probit||q0.95::coverage": 0.0,
+    "probit|mi3|reference_uniform|n50|probit||q0.99::coverage": 0.0,
+    "probit|mi3|reference_uniform|n50|robit|reference_uniform|q0.5::coverage": 0.0,
+    "probit|mi3|reference_uniform|n50|robit|reference_uniform|q0.95::coverage": 0.0,
+    "probit|mi3|reference_uniform|n50|robit|reference_uniform|q0.99::coverage": 0.0,
+    "robit_1.0|mi2||n50|probit||q0.5::coverage": 0.0,
+    "robit_1.0|mi2||n50|probit||q0.95::coverage": 0.15214515486254612,
+    "robit_1.0|mi2||n50|probit||q0.99::coverage": 0.15214515486254612,
+    "robit_1.0|mi2||n50|robit|heavy_tail|q0.5::coverage": 0.0,
+    "robit_1.0|mi2||n50|robit|heavy_tail|q0.95::coverage": 0.15214515486254612,
+    "robit_1.0|mi2||n50|robit|heavy_tail|q0.99::coverage": 0.0,
+    "robit_1.0|mi2||n50|robit|near_probit|q0.5::coverage": 0.0,
+    "robit_1.0|mi2||n50|robit|near_probit|q0.95::coverage": 0.15214515486254612,
+    "robit_1.0|mi2||n50|robit|near_probit|q0.99::coverage": 0.15214515486254612,
+    "robit_1.0|mi2||n50|robit|reference_uniform|q0.5::coverage": 0.0,
+    "robit_1.0|mi2||n50|robit|reference_uniform|q0.95::coverage": 0.15214515486254612,
+    "robit_1.0|mi2||n50|robit|reference_uniform|q0.99::coverage": 0.0,
+    "robit_1.0|mi3|heavy_tail|n50|probit||q0.5::coverage": 0.0,
+    "robit_1.0|mi3|heavy_tail|n50|probit||q0.95::coverage": 0.0,
+    "robit_1.0|mi3|heavy_tail|n50|probit||q0.99::coverage": 0.0,
+    "robit_1.0|mi3|heavy_tail|n50|robit|heavy_tail|q0.5::coverage": 0.0,
+    "robit_1.0|mi3|heavy_tail|n50|robit|heavy_tail|q0.95::coverage": 0.0,
+    "robit_1.0|mi3|heavy_tail|n50|robit|heavy_tail|q0.99::coverage": 0.0,
+    "robit_1.0|mi3|near_probit|n50|probit||q0.5::coverage": 0.0,
+    "robit_1.0|mi3|near_probit|n50|probit||q0.95::coverage": 0.0,
+    "robit_1.0|mi3|near_probit|n50|probit||q0.99::coverage": 0.19245008972987526,
+    "robit_1.0|mi3|near_probit|n50|robit|near_probit|q0.5::coverage": 0.0,
+    "robit_1.0|mi3|near_probit|n50|robit|near_probit|q0.95::coverage": 0.0,
+    "robit_1.0|mi3|near_probit|n50|robit|near_probit|q0.99::coverage": 0.2041241452319315,
+    "robit_1.0|mi3|reference_uniform|n50|probit||q0.5::coverage": 0.15214515486254612,
+    "robit_1.0|mi3|reference_uniform|n50|probit||q0.95::coverage": 0.0,
+    "robit_1.0|mi3|reference_uniform|n50|probit||q0.99::coverage": 0.0,
+    "robit_1.0|mi3|reference_uniform|n50|robit|reference_uniform|q0.5::coverage": 0.0,
+    "robit_1.0|mi3|reference_uniform|n50|robit|reference_uniform|q0.95::coverage": 0.0,
+    "robit_1.0|mi3|reference_uniform|n50|robit|reference_uniform|q0.99::coverage": 0.0,
+    "tail_1.0|mi2||n50|probit||q0.5::coverage": 0.0,
+    "tail_1.0|mi2||n50|probit||q0.95::coverage": 0.15214515486254612,
+    "tail_1.0|mi2||n50|probit||q0.99::coverage": 0.15214515486254612,
+    "tail_1.0|mi2||n50|robit|heavy_tail|q0.5::coverage": 0.0,
+    "tail_1.0|mi2||n50|robit|heavy_tail|q0.95::coverage": 0.0,
+    "tail_1.0|mi2||n50|robit|heavy_tail|q0.99::coverage": 0.0,
+    "tail_1.0|mi2||n50|robit|near_probit|q0.5::coverage": 0.0,
+    "tail_1.0|mi2||n50|robit|near_probit|q0.95::coverage": 0.0,
+    "tail_1.0|mi2||n50|robit|near_probit|q0.99::coverage": 0.15214515486254612,
+    "tail_1.0|mi2||n50|robit|reference_uniform|q0.5::coverage": 0.0,
+    "tail_1.0|mi2||n50|robit|reference_uniform|q0.95::coverage": 0.0,
+    "tail_1.0|mi2||n50|robit|reference_uniform|q0.99::coverage": 0.0,
+    "tail_1.0|mi2||n100|probit||q0.5::coverage": 0.0,
+    "tail_1.0|mi2||n100|probit||q0.95::coverage": 0.19245008972987526,
+    "tail_1.0|mi2||n100|probit||q0.99::coverage": 0.19245008972987526,
+    "tail_1.0|mi2||n100|robit|heavy_tail|q0.5::coverage": 0.0,
+    "tail_1.0|mi2||n100|robit|heavy_tail|q0.95::coverage": 0.0,
+    "tail_1.0|mi2||n100|robit|heavy_tail|q0.99::coverage": 0.0,
+    "tail_1.0|mi2||n100|robit|near_probit|q0.5::coverage": 0.0,
+    "tail_1.0|mi2||n100|robit|near_probit|q0.95::coverage": 0.15214515486254612,
+    "tail_1.0|mi2||n100|robit|near_probit|q0.99::coverage": 0.19245008972987526,
+    "tail_1.0|mi2||n100|robit|reference_uniform|q0.5::coverage": 0.0,
+    "tail_1.0|mi2||n100|robit|reference_uniform|q0.95::coverage": 0.0,
+    "tail_1.0|mi2||n100|robit|reference_uniform|q0.99::coverage": 0.0,
+    "tail_1.0|mi2||n200|probit||q0.5::coverage": 0.15214515486254612,
+    "tail_1.0|mi2||n200|probit||q0.95::coverage": 0.2041241452319315,
+    "tail_1.0|mi2||n200|probit||q0.99::coverage": 0.0,
+    "tail_1.0|mi2||n200|robit|heavy_tail|q0.5::coverage": 0.15214515486254612,
+    "tail_1.0|mi2||n200|robit|heavy_tail|q0.95::coverage": 0.0,
+    "tail_1.0|mi2||n200|robit|heavy_tail|q0.99::coverage": 0.0,
+    "tail_1.0|mi2||n200|robit|near_probit|q0.5::coverage": 0.15214515486254612,
+    "tail_1.0|mi2||n200|robit|near_probit|q0.95::coverage": 0.19245008972987526,
+    "tail_1.0|mi2||n200|robit|near_probit|q0.99::coverage": 0.0,
+    "tail_1.0|mi2||n200|robit|reference_uniform|q0.5::coverage": 0.15214515486254612,
+    "tail_1.0|mi2||n200|robit|reference_uniform|q0.95::coverage": 0.0,
+    "tail_1.0|mi2||n200|robit|reference_uniform|q0.99::coverage": 0.0,
+    "tail_1.0|mi3|heavy_tail|n50|probit||q0.5::coverage": 0.15214515486254612,
+    "tail_1.0|mi3|heavy_tail|n50|probit||q0.95::coverage": 0.15214515486254612,
+    "tail_1.0|mi3|heavy_tail|n50|probit||q0.99::coverage": 0.19245008972987526,
+    "tail_1.0|mi3|heavy_tail|n50|robit|heavy_tail|q0.5::coverage": 0.15214515486254612,
+    "tail_1.0|mi3|heavy_tail|n50|robit|heavy_tail|q0.95::coverage": 0.0,
+    "tail_1.0|mi3|heavy_tail|n50|robit|heavy_tail|q0.99::coverage": 0.0,
+    "tail_1.0|mi3|near_probit|n50|probit||q0.5::coverage": 0.0,
+    "tail_1.0|mi3|near_probit|n50|probit||q0.95::coverage": 0.19245008972987526,
+    "tail_1.0|mi3|near_probit|n50|probit||q0.99::coverage": 0.19245008972987526,
+    "tail_1.0|mi3|near_probit|n50|robit|near_probit|q0.5::coverage": 0.0,
+    "tail_1.0|mi3|near_probit|n50|robit|near_probit|q0.95::coverage": 0.19245008972987526,
+    "tail_1.0|mi3|near_probit|n50|robit|near_probit|q0.99::coverage": 0.2041241452319315,
+    "tail_1.0|mi3|reference_uniform|n50|probit||q0.5::coverage": 0.0,
+    "tail_1.0|mi3|reference_uniform|n50|probit||q0.95::coverage": 0.0,
+    "tail_1.0|mi3|reference_uniform|n50|probit||q0.99::coverage": 0.19245008972987526,
+    "tail_1.0|mi3|reference_uniform|n50|robit|reference_uniform|q0.5::coverage": 0.0,
+    "tail_1.0|mi3|reference_uniform|n50|robit|reference_uniform|q0.95::coverage": 0.0,
+    "tail_1.0|mi3|reference_uniform|n50|robit|reference_uniform|q0.99::coverage": 0.0
+  },
+  "degeneracy_counts": {
+    "all_zero": 0,
+    "all_one": 0,
+    "n_rows": 828
+  },
+  "artifacts": [
+    {
+      "role": "raw",
+      "path": "results\\raw\\phase6_robit_pilot_raw.parquet"
+    },
+    {
+      "role": "summary",
+      "path": "results\\summaries\\phase6_robit_pilot_summary.csv"
+    },
+    {
+      "role": "summary",
+      "path": "results\\summaries\\phase6_robit_pilot_premium.csv"
+    },
+    {
+      "role": "summary",
+      "path": "results\\summaries\\phase6_robit_pilot_resolution.csv"
+    }
+  ],
+  "wall_seconds": 3164.0714960098267,
+  "created_utc": "2026-08-27T16:42:37Z",
+  "notes": "Phase 6 rung 1 PILOT. Robit fitted family with a free tail parameter, crossed with an MI design over (mu, sigma, r). Pilot tier: chooses the r-axis resolution and times a cell. No number here is confirmatory and no replicate count is proposed from it before manuscript/phase6_protocol.md is frozen."
+}

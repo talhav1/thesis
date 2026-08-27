@@ -1,0 +1,24 @@
+{
+  "experiment": "phase6_robit_pilot",
+  "replicates": 6,
+  "seed_base": 20260960,
+  "crn_seed": 616001,
+  "workers": 8,
+  "note": "Phase 6 rung 1 PILOT. Robit fitted family (Student-t link, free tail parameter r = 1/nu on [0, 0.5]) crossed with an MI design over (mu, sigma, r). Pilot tier: its job is to choose the r-axis resolution from its own refinement ladder and to time a cell, so that manuscript/phase6_protocol.md can be frozen with replicate counts derived from measured cost rather than guessed. No number it produces is confirmatory; coverage SE at 6 replicates is up to 0.20.",
+  "_tier": {
+    "tier": "pilot",
+    "coverage_se_at_6_replicates": 0.204,
+    "confirmatory_counts": "not proposed here; see manuscript/phase6_protocol.md section 6, frozen against the timing this run records"
+  },
+  "_arms": {
+    "fitted_family": ["probit (513^2 reference, DEC-7 production setting, unchanged)", "robit (257^2 x n_r reference over (mu, log sigma, r))"],
+    "design": ["mi2 = EntropyVectorPolicy over (mu, sigma), Rotem's, N = 10,000 with rejuvenation", "mi3 = the same policy over (mu, sigma, r), N = 40,000 without rejuvenation"],
+    "r_prior_panel": ["reference_uniform", "near_probit", "heavy_tail"],
+    "separability": "fitted family and design are crossed, never bundled: (robit fit, mi2) isolates the widening effect and (probit fit, mi3) isolates the design effect. Both fits are applied to the same history, so the family contrast is paired within a replicate."
+  },
+  "_dgps": {
+    "probit": "cost arm - the premium paid when the family is enlarged but the probit is true",
+    "robit_1.0": "truth approximately nested in the fitted family - should be repaired",
+    "tail_1.0": "truth outside the t family (asymmetric upper perturbation against a symmetric link) - partial repair at best, and the shortfall is a finding"
+  }
+}
