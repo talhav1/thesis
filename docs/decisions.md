@@ -164,3 +164,62 @@ calibrates it directly. For `tail_0.5` and `robit_1.0` it is therefore an
 approximately-directed rather than an exact oracle; the exactly-directed test is
 the free-shift likelihood ratio, which is reported for every cell.
 **Status.** Active.
+
+---
+
+### DEC-14 | Phase 6 | The tail parameter is $r = 1/\nu$ on $[0, 0.5]$, and every result is reported under a fixed three-prior panel
+
+**Rationale.** Two choices, and neither is a tuning knob.
+
+*Parameterisation.* The safeguard replaces the fitted probit with a robit,
+$p(x) = T_\nu((x-\mu)/\sigma)$. Written in $\nu$ or $\log\nu$, the correct-model
+control sits at $\nu = \infty$ — a limit, reachable only asymptotically, so the
+probit could never be *represented* in the fitted family, only approached. In
+$r = 1/\nu$ it sits at $r = 0$, an endpoint of a bounded interval that a grid
+can carry as a node. The correct model is then nested **exactly**, mirroring
+`curve_families`, where every alternative reduces to the probit at
+$\lambda = 0$. That is what makes the nesting statement in
+`tests/test_robit_nesting.py` an identity in floating point rather than a
+tolerance: with the $r$-prior degenerate at $0$ the three-parameter reference
+posterior *is* the two-parameter one, to $<10^{-8}$ of a posterior standard
+deviation in mean, sd and rank statistic for every target, on a shared box.
+$r_{\max} = 0.5$ is $\nu = 2$, the heaviest tail with a finite variance; below
+it the implied tolerance distribution has no scale and `sigma` would stop
+denoting anything (DEC-1).
+
+*Prior panel.* Phase 4A established that at $n = 50$ under the adaptive MI
+design the data carry almost no information about the tail: in 65.5% of
+`tail_1.0` runs the responses are bit-identical to what the correct probit
+would have produced (`manuscript/phase4_undetectability_note.md` §3). A nearly
+unidentified parameter is one whose posterior is close to its prior, so the
+$r$-prior is not a nuisance detail — it is doing most of the work, and a
+single choice of it would make the safeguard's effect a property of that
+choice. That is precisely the defect this rung exists to cut: the probit's
+failure is that $\nu = \infty$ is assumed with *certainty*, and replacing one
+certainty with another, narrower one would not be progress.
+
+**Consequences.** Three priors, fixed before any Phase 6 result was seen, and
+**every** reported number appears under all three — never a "primary" prior with
+the others as sensitivity:
+
+| name | prior on $u = r/r_{\max}$ | prior mean $r$ | implied $\nu$ | reading |
+|---|---|---|---|---|
+| `reference_uniform` | Beta(1, 1) | 0.250 | 4.0 | spread out; asserts nothing beyond $\nu \ge 2$ |
+| `near_probit` | Beta(1, 9) | 0.050 | 20.0 | sceptical: believes the probit, declines to assume it with certainty. 90% of mass below $r = 0.115$. Density at $r=0$ finite and positive |
+| `heavy_tail` | Beta(3, 1) | 0.375 | 2.7 | favours heavy tails. Density **vanishes** at $r = 0$, so it does not merely doubt the probit, it excludes it |
+
+Implemented as `src/robit.R_PRIOR_PANEL`; `R_DEGENERATE` is not a member and is
+not a modelling option — it exists solely to drive the three-parameter
+machinery back onto the two-parameter one for the nesting invariant.
+
+Under the MI$(\mu,\sigma,r)$ design arm the prior is a property of the **arm**,
+not of the report: an analyst who reports under a prior designs under it too,
+so that arm is run once per prior and the cell is coherent. Under
+MI$(\mu,\sigma)$ the design does not involve $r$, so one history serves all
+three fits and the family contrast is exactly paired within a replicate.
+
+A conclusion that holds under `reference_uniform` and fails under `near_probit`
+is to be reported as a statement about the prior. The write-up may not select
+the panel member that flatters the safeguard.
+
+**Status.** Active. Frozen before the Phase 6 pilot ran.
